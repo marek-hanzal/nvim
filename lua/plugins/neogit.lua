@@ -7,7 +7,6 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"sindrets/diffview.nvim",
-			"ibhagwan/fzf-lua",
 		},
 		keys = {
 			{
@@ -24,7 +23,6 @@ return {
 		opts = {
 			integrations = {
 				diffview = true,
-				fzf_lua = true,
 			},
 
 			graph_style = "unicode",

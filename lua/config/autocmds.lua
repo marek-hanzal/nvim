@@ -12,7 +12,7 @@ autocmd("TextYankPost", {
 
 vim.api.nvim_create_autocmd("VimEnter", {
 	callback = function()
-		vim.cmd("Neotree show")
+		vim.cmd("lua Snacks.explorer()")
 		vim.cmd("wincmd p")
 	end,
 })

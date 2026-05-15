@@ -6,7 +6,6 @@ return {
 			"BufNewFile",
 		},
 		cmd = {
-			"TodoFzfLua",
 			"TodoQuickFix",
 			"TodoLocList",
 		},
