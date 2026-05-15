@@ -41,6 +41,19 @@ return {
 					never_show = {},
 					never_show_by_pattern = {},
 				},
+				window = {
+					mappings = {
+						["<Left>"] = "close_node",
+						["<Right>"] = "open",
+
+						["x"] = "cut_to_clipboard",
+						["y"] = "copy_to_clipboard",
+						["p"] = "paste_from_clipboard",
+
+						["m"] = "move",
+						["c"] = "copy",
+					},
+				},
 			},
 			window = {
 				position = "left",
