@@ -16,6 +16,7 @@ return {
 				{ "<leader>g", group = "git" },
 				{ "<leader>r", group = "run" },
 				{ "<leader>m", group = "markdown" },
+                { "<leader>h", group = "http" },
                 { "<leader>l", group = "line" },
 				{ "<leader>x", group = "trouble" },
 				{ "<leader>d", group = "database" },

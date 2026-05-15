@@ -19,3 +19,7 @@ keymap("n", "<leader>cd", vim.diagnostic.open_float, {
 keymap("n", "<leader>cq", vim.diagnostic.setloclist, {
   desc = "Diagnostics to location list",
 })
+
+keymap("t", "<Esc><Esc>", [[<C-\><C-n>]], {
+	desc = "Exit terminal mode",
+})

@@ -37,3 +37,11 @@ opt.sidescrolloff = 8
 
 opt.updatetime = 250
 opt.timeoutlen = 400
+
+opt.wildmode = {
+	"longest:full",
+	"full",
+}
+
+opt.wildmenu = true
+opt.wildignorecase = true
