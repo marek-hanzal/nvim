@@ -7,7 +7,7 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"sindrets/diffview.nvim",
-			"folke/snacks.nvim",
+			"ibhagwan/fzf-lua",
 		},
 		keys = {
 			{
@@ -23,7 +23,7 @@ return {
 		opts = {
 			integrations = {
 				diffview = true,
-				snacks = true,
+				fzf_lua = true,
 			},
 
 			diff_viewer = "diffview",

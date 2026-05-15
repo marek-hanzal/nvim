@@ -6,11 +6,13 @@ return {
 			"BufNewFile",
 		},
 		cmd = {
+			"TodoFzfLua",
 			"TodoQuickFix",
 			"TodoLocList",
 		},
 		dependencies = {
 			"nvim-lua/plenary.nvim",
+			"ibhagwan/fzf-lua",
 		},
 		keys = {
 			{
@@ -31,6 +33,11 @@ return {
 					require("todo-comments").jump_prev()
 				end,
 				desc = "Previous todo comment",
+			},
+			{
+				"<leader>ft",
+				"<cmd>TodoFzfLua<cr>",
+				desc = "Find todo comments",
 			},
 		},
 
