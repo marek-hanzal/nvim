@@ -10,8 +10,10 @@ return {
 
 			wk.add({
 				{ "<leader>c", group = "code" },
+				{ "<leader>b", group = "buffer" },
 				{ "<leader>f", group = "find" },
 				{ "<leader>g", group = "git" },
+				{ "<leader>x", group = "trouble" },
 				{ "<leader>w", desc = "Save file" },
 				{ "<leader>q", desc = "Quit window" },
 			})
