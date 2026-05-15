@@ -3,8 +3,8 @@ local keymap = vim.keymap.set
 keymap("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
 keymap("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit window" })
 
-keymap("n", "<c-h>", "<c-w>h", { desc = "Move to left window" })
-keymap("n", "<c-l>", "<c-w>l", { desc = "Move to right window" })
+keymap("n", "<leader>aa", "<c-w>h", { desc = "Move to left window" })
+keymap("n", "<leader>ss", "<c-w>l", { desc = "Move to right window" })
 
 keymap("n", "<esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 
@@ -22,3 +22,11 @@ keymap("i", "<M-Left>", "<C-o>b", { desc = "Move word left" })
 keymap("i", "<M-Right>", "<C-o>w", { desc = "Move word right" })
 keymap("i", "<M-b>", "<C-o>b", { desc = "Move word left" })
 keymap("i", "<M-f>", "<C-o>w", { desc = "Move word right" })
+
+keymap("n", "<leader>cd", vim.diagnostic.open_float, {
+  desc = "Line diagnostic",
+})
+
+keymap("n", "<leader>cq", vim.diagnostic.setloclist, {
+  desc = "Diagnostics to location list",
+})

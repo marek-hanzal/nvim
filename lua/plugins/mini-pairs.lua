@@ -1,29 +1,29 @@
 return {
-  {
-    "nvim-mini/mini.pairs",
-    version = "*",
-    event = "InsertEnter",
+	{
+		"nvim-mini/mini.pairs",
+		version = "*",
+		event = "InsertEnter",
 
-    opts = {
-      modes = {
-        insert = true,
-        command = false,
-        terminal = false,
-      },
+		opts = {
+			modes = {
+				insert = true,
+				command = false,
+				terminal = false,
+			},
 
-      mappings = {
-        ["("] = { action = "open", pair = "()", neigh_pattern = "[^\\]." },
-        ["["] = { action = "open", pair = "[]", neigh_pattern = "[^\\]." },
-        ["{"] = { action = "open", pair = "{}", neigh_pattern = "[^\\]." },
+			mappings = {
+				["("] = { action = "open", pair = "()", neigh_pattern = "[^\\]." },
+				["["] = { action = "open", pair = "[]", neigh_pattern = "[^\\]." },
+				["{"] = { action = "open", pair = "{}", neigh_pattern = "[^\\]." },
 
-        [")"] = { action = "close", pair = "()", neigh_pattern = "[^\\]." },
-        ["]"] = { action = "close", pair = "[]", neigh_pattern = "[^\\]." },
-        ["}"] = { action = "close", pair = "{}", neigh_pattern = "[^\\]." },
+				[")"] = { action = "close", pair = "()", neigh_pattern = "[^\\]." },
+				["]"] = { action = "close", pair = "[]", neigh_pattern = "[^\\]." },
+				["}"] = { action = "close", pair = "{}", neigh_pattern = "[^\\]." },
 
-        ['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^\\].", register = { cr = false } },
-        ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^\\].", register = { cr = false } },
-        ["`"] = { action = "closeopen", pair = "``", neigh_pattern = "[^\\].", register = { cr = false } },
-      },
-    },
-  },
+				['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^\\].", register = { cr = false } },
+				["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^\\].", register = { cr = false } },
+				["`"] = { action = "closeopen", pair = "``", neigh_pattern = "[^\\].", register = { cr = false } },
+			},
+		},
+	},
 }

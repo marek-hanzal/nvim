@@ -1,13 +1,13 @@
 return {
-  {
-    "nvim-mini/mini.ai",
-    version = "*",
-    event = "VeryLazy",
+	{
+		"nvim-mini/mini.ai",
+		version = "*",
+		event = "VeryLazy",
 
-    config = function()
-      require("mini.ai").setup({
-        n_lines = 500,
-      })
-    end,
-  },
+		config = function()
+			require("mini.ai").setup({
+				n_lines = 500,
+			})
+		end,
+	},
 }
