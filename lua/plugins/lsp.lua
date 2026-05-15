@@ -4,14 +4,12 @@ return {
 		lazy = false,
 		config = function()
 			vim.diagnostic.config({
-				virtual_text = true,
+				virtual_text = false,
 				severity_sort = true,
-
 				float = {
 					border = "rounded",
 					source = true,
 				},
-
 				signs = true,
 				underline = true,
 				update_in_insert = false,

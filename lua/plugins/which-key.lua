@@ -16,9 +16,11 @@ return {
 				{ "<leader>g", group = "git" },
 				{ "<leader>r", group = "run" },
 				{ "<leader>m", group = "markdown" },
+                { "<leader>l", group = "line" },
 				{ "<leader>x", group = "trouble" },
 				{ "<leader>d", group = "database" },
 				{ "<leader>t", group = "todo" },
+                { "<leader>s", group = "search/sort" },
 				{ "<leader>w", desc = "Save file" },
 				{ "<leader>q", desc = "Quit window" },
 			})
