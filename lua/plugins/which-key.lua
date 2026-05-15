@@ -21,8 +21,6 @@ return {
 				{ "<leader>d", group = "database" },
 				{ "<leader>t", group = "todo" },
                 { "<leader>s", group = "search/sort" },
-				{ "<leader>w", desc = "Save file" },
-				{ "<leader>q", desc = "Quit window" },
 			})
 		end,
 	},
