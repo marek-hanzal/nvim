@@ -35,33 +35,69 @@ export namespace #$Schema {
 			}
 		)
 	),
--- 	s(
--- 		"component",
--- 		fmt(
--- 			[[
--- import { type FC } from "react";
---
--- export namespace #$ {
---     export interface Props {
---         //
---     }
--- }
---
--- export const #$: FC<#$.Props> = ({...props}) => {
---     return (
---         #$
---     )
--- }
---         ]],
--- 			{
--- 				i(1, "Component"),
--- 				rep(1),
--- 				rep(1),
--- 				i(0),
--- 			},
--- 			{
--- 				delimiters = "#$",
--- 			}
--- 		)
--- 	),
+	s(
+		"fx",
+		fmt(
+			[[
+import { Effect } from "effect";
+
+export namespace #$Fx {
+    export interface Props {
+        #$
+    }
+}
+
+export const #$Fx = Effect.fn("#$Fx")(function*({ 
+    #$
+}: #$Fx.Props) {
+    #$
+})
+
+export type #$Fx = ReturnType<typeof #$Fx>;
+        ]],
+			{
+				i(1, "Fx"),
+				i(2, "props"),
+				rep(1),
+				rep(1),
+				i(3, "props"),
+				rep(1),
+				i(0),
+				rep(1),
+				rep(1),
+			},
+			{
+				delimiters = "#$",
+			}
+		)
+	),
+	s(
+		"func",
+		fmt(
+			[[
+export namespace #$ {
+    export interface Props {
+        #$
+    }
+}        
+
+export const #$ = ({
+    #$
+}: #$.Props) => {
+    return #$
+}
+        ]],
+			{
+				i(1, "Func"),
+				i(2, "props"),
+				rep(1),
+				i(3, "props"),
+				rep(1),
+				i(0),
+			},
+			{
+				delimiters = "#$",
+			}
+		)
+	),
 }

@@ -14,20 +14,24 @@ import { type FC } from "react";
 
 export namespace #$ {
     export interface Props {
-        //
+        #$
     }
 }
 
-export const #$: FC<#$.Props> = ({...props}) => {
+export const #$: FC<#$.Props> = ({
+    #$
+}) => {
     return (
         #$
     )
 }
         ]],
 			{
-				i(1, "Component"),
+				i(1, "Foo"),
+				i(2, "props"),
 				rep(1),
 				rep(1),
+				i(3, "props"),
 				i(0),
 			},
 			{
