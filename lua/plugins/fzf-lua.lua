@@ -15,6 +15,9 @@ return {
 			{ "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Recent files" },
 			{ "<leader>f/", "<cmd>FzfLua lgrep_curbuf<cr>", desc = "Search current buffer" },
 			{ "<leader>fR", "<cmd>FzfLua resume<cr>", desc = "Resume picker" },
+
+			{ "<leader>fs", "<cmd>FzfLua lsp_document_symbols<cr>", desc = "Find document symbols" },
+			{ "<leader>fS", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", desc = "Find workspace symbols" },
 		},
 		opts = {
 			winopts = {

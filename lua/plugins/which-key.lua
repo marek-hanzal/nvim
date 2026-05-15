@@ -12,6 +12,7 @@ return {
 				{ "<leader>c", group = "code" },
 				{ "<leader>b", group = "buffer" },
 				{ "<leader>f", group = "find" },
+                { "<leader>j", group = "jump" },
 				{ "<leader>g", group = "git" },
 				{ "<leader>x", group = "trouble" },
 				{ "<leader>w", desc = "Save file" },
