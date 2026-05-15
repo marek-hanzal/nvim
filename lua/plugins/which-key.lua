@@ -15,6 +15,7 @@ return {
                 { "<leader>j", group = "jump" },
 				{ "<leader>g", group = "git" },
 				{ "<leader>x", group = "trouble" },
+                { "<leader>t", group = "todo" },
 				{ "<leader>w", desc = "Save file" },
 				{ "<leader>q", desc = "Quit window" },
 			})

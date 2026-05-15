@@ -10,7 +10,7 @@ return {
 
 			return {
 				cursor = {
-					enable = true,
+					enable = false,
 				},
 
 				scroll = {

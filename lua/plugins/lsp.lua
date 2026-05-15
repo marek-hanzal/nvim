@@ -81,6 +81,18 @@ return {
 				init_options = {
 					provideFormatter = false,
 				},
+
+				settings = {
+					json = {
+						schemas = require("schemastore").json.schemas(),
+						validate = {
+							enable = true,
+						},
+						format = {
+							enable = false,
+						},
+					},
+				},
 			})
 
 			vim.lsp.config("taplo", {})
@@ -101,8 +113,11 @@ return {
 						},
 						validate = true,
 						schemaStore = {
-							enable = true,
+							enable = false,
+							url = "",
 						},
+
+						schemas = require("schemastore").yaml.schemas(),
 					},
 				},
 			})
