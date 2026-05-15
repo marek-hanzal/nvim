@@ -10,11 +10,6 @@ keymap("n", "<leader>xx", "<c-w>k", { desc = "Move to upper window" })
 
 keymap("n", "<esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 
--- keymap("n", "<leader>h", "<cmd>split<cr>", { desc = "Horizontal split" })
--- keymap("n", "<leader>v", "<cmd>vsplit<cr>", { desc = "Vertical split" })
-
--- Word movement with Alt/Meta arrows.
--- Covers both real <M-Left>/<M-Right> and terminals that send Esc-b / Esc-f.
 keymap({ "n", "x", "o" }, "<M-Left>", "b", { desc = "Move word left" })
 keymap({ "n", "x", "o" }, "<M-Right>", "w", { desc = "Move word right" })
 keymap({ "n", "x", "o" }, "<M-b>", "b", { desc = "Move word left" })

@@ -4,7 +4,7 @@ return {
 		version = "*",
 		keys = {
 			{
-				"<leader>lk",
+				"<M-Up>",
 				function()
 					require("mini.move").move_line("up")
 				end,
@@ -12,7 +12,7 @@ return {
 				desc = "Move line up",
 			},
 			{
-				"<leader>lj",
+				"<M-Down>",
 				function()
 					require("mini.move").move_line("down")
 				end,
@@ -20,7 +20,7 @@ return {
 				desc = "Move line down",
 			},
 			{
-				"<leader>lk",
+				"<M-Up>",
 				function()
 					require("mini.move").move_selection("up")
 				end,
@@ -28,7 +28,7 @@ return {
 				desc = "Move selection up",
 			},
 			{
-				"<leader>lj",
+				"<M-Down>",
 				function()
 					require("mini.move").move_selection("down")
 				end,
