@@ -35,4 +35,33 @@ export namespace #$Schema {
 			}
 		)
 	),
+-- 	s(
+-- 		"component",
+-- 		fmt(
+-- 			[[
+-- import { type FC } from "react";
+--
+-- export namespace #$ {
+--     export interface Props {
+--         //
+--     }
+-- }
+--
+-- export const #$: FC<#$.Props> = ({...props}) => {
+--     return (
+--         #$
+--     )
+-- }
+--         ]],
+-- 			{
+-- 				i(1, "Component"),
+-- 				rep(1),
+-- 				rep(1),
+-- 				i(0),
+-- 			},
+-- 			{
+-- 				delimiters = "#$",
+-- 			}
+-- 		)
+-- 	),
 }
