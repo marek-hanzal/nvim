@@ -7,6 +7,7 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"sindrets/diffview.nvim",
+			"folke/snacks.nvim",
 		},
 		keys = {
 			{
@@ -19,12 +20,13 @@ return {
 				desc = "Open Neogit",
 			},
 		},
-
 		opts = {
 			integrations = {
 				diffview = true,
+				snacks = true,
 			},
 
+			diff_viewer = "diffview",
 			graph_style = "unicode",
 
 			signs = {

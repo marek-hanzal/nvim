@@ -7,6 +7,9 @@ return {
 			input = {
 				enabled = true,
 			},
+			bufdelete = {
+				enabled = true,
+			},
 			picker = {
 				enabled = true,
 
@@ -128,6 +131,45 @@ return {
 					})
 				end,
 				desc = "Explorer current file dir",
+			},
+			{
+				"<leader>bd",
+				function()
+					Snacks.bufdelete()
+				end,
+				desc = "Delete buffer",
+			},
+			{
+				"<leader>bD",
+				function()
+					Snacks.bufdelete({
+						force = true,
+					})
+				end,
+				desc = "Force delete buffer",
+			},
+			{
+				"<leader>bo",
+				function()
+					Snacks.bufdelete.other({
+						filter = function(buffer)
+							return vim.bo[buffer].buflisted and vim.bo[buffer].buftype == ""
+						end,
+					})
+				end,
+				desc = "Delete other buffers",
+			},
+			{
+				"<leader>bO",
+				function()
+					Snacks.bufdelete.other({
+						force = true,
+						filter = function(buffer)
+							return vim.bo[buffer].buflisted and vim.bo[buffer].buftype == ""
+						end,
+					})
+				end,
+				desc = "Force delete other buffers",
 			},
 		},
 	},
