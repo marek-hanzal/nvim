@@ -18,11 +18,14 @@ return {
 			},
 			picker = {
 				enabled = true,
+				hidden = true,
+				ignored = true,
 
 				sources = {
 					explorer = {
 						hidden = true,
 						ignored = false,
+						excluded = {},
 						follow_file = true,
 						focus = "list",
 						tree = true,

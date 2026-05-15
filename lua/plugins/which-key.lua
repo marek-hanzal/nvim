@@ -17,6 +17,7 @@ return {
 				{ "<leader>r", group = "run" },
 				{ "<leader>m", group = "markdown" },
 				{ "<leader>x", group = "trouble" },
+				{ "<leader>d", group = "database" },
 				{ "<leader>t", group = "todo" },
 				{ "<leader>w", desc = "Save file" },
 				{ "<leader>q", desc = "Quit window" },

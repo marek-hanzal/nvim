@@ -28,7 +28,6 @@ return {
 				min_width = 40,
 				max_width = 80,
 				default_detail = 1,
-
 				bindings = {
 					["q"] = "Close",
 					["<CR>"] = "RunAction",
