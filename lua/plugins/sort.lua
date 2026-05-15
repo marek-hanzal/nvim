@@ -6,19 +6,19 @@ return {
 		},
 		keys = {
 			{
-				"<leader>ss",
+				"<leader>ls",
 				":Sort<cr>",
 				mode = "x",
 				desc = "Sort selection",
 			},
 			{
-				"<leader>sS",
+				"<leader>lS",
 				":Sort!<cr>",
 				mode = "x",
 				desc = "Sort selection reverse",
 			},
 			{
-				"<leader>su",
+				"<leader>lu",
 				":Sort u<cr>",
 				mode = "x",
 				desc = "Sort selection unique",

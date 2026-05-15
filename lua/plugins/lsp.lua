@@ -59,13 +59,7 @@ return {
 								"vim",
 							},
 						},
-
-						workspace = {
-							library = {
-								vim.env.VIMRUNTIME,
-							},
-						},
-
+					
 						telemetry = {
 							enable = false,
 						},
