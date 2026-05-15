@@ -10,6 +10,12 @@ return {
 			bufdelete = {
 				enabled = true,
 			},
+			bigfile = {
+				enabled = true,
+				notify = true,
+				size = 5 * 1024 * 1024,
+				line_length = 1000,
+			},
 			picker = {
 				enabled = true,
 
