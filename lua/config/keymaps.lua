@@ -5,6 +5,8 @@ keymap("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit window" })
 
 keymap("n", "<leader>aa", "<c-w>h", { desc = "Move to left window" })
 keymap("n", "<leader>ss", "<c-w>l", { desc = "Move to right window" })
+keymap("n", "<leader>zz", "<c-w>j", { desc = "Move to botttom window" })
+keymap("n", "<leader>xx", "<c-w>k", { desc = "Move to upper window" })
 
 keymap("n", "<esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 
