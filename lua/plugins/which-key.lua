@@ -14,6 +14,7 @@ return {
 				{ "<leader>f", group = "find" },
                 { "<leader>j", group = "jump" },
 				{ "<leader>g", group = "git" },
+                { "<leader>m", group = "markdown" },
 				{ "<leader>x", group = "trouble" },
                 { "<leader>t", group = "todo" },
 				{ "<leader>w", desc = "Save file" },

@@ -22,27 +22,15 @@ return {
 				},
 
 				resize = {
-					enable = true,
-					timing = animate.gen_timing.linear({
-						duration = 80,
-						unit = "total",
-					}),
+					enable = false,
 				},
 
 				open = {
-					enable = true,
-					timing = animate.gen_timing.linear({
-						duration = 80,
-						unit = "total",
-					}),
+					enable = false,
 				},
 
 				close = {
-					enable = true,
-					timing = animate.gen_timing.linear({
-						duration = 80,
-						unit = "total",
-					}),
+					enable = false,
 				},
 			}
 		end,
