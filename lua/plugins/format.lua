@@ -16,7 +16,7 @@ local function run_code_action_sync(kind, timeout_ms)
 			only = {
 				kind,
 			},
-			diagnostics = vim.diagnostic.get(bufnr),
+			diagnostics = {},
 		},
 	}
 
