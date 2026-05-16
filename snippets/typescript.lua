@@ -100,4 +100,33 @@ export const #$ = ({
 			}
 		)
 	),
+	s(
+		"hook",
+		fmt(
+			[[
+export namespace use#$ {
+    export interface Props {
+        #$
+    }
+}
+
+export const use#$ = ({
+    #$
+}: use#$.Props) => {
+    #$
+}
+        ]],
+			{
+				i(1, "Hook"),
+				i(2, "props"),
+				rep(1),
+				i(3, "props"),
+				rep(1),
+				i(0),
+			},
+			{
+				delimiters = "#$",
+			}
+		)
+	),
 }

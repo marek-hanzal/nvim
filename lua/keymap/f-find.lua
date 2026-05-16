@@ -3,7 +3,9 @@ local map = require("keymap.util").map
 local M = {}
 
 function M.setup()
-	map("n", "<leader><leader>", "<cmd>FzfLua files<cr>", "Find files")
+	map("n", "<leader><leader>", function()
+		require("fzf-lua").files()
+	end, "Find files and directories")
 	map("n", "<leader>fk", "<cmd>FzfLua keymaps<cr>", "Find keymaps")
 	map("n", "<leader>fr", "<cmd>FzfLua oldfiles<cr>", "Recent files")
 	map("n", "<leader>fR", "<cmd>FzfLua resume<cr>", "Resume picker")
