@@ -16,6 +16,7 @@ return {
 		},
 		opts = {
 			signs = true,
+			merge_keywords = false,
 
 			keywords = {
 				TODO = {
