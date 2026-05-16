@@ -32,6 +32,7 @@ return {
 			local fzf = require("fzf-lua")
 			local actions = require("fzf-lua.actions")
 			local path = require("fzf-lua.path")
+			local neotree = require("neo-tree.command")
 			local filesystem = require("neo-tree.sources.filesystem")
 			local manager = require("neo-tree.sources.manager")
 			local renderer = require("neo-tree.ui.renderer")
@@ -51,34 +52,33 @@ return {
 				end
 
 				local stat = uv.fs_stat(target)
-
-				if stat and stat.type == "directory" then
-					local node_id = nt_utils.remove_trailing_slash(vim.fs.normalize(target))
-
-					require("neo-tree.command").execute({
-						action = "focus",
-						source = "filesystem",
-					})
-
-					vim.schedule(function()
-						local state = manager.get_state("filesystem")
-						local root = state.path or manager.get_cwd(state)
-
-						manager.navigate(state, root, node_id, function()
-							local focused = renderer.focus_node(state, node_id)
-							local node = focused and state.tree and state.tree:get_node(node_id)
-
-							if node and node.type == "directory" and not node:is_expanded() then
-								filesystem.toggle_directory(state, node, nil, false)
-								renderer.focus_node(state, node_id)
-							end
-						end)
-					end)
-
+				if not (stat and stat.type == "directory") then
+					actions.file_edit(selected, picker_opts)
 					return
 				end
 
-				actions.file_edit(selected, picker_opts)
+				local node_id = nt_utils.remove_trailing_slash(vim.fs.normalize(target))
+
+				neotree.execute({
+					action = "focus",
+					source = "filesystem",
+				})
+
+				vim.schedule(function()
+					local state = manager.get_state("filesystem")
+
+					manager.navigate(state, state.path or manager.get_cwd(state), node_id, function()
+						if not renderer.focus_node(state, node_id) then
+							return
+						end
+
+						local node = state.tree and state.tree:get_node(node_id)
+						if node and node.type == "directory" and not node:is_expanded() then
+							filesystem.toggle_directory(state, node, nil, false)
+							renderer.focus_node(state, node_id)
+						end
+					end)
+				end)
 			end
 
 			opts.files = vim.tbl_deep_extend("force", opts.files or {}, {
