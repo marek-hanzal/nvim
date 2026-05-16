@@ -44,6 +44,34 @@ return {
 
 					map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
 					map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
+
+					map("n", "<leader>cf", function()
+						local actions = {
+							"source.removeUnusedImports.ts",
+							"source.organizeImports.ts",
+						}
+
+						for index, action in ipairs(actions) do
+							vim.defer_fn(function()
+								vim.lsp.buf.code_action({
+									apply = true,
+									context = {
+										only = {
+											action,
+										},
+										diagnostics = {},
+									},
+								})
+							end, (index - 1) * 50)
+						end
+
+						vim.defer_fn(function()
+							require("conform").format({
+								async = true,
+								lsp_fallback = true,
+							})
+						end, #actions * 150)
+					end)
 				end,
 			})
 
@@ -59,7 +87,7 @@ return {
 								"vim",
 							},
 						},
-					
+
 						telemetry = {
 							enable = false,
 						},
