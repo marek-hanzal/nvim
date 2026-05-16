@@ -111,7 +111,11 @@ function M.on_lsp_attach(event)
 	map("n", "K", vim.lsp.buf.hover, "Hover", opts)
 	map("n", "<leader>cs", vim.lsp.buf.signature_help, "Signature help", opts)
 	map("n", "<leader>cr", vim.lsp.buf.rename, "Rename", opts)
-	map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, "Code action", opts)
+	map({ "n", "x" }, "<leader>ca", function()
+		require("fzf-lua").lsp_code_actions({
+			previewer = false,
+		})
+	end, "Code action", opts)
 end
 
 function M.setup()
