@@ -160,7 +160,7 @@ function M.setup()
 			},
 			winopts = {
 				preview = {
-					hidden = true,
+					hidden = false,
 				},
 			},
 		})
