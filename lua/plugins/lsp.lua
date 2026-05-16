@@ -45,7 +45,7 @@ return {
 					map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
 					map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
 
-					map("n", "<leader>cf", function()
+					map({ "n", "x" }, "<leader>cf", function()
 						local actions = {
 							"source.removeUnusedImports.ts",
 							"source.organizeImports.ts",
