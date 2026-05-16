@@ -33,7 +33,7 @@ return {
 			local actions = require("fzf-lua.actions")
 			local path = require("fzf-lua.path")
 			local neotree = require("neo-tree.command")
-			local filesystem = require("neo-tree.sources.filesystem")
+			local filesystem_commands = require("neo-tree.sources.filesystem.commands")
 			local manager = require("neo-tree.sources.manager")
 			local renderer = require("neo-tree.ui.renderer")
 			local nt_utils = require("neo-tree.utils")
@@ -72,7 +72,7 @@ return {
 						return
 					end
 
-					filesystem.toggle_directory(state)
+					filesystem_commands.open(state)
 					renderer.focus_node(state, node_id)
 				end)
 			end
