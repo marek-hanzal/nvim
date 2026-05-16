@@ -65,15 +65,22 @@ return {
 				})
 
 				local state = manager.get_state("filesystem")
+				---@cast state neotree.sources.filesystem.State
 
 				manager.navigate(state, state.path or manager.get_cwd(state), node_id, function()
 					if not renderer.focus_node(state, node_id) then
 						return
 					end
 
-					local node = state.tree and state.tree:get_node(node_id)
+					local tree = state.tree
+					if not tree then
+						return
+					end
+
+					---@diagnostic disable-next-line: undefined-field
+					local node = tree:get_node(node_id)
 					if node and node.type == "directory" and not node:is_expanded() then
-						filesystem.toggle_directory(state, node, nil, false)
+						filesystem.toggle_directory(state, node, node_id, false)
 						renderer.focus_node(state, node_id)
 					end
 				end)
