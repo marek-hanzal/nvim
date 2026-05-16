@@ -51,6 +51,8 @@ return {
 							"source.organizeImports.ts",
 						}
 
+                        local delay = 50
+
 						for index, action in ipairs(actions) do
 							vim.defer_fn(function()
 								vim.lsp.buf.code_action({
@@ -62,7 +64,7 @@ return {
 										diagnostics = {},
 									},
 								})
-							end, (index - 1) * 50)
+							end, (index - 1) * delay)
 						end
 
 						vim.defer_fn(function()
@@ -70,7 +72,7 @@ return {
 								async = true,
 								lsp_fallback = true,
 							})
-						end, #actions * 150)
+						end, #actions * delay)
 					end)
 				end,
 			})
