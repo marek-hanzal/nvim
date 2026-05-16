@@ -5,15 +5,6 @@ return {
 			"BufReadPost",
 			"BufNewFile",
 		},
-		keys = {
-			{
-				"<leader>cl",
-				function()
-					require("lint").try_lint()
-				end,
-				desc = "Lint code",
-			},
-		},
 		config = function()
 			local lint = require("lint")
 

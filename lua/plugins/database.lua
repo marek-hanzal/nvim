@@ -20,18 +20,5 @@ return {
 			vim.g.db_ui_show_database_icon = 1
 			vim.g.db_ui_save_location = vim.fn.stdpath("data") .. "/dadbod-ui"
 		end,
-
-		keys = {
-			{
-				"<leader>dd",
-				"<cmd>DBUIToggle<cr>",
-				desc = "Toggle database UI",
-			},
-			{
-				"<leader>df",
-				"<cmd>DBUIFindBuffer<cr>",
-				desc = "Find database buffer",
-			},
-		},
 	},
 }

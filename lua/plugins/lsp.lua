@@ -18,29 +18,7 @@ return {
 				group = vim.api.nvim_create_augroup("lsp_attach", {
 					clear = true,
 				}),
-
-				callback = function(event)
-					local function map(mode, lhs, rhs, desc)
-						vim.keymap.set(mode, lhs, rhs, {
-							buffer = event.buf,
-							desc = desc,
-						})
-					end
-
-					map("n", "gd", vim.lsp.buf.definition, "Goto definition")
-					map("n", "gD", vim.lsp.buf.declaration, "Goto declaration")
-					map("n", "gI", vim.lsp.buf.type_definition, "Goto type definition")
-					map("n", "gi", vim.lsp.buf.implementation, "Goto implementation")
-					map("n", "gr", vim.lsp.buf.references, "References")
-					map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
-					map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
-
-					map("n", "K", vim.lsp.buf.hover, "Hover")
-					map("n", "<leader>cs", vim.lsp.buf.signature_help, "Signature help")
-
-					map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
-					map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
-				end,
+				callback = require("keymap.c-code").on_lsp_attach,
 			})
 
 			vim.lsp.config("lua_ls", {

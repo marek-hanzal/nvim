@@ -14,33 +14,6 @@ return {
 			"nvim-lua/plenary.nvim",
 			"ibhagwan/fzf-lua",
 		},
-		keys = {
-			{
-				"<leader>xt",
-				"<cmd>Trouble todo toggle<cr>",
-				desc = "Todo comments",
-			},
-			{
-				"<leader>tn",
-				function()
-					require("todo-comments").jump_next()
-				end,
-				desc = "Next todo comment",
-			},
-			{
-				"<leader>tp",
-				function()
-					require("todo-comments").jump_prev()
-				end,
-				desc = "Previous todo comment",
-			},
-			{
-				"<leader>ft",
-				"<cmd>TodoFzfLua<cr>",
-				desc = "Find todo comments",
-			},
-		},
-
 		opts = {
 			signs = true,
 

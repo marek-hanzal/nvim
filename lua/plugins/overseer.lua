@@ -9,18 +9,6 @@ return {
 			"OverseerTaskAction",
 			"OverseerShell",
 		},
-		keys = {
-			{
-				"<leader>rr",
-				"<cmd>OverseerRun<cr>",
-				desc = "Run task",
-			},
-			{
-				"<leader>rt",
-				"<cmd>OverseerToggle right<cr>",
-				desc = "Toggle tasks",
-			},
-		},
 		opts = {
 			dap = false,
 			task_list = {

@@ -8,18 +8,6 @@ return {
 			"MunifTanjim/nui.nvim",
 			"nvim-tree/nvim-web-devicons",
 		},
-		keys = {
-			{
-				"<leader>e",
-				"<cmd>Neotree toggle filesystem reveal left<cr>",
-				desc = "Toggle file explorer",
-			},
-			{
-				"<leader>E",
-				"<cmd>Neotree focus filesystem reveal left<cr>",
-				desc = "Focus file explorer",
-			},
-		},
 		opts = {
 			close_if_last_window = true,
 			popup_border_style = "rounded",

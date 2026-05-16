@@ -5,35 +5,6 @@ return {
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
-		keys = {
-			{ "<leader><leader>", "<cmd>FzfLua files<cr>", desc = "Find files" },
-			{ "<leader>fk", "<cmd>FzfLua keymaps<cr>", desc = "Find keymaps" },
-			{ "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Recent files" },
-			{ "<leader>fR", "<cmd>FzfLua resume<cr>", desc = "Resume picker" },
-
-			{ "<leader>fs", "<cmd>FzfLua lsp_document_symbols<cr>", desc = "Find document symbols" },
-			{ "<leader>fS", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", desc = "Find workspace symbols" },
-			{
-				"/",
-				"<cmd>FzfLua blines<cr>",
-				desc = "Fuzzy search buffer lines",
-			},
-			{
-				"<leader>/",
-				"/",
-				desc = "Native search",
-			},
-			{
-				"<leader>fa",
-				function()
-					require("fzf-lua").grep({
-						search = "",
-						prompt = "Project fuzzy> ",
-					})
-				end,
-				desc = "Fuzzy search project lines",
-			},
-		},
 		opts = {
 			winopts = {
 				height = 0.85,
