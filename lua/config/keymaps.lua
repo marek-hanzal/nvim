@@ -23,3 +23,19 @@ keymap("n", "<leader>cq", vim.diagnostic.setloclist, {
 keymap("t", "<Esc><Esc>", [[<C-\><C-n>]], {
 	desc = "Exit terminal mode",
 })
+
+keymap("n", "<leader>eb", "<cmd>Neotree buffers left<cr>", {
+	desc = "Buffer tree",
+})
+
+keymap("n", "<leader>bn", "<cmd>bnext<cr>", {
+	desc = "Next buffer",
+})
+
+keymap("n", "<leader>bp", "<cmd>bprevious<cr>", {
+	desc = "Previous buffer",
+})
+
+keymap("n", "<leader>ba", "<cmd>buffer #<cr>", {
+	desc = "Alternate buffer",
+})
