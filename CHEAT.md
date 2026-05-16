@@ -153,11 +153,16 @@ Works in normal, visual, operator-pending, and insert mode.
 | Buffer fuzzy lines | `/` in normal mode |
 | Native search | `<leader>/` |
 | Project fuzzy grep | `<leader>fa` |
+| Buffer diagnostics | `<leader>fd` |
+| Workspace diagnostics | `<leader>fD` |
 | Recent files | `<leader>fr` |
 | Keymaps | `<leader>fk` |
+| Location list | `<leader>fl` |
+| Quickfix list | `<leader>fq` |
 | Resume picker | `<leader>fR` |
 | Buffer symbols | `<leader>fs` |
 | Workspace symbols | `<leader>fS` |
+| TODO list | `<leader>ft` |
 
 ## Buffers
 
@@ -190,11 +195,6 @@ These mappings exist only in buffers with an attached LSP client.
 | Code action | `<leader>ca` |
 | Current line diagnostic | `<leader>cd` |
 | Diagnostics to location list | `<leader>cq` |
-| Workspace diagnostics | `<leader>xx` |
-| Buffer diagnostics | `<leader>xb` |
-| Quickfix list | `<leader>xq` |
-| Location list | `<leader>xl` |
-| Symbols | `<leader>xs` |
 
 ## Formatting and linting
 
@@ -300,8 +300,7 @@ Use `TODO:` and `NOTE:`.
 |---|---|
 | Next todo | `<leader>tn` |
 | Previous todo | `<leader>tp` |
-| TODO list | `<leader>xt` |
-| Todos in fzf-lua | `<leader>ft` |
+| TODO list picker | `<leader>ft` |
 
 ## Tasks: Overseer
 
