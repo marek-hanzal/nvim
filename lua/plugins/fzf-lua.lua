@@ -16,16 +16,6 @@ return {
 				},
 			},
 
-			files = {
-				fd_opts = table.concat({
-					"--color=never",
-					"--type f",
-					"--type l",
-					"--hidden",
-					"--no-ignore-vcs",
-				}, " "),
-			},
-
 			grep = {
 				rg_opts = table.concat({
 					"--column",
