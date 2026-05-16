@@ -190,12 +190,11 @@ These mappings exist only in buffers with an attached LSP client.
 | Code action | `<leader>ca` |
 | Current line diagnostic | `<leader>cd` |
 | Diagnostics to location list | `<leader>cq` |
-| All diagnostics | `<leader>xx` |
+| Workspace diagnostics | `<leader>xx` |
 | Buffer diagnostics | `<leader>xb` |
 | Quickfix list | `<leader>xq` |
 | Location list | `<leader>xl` |
 | Symbols | `<leader>xs` |
-| LSP references panel | `<leader>xr` |
 
 ## Formatting and linting
 
@@ -301,7 +300,7 @@ Use `TODO:` and `NOTE:`.
 |---|---|
 | Next todo | `<leader>tn` |
 | Previous todo | `<leader>tp` |
-| Todos in Trouble | `<leader>xt` |
+| TODO list | `<leader>xt` |
 | Todos in fzf-lua | `<leader>ft` |
 
 ## Tasks: Overseer

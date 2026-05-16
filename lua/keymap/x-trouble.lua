@@ -3,8 +3,21 @@ local map = require("keymap.util").map
 local M = {}
 
 function M.setup()
-	map("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", "Diagnostics")
-	map("n", "<leader>xb", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", "Buffer diagnostics")
+	map("n", "<leader>xx", function()
+		require("fzf-lua").diagnostics_workspace({
+			sort = true,
+			previewer = false,
+		})
+	end, "Diagnostics")
+	map("n", "<leader>xb", function()
+		require("fzf-lua").diagnostics_document({
+			sort = true,
+			previewer = false,
+			fzf_opts = {
+				["--no-input"] = true,
+			},
+		})
+	end, "Buffer diagnostics")
 	map("n", "<leader>xq", function()
 		require("fzf-lua").quickfix({
 			previewer = false,
@@ -15,8 +28,11 @@ function M.setup()
 			previewer = false,
 		})
 	end, "Location list")
-	map("n", "<leader>xs", "<cmd>Trouble symbols toggle focus=false<cr>", "Symbols")
-	map("n", "<leader>xr", "<cmd>Trouble lsp_references toggle focus=false<cr>", "LSP references")
+	map("n", "<leader>xs", function()
+		require("fzf-lua").lsp_document_symbols({
+			previewer = false,
+		})
+	end, "Symbols")
 	map("n", "<leader>xt", function()
 		require("todo-comments.fzf").todo({
 			keywords = {
