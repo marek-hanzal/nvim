@@ -18,7 +18,7 @@ return {
 				{ "<leader>m", group = "markdown" },
                 { "<leader>h", group = "http" },
                 { "<leader>l", group = "line" },
-				{ "<leader>x", group = "trouble" },
+				{ "<leader>x", group = "lists" },
 				{ "<leader>d", group = "database" },
 				{ "<leader>t", group = "todo" },
                 { "<leader>s", group = "search/sort" },

@@ -33,7 +33,7 @@ Current grouped modules:
 - `m-markdown.lua`
 - `r-run.lua`
 - `t-todo.lua`
-- `x-trouble.lua`
+- `x-lists.lua`
 
 ## What is allowed outside `lua/keymap/`
 
