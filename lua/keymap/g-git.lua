@@ -47,6 +47,24 @@ function M.setup()
 		Snacks.lazygit()
 	end, "LazyGit")
 
+	map("n", "<leader>gB", function()
+		require("fzf-lua").git_branches({
+			previewer = false,
+		})
+	end, "Git branches")
+
+	map("n", "<leader>gc", function()
+		require("fzf-lua").git_commits({
+			previewer = false,
+		})
+	end, "Git commits")
+
+	map("n", "<leader>gC", function()
+		require("fzf-lua").git_bcommits({
+			previewer = false,
+		})
+	end, "Git buffer commits")
+
 	map("n", "<leader>gl", function()
 		Snacks.lazygit.log()
 	end, "Git log")
@@ -54,6 +72,12 @@ function M.setup()
 	map("n", "<leader>gL", function()
 		Snacks.lazygit.log_file()
 	end, "Git file log")
+
+	map("n", "<leader>gz", function()
+		require("fzf-lua").git_stash({
+			previewer = false,
+		})
+	end, "Git stash")
 end
 
 return M
