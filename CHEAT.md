@@ -1,67 +1,143 @@
 # Neovim Cheat Sheet
 
-Generated from the latest uploaded config. Leader is `<Space>`. Local leader is `,`. Alt / Option is written as `<M-...>`.
+Leader is `<Space>`. Local leader is `,`. Alt / Option is written as `<M-...>`.
 
 ## Quick survival kit
 
 | Action | Keys |
 |---|---|
-| Save file | `<leader>w` |
-| Close current window | `<leader>q` |
+| Save file | `:w` |
+| Quit window | `:q` |
 | Clear search highlight | `<Esc>` |
-| Command line popup | `:` |
 | Find files | `<leader><leader>` |
 | Toggle file explorer | `<leader>e` |
-| Focus/reveal file explorer | `<leader>E` |
-| Format code | `<leader>cf` |
+| Focus file explorer | `<leader>E` |
+| Format buffer | `<leader>bf` |
+| Clean up buffer | `<leader>cf` |
 | Lint code | `<leader>cl` |
 | Current line diagnostic | `<leader>cd` |
 | Diagnostics to location list | `<leader>cq` |
-| Flash jump | `<leader>jj` |
-| Neogit | `<leader>gg` |
-| Diffview working tree diff | `<leader>gd` |
+| LazyGit | `<leader>gg` |
 | Run task | `<leader>rr` |
 | Toggle task panel | `<leader>rt` |
 | Toggle database UI | `<leader>dd` |
 
-## Modes
-
-| Mode | Enter with | Purpose |
-|---|---|---|
-| Normal | `Esc` | Movement, commands, text operations. Live here most of the time. |
-| Insert | `i`, `a`, `o`, `O` | Typing text. |
-| Visual | `v` | Character-wise selection. |
-| Visual line | `V` | Line-wise selection. |
-| Visual block | `<C-v>` | Block / column selection. |
-| Command | `:` | Ex commands like `:w`, `:q`, `:sort`. |
-| Operator-pending | after `d`, `c`, `y`, `g~`, etc. | Waits for a motion or text object, like `diw`, `ci"`, `yip`. |
-
-## Core movement
+## Navigation
 
 | Action | Keys |
 |---|---|
 | Left / down / up / right | `h` / `j` / `k` / `l` |
 | Next word | `w` |
-| End of word | `e` |
 | Previous word | `b` |
-| End of previous word | `ge` |
-| Big-word versions | `W`, `E`, `B`, `gE` |
-| Start of line | `0` |
-| First non-blank character | `^` |
-| End of line | `$` |
-| Last non-blank character | `g_` |
-| Start of file | `gg` |
-| End of file | `G` |
-| Go to line 42 | `42G` or `:42` |
-| Half-page down / up | `<C-d>` / `<C-u>` |
-| Page down / up | `<C-f>` / `<C-b>` |
-| Top / middle / bottom of screen | `H` / `M` / `L` |
-| Center current line | `zz` |
-| Put current line at top / bottom | `zt` / `zb` |
-| Jump to matching bracket | `%` |
-| Back / forward in jump list | `<C-o>` / `<C-i>` |
+| End of word | `e` |
+| Start / end of line | `0` / `$` |
+| Start / end of file | `gg` / `G` |
+| Half page down / up | `<C-d>` / `<C-u>` |
+| Jump back / forward | `<C-o>` / `<C-i>` |
+| Match bracket | `%` |
+| Center line | `zz` |
 
-## Your Alt / Option word movement
+## Vim primer
+
+Vim editing is usually `operator + motion` or `operator + text object`.
+
+### Common operators
+
+| Operator | Meaning |
+|---|---|
+| `y` | Yank / copy |
+| `d` | Delete / cut |
+| `c` | Change: delete, then enter insert mode |
+| `>` | Indent right |
+| `<` | Indent left |
+| `=` | Reindent |
+| `gu` | Lowercase |
+| `gU` | Uppercase |
+| `g~` | Toggle case |
+
+### Common text objects
+
+| Text object | Meaning |
+|---|---|
+| `iw` / `aw` | Inside / around word |
+| `iW` / `aW` | Inside / around WORD |
+| `i"` / `a"` | Inside / around double quotes |
+| `i'` / `a'` | Inside / around single quotes |
+| ``i` `` / ``a` `` | Inside / around backticks |
+| `i(` / `a(` | Inside / around parentheses |
+| `ib` / `ab` | Same as parentheses |
+| `i[` / `a[` | Inside / around square brackets |
+| `i{` / `a{` | Inside / around curly braces |
+| `iB` / `aB` | Same as curly braces |
+| `ip` / `ap` | Inside / around paragraph |
+| `it` / `at` | Inside / around tag |
+
+### Common examples
+
+| Action | Keys |
+|---|---|
+| Change word | `ciw` |
+| Delete word | `diw` |
+| Yank word | `yiw` |
+| Delete word with surrounding space | `daw` |
+| Change inside quotes | `ci"` |
+| Delete around quotes | `da"` |
+| Change inside parentheses | `ci(` or `cib` |
+| Delete inside braces | `di{` or `diB` |
+| Yank paragraph | `yip` |
+| Delete paragraph | `dip` |
+| Reindent selection | select, then `=` |
+| Comment paragraph | `gcip` |
+| Wrap word in braces | `gsaiw{` |
+
+### Useful built-ins
+
+| Action | Keys |
+|---|---|
+| Undo | `u` |
+| Redo | `<C-r>` |
+| Repeat last change | `.` |
+| Paste after cursor | `p` |
+| Paste before cursor | `P` |
+| Join lines | `J` |
+| Search next / previous | `n` / `N` |
+| Go to line | `42G` or `:42` |
+| Clear current command-line or rename prompt input | `<C-u>` |
+
+### Jump and return tricks
+
+| Action | Keys |
+|---|---|
+| Jump back / forward in jump list | `<C-o>` / `<C-i>` |
+| Go to last edit location | `` `. `` |
+| Go to exact last insert exit position | `` `^ `` |
+| Go to last change start | `` `[ `` |
+| Go to last change end | `` `] `` |
+| Go back to previous buffer | `<leader>ba` |
+
+Examples:
+
+| Action | Keys |
+|---|---|
+| Jump to definition, then return | `gd` then `<C-o>` |
+| Jump through several files, then move forward again | `<C-o>` / `<C-i>` |
+| Return to where the last edit happened | `` `. `` |
+| Reopen alternate buffer | `<leader>ba` |
+| Toggle between two buffers | `<leader>ba` repeatedly |
+
+### Replace examples
+
+| Action | Keys / command |
+|---|---|
+| Replace one character under cursor | `r<char>` |
+| Replace word under cursor | `ciw` then type replacement |
+| Replace inside quotes | `ci"` then type replacement |
+| Replace current selection | select, then `c` then type replacement |
+| Replace all in current file | `:%s/old/new/g` |
+| Replace with confirmation | `:%s/old/new/gc` |
+| Replace in visual selection only | select lines, then `:s/old/new/g` |
+
+## Alt word movement
 
 Works in normal, visual, operator-pending, and insert mode.
 
@@ -70,205 +146,34 @@ Works in normal, visual, operator-pending, and insert mode.
 | Word left | `<M-Left>` or `<M-b>` |
 | Word right | `<M-Right>` or `<M-f>` |
 
-## Search in the current buffer
+## Search
 
 | Action | Keys |
 |---|---|
-| Search forward | `/text` |
-| Search backward | `?text` |
-| Next match | `n` |
-| Previous match | `N` |
-| Search word under cursor forward | `*` |
-| Search word under cursor backward | `#` |
-| Clear highlight | `<Esc>` |
-
-## Operators: action + range
-
-Vim often works as `operator` + `motion/text object`.
-
-| Operator | Meaning |
-|---|---|
-| `y` | yank / copy |
-| `d` | delete / cut |
-| `c` | change: delete and enter insert mode |
-| `>` | indent right |
-| `<` | indent left |
-| `=` | auto-indent |
-| `g~` | toggle case |
-| `gu` | lowercase |
-| `gU` | uppercase |
-
-Examples:
-
-| Action | Keys |
-|---|---|
-| Copy current line | `yy` |
-| Delete current line | `dd` |
-| Change current line | `cc` |
-| Copy to end of line | `y$` |
-| Delete to end of line | `d$` or `D` |
-| Change to end of line | `c$` or `C` |
-| Delete one character | `x` |
-| Replace one character | `r<char>` |
-| Paste after cursor | `p` |
-| Paste before cursor | `P` |
-| Undo | `u` |
-| Redo | `<C-r>` |
-| Repeat last change | `.` |
-
-## Text objects
-
-`i` means inside. `a` means around, including the wrapper or nearby whitespace.
-
-| Text object | Meaning |
-|---|---|
-| `iw` / `aw` | inside / around word |
-| `iW` / `aW` | inside / around WORD |
-| `i"` / `a"` | inside / around double quotes |
-| `i'` / `a'` | inside / around single quotes |
-| `` i` `` / `` a` `` | inside / around backticks |
-| `i(` / `a(` | inside / around parentheses |
-| `ib` / `ab` | same as parentheses, block `()` |
-| `i[` / `a[` | inside / around square brackets |
-| `i{` / `a{` | inside / around curly braces |
-| `iB` / `aB` | same as curly braces, block `{}` |
-| `ip` / `ap` | paragraph |
-| `it` / `at` | tag, usually HTML/TSX |
-| `ih` | git hunk, via gitsigns |
-| `io` / `ao` | sortable region, via sort.nvim |
-
-### Common text-object examples
-
-| Situation | Action | Keys |
-|---|---|---|
-| Cursor on `hello` | change word | `ciw` |
-| Cursor on `hello` | delete word | `diw` |
-| Cursor on `hello` | copy word | `yiw` |
-| Cursor on a word in a sentence | delete word plus spacing | `daw` |
-| Cursor inside `"hello"` | change quote contents | `ci"` |
-| Cursor inside `"hello"` | delete quote contents | `di"` |
-| Cursor inside `"hello"` | copy quote contents | `yi"` |
-| Cursor inside `"hello"` | delete including quotes | `da"` |
-| Cursor inside `(foo)` | change parentheses contents | `cib` or `ci(` |
-| Cursor inside `(foo)` | delete parentheses contents | `dib` or `di(` |
-| Cursor inside `{ foo }` | change block contents | `ciB` or `ci{` |
-| Cursor inside `{ foo }` | delete block contents | `diB` or `di{` |
-| Cursor in a paragraph | copy paragraph | `yip` |
-| Cursor in a paragraph | delete paragraph | `dip` |
-| Cursor on current git hunk | select hunk | `vih` |
-| Cursor on current git hunk | copy hunk | `yih` |
-
-## Visual mode
-
-| Action | Keys |
-|---|---|
-| Character-wise selection | `v` |
-| Line-wise selection | `V` |
-| Block selection | `<C-v>` |
-| Reselect last visual selection | `gv` |
-| Swap active end of selection | `o` |
-| Copy selection | `y` |
-| Delete selection | `d` |
-| Change selection | `c` |
-| Indent selection | `>` / `<` |
-
-Examples:
-
-| Action | Keys |
-|---|---|
-| Select current word | `viw` |
-| Select inside quotes | `vi"` |
-| Select including quotes | `va"` |
-| Select paragraph | `vip` |
-| Select current git hunk | `vih` |
-
-## Insert mode
-
-| Action | Keys |
-|---|---|
-| Insert before cursor | `i` |
-| Insert after cursor | `a` |
-| Insert at start of line | `I` |
-| Insert at end of line | `A` |
-| New line below | `o` |
-| New line above | `O` |
-| Leave insert mode | `Esc` |
-| Accept completion | `Enter` |
-| Word left/right | `<M-Left>` / `<M-Right>` or `<M-b>` / `<M-f>` |
-
-## Windows and buffers
-
-| Action | Keys / command |
-|---|---|
-| Close current window | `<leader>q` |
-| Move between windows | `<C-w>h/j/k/l` |
-| Close all other windows | `:only` |
-| Quit Neovim | `:qa` |
-| Force quit Neovim | `:qa!` |
-| Delete buffer | `:bd` |
-| Force delete buffer | `:bd!` |
-
-Note: this config currently does not map sequential window jumps like `<leader>aa` / `<leader>ss`. Native window movement is still available through `<C-w>h/j/k/l`.
-
-## Command line
-
-| Action | Keys |
-|---|---|
-| Open floating command line | `:` |
-
-This is handled by `fine-cmdline.nvim`. Some special command-line behavior may still use native Neovim command-line UI, because software enjoys having exceptions.
-
-## File explorer: Neo-tree
-
-| Action | Keys |
-|---|---|
-| Toggle explorer | `<leader>e` |
-| Focus/reveal explorer | `<leader>E` |
-| Help inside Neo-tree | `?` |
-
-Typical Neo-tree actions inside the panel:
-
-| Action | Key |
-|---|---|
-| Open file / folder | `Enter` |
-| Create file/folder | `a` |
-| Delete | `d` |
-| Rename | `r` |
-| Cut / mark for move | `x` |
-| Copy to clipboard | `y` |
-| Paste | `p` |
-| Move | `m` |
-| Copy | `c` |
-
-When unsure, press `?` inside Neo-tree. Local plugin help is usually the least wrong source of truth.
-
-## Picker: fzf-lua
-
-| Action | Keys |
-|---|---|
-| Find files | `<leader><leader>` |
-| Find keymaps | `<leader>fk` |
+| Buffer fuzzy lines | `/` in normal mode |
+| Native search | `<leader>/` |
+| Project fuzzy grep | `<leader>fa` |
 | Recent files | `<leader>fr` |
+| Keymaps | `<leader>fk` |
 | Resume picker | `<leader>fR` |
-| Symbols in current document | `<leader>fs` |
-| Symbols in workspace | `<leader>fS` |
-| TODO comments | `<leader>ft` |
+| Buffer symbols | `<leader>fs` |
+| Workspace symbols | `<leader>fS` |
 
-Useful commands that currently do not have direct mappings:
+## Buffers
 
-| Action | Command |
+| Action | Keys |
 |---|---|
-| Live grep | `:FzfLua live_grep` |
-| Buffers | `:FzfLua buffers` |
-| Commands | `:FzfLua commands` |
-| Help tags | `:FzfLua helptags` |
-| Search current buffer | `:FzfLua lgrep_curbuf` |
+| Next buffer | `<leader>bn` |
+| Previous buffer | `<leader>bp` |
+| Alternate buffer | `<leader>ba` |
+| Buffer tree | `<leader>eb` |
+| Delete buffer | `<leader>bd` |
+| Force delete buffer | `<leader>bD` |
+| Delete other buffers | `<leader>bo` |
 
-`fzf-lua` is registered as `vim.ui.select`, so many selection dialogs use it automatically.
+## LSP and diagnostics
 
-## LSP and code actions
-
-These mappings exist only in buffers where an LSP server is attached.
+These mappings exist only in buffers with an attached LSP client.
 
 | Action | Keys |
 |---|---|
@@ -282,73 +187,84 @@ These mappings exist only in buffers where an LSP server is attached.
 | Code action | `<leader>ca` |
 | Current line diagnostic | `<leader>cd` |
 | Diagnostics to location list | `<leader>cq` |
-
-Useful commands:
-
-| Action | Command |
-|---|---|
-| LSP health/info | `:checkhealth vim.lsp` |
-| Restart LSP | `:lsp restart` |
-| Stop LSP | `:lsp stop` |
-| LSP log | `:LspLog` |
-
-Configured LSP servers:
-
-| Language / area | Server |
-|---|---|
-| Lua | `lua_ls` |
-| TypeScript / JavaScript | `ts_ls` |
-| JSON | `jsonls` |
-| TOML | `taplo` |
-| Tailwind CSS | `tailwindcss` |
-| YAML | `yamlls` |
-| GitHub Actions | `gh_actions_ls` |
+| All diagnostics | `<leader>xx` |
+| Buffer diagnostics | `<leader>xb` |
+| Quickfix list | `<leader>xq` |
+| Location list | `<leader>xl` |
+| Symbols | `<leader>xs` |
+| LSP references panel | `<leader>xr` |
 
 ## Formatting and linting
 
+Conform is the primary formatter. LSP is used as a fallback when no external formatter is configured for the current filetype.
+
 | Action | Keys / command |
 |---|---|
-| Format code | `<leader>cf` |
-| Lint code | `<leader>cl` |
+| Format current buffer / selection | `<leader>bf` |
+| Clean up current buffer | `<leader>cf` |
+| Lint current buffer | `<leader>cl` |
 | Conform info | `:ConformInfo` |
 
-Current formatters:
+### Formatters
 
 | Filetype | Formatter |
 |---|---|
 | Lua | `stylua` |
-| JS/TS/JSX/TSX | `biome` |
-| JSON/JSONC | `biome` |
+| JavaScript / TypeScript / JSX / TSX | `biome` |
+| JSON / JSONC | `biome` |
 | CSS | `biome` |
+| Other filetypes with LSP formatting support | LSP fallback |
 
-Current linters:
+### Linters
 
 | Filetype | Linter |
 |---|---|
-| JS/TS/JSX/TSX | `biomejs` |
-| JSON/JSONC | `biomejs` |
+| JavaScript / TypeScript / JSX / TSX | `biomejs` |
+| JSON / JSONC | `biomejs` |
 | CSS | `biomejs` |
 | Markdown | `markdownlint-cli2` |
 
+## TypeScript
+
+| Action | Keys |
+|---|---|
+| Remove unused imports + organize imports + format | `<leader>cf` |
+
+`<leader>cf` always tries the configured cleanup code actions first and then formats the buffer. At the moment, the cleanup step targets TypeScript import cleanup actions; on filetypes or servers that do not support them, the cleanup step is skipped and formatting still runs.
+
+## File explorer: Neo-tree
+
+| Action | Keys |
+|---|---|
+| Toggle explorer | `<leader>e` |
+| Focus / reveal explorer | `<leader>E` |
+| Help inside Neo-tree | `?` |
+
+### Neo-tree basics
+
+| Action | Key |
+|---|---|
+| Open file / folder | `Enter` |
+| Create | `a` |
+| Delete | `d` |
+| Rename | `r` |
+| Cut | `x` |
+| Copy to clipboard | `y` |
+| Paste | `p` |
+| Move | `m` |
+| Copy | `c` |
+| Collapse node | `<Left>` |
+| Expand / open node | `<Right>` |
+
 ## Git
 
-### Neogit
+### Snacks LazyGit
 
 | Action | Keys |
 |---|---|
-| Open Neogit | `<leader>gg` |
-
-Inside Neogit, press `?` for local help. Diff integration is configured to use Diffview.
-
-### Diffview
-
-| Action | Keys |
-|---|---|
-| Working tree diff | `<leader>gd` |
-| Staged diff | `<leader>gD` |
-| Current file history | `<leader>gh` |
-| Repository history | `<leader>gH` |
-| Close Diffview | `<leader>gx` |
+| Open LazyGit | `<leader>gg` |
+| Git log | `<leader>gl` |
+| Current file log | `<leader>gL` |
 
 ### Gitsigns
 
@@ -357,120 +273,84 @@ Inside Neogit, press `?` for local help. Diff integration is configured to use D
 | Next hunk | `<leader>gn` |
 | Previous hunk | `<leader>gN` |
 | Preview hunk | `<leader>gp` |
-| Inline preview hunk | `<leader>gi` |
+| Preview hunk inline | `<leader>gi` |
 | Stage hunk | `<leader>gs` |
 | Reset hunk | `<leader>gr` |
-| Stage whole buffer | `<leader>gS` |
-| Reset whole buffer | `<leader>gR` |
+| Stage buffer | `<leader>gS` |
+| Reset buffer | `<leader>gR` |
 | Blame line | `<leader>gb` |
 | Hunks to quickfix | `<leader>gq` |
-| Hunk text object | `ih` |
+| Git hunk text object | `ih` |
 
 Examples:
 
 | Action | Keys |
 |---|---|
 | Select current hunk | `vih` |
-| Copy current hunk | `yih` |
+| Yank current hunk | `yih` |
 | Delete current hunk | `dih` |
-
-## Trouble: diagnostics and lists
-
-| Action | Keys |
-|---|---|
-| All diagnostics | `<leader>xx` |
-| Current buffer diagnostics | `<leader>xb` |
-| Quickfix | `<leader>xq` |
-| Location list | `<leader>xl` |
-| Symbols | `<leader>xs` |
-| LSP references | `<leader>xr` |
-| TODO list | `<leader>xt` |
 
 ## TODO comments
 
-Configured keywords: `TODO` and `NOTE`.
-
-Use this shape:
-
-```lua
--- TODO: finish this
--- NOTE: useful note
-```
+Use `TODO:` and `NOTE:`.
 
 | Action | Keys |
 |---|---|
-| Next TODO/NOTE | `<leader>tn` |
-| Previous TODO/NOTE | `<leader>tp` |
-| TODO/NOTE through Trouble | `<leader>xt` |
-| TODO/NOTE through fzf-lua | `<leader>ft` |
+| Next todo | `<leader>tn` |
+| Previous todo | `<leader>tp` |
+| Todos in Trouble | `<leader>xt` |
+| Todos in fzf-lua | `<leader>ft` |
 
-Search uses `rg`, so an unsaved TODO may not appear in pickers until you run `:w`.
-
-## Markdown
-
-| Action | Keys |
-|---|---|
-| Toggle inline render | `<leader>mp` |
-| Markdown preview split | `<leader>mP` |
-
-Markdown linting runs through `markdownlint-cli2`.
-
-## Database UI
+## Tasks: Overseer
 
 | Action | Keys / command |
 |---|---|
-| Toggle DB UI | `<leader>dd` |
-| Find DB buffer | `<leader>df` |
-| Open DB UI | `:DBUI` |
-| Toggle DB UI | `:DBUIToggle` |
-| Add connection | `:DBUIAddConnection` |
-| Find DB buffer | `:DBUIFindBuffer` |
-
-Current config stores DB UI data under Neovim data path, not the project directory.
-
-## Task runner: Overseer
-
-| Action | Keys / command |
-|---|---|
-| Run task | `<leader>rr` |
-| Toggle task panel | `<leader>rt` |
-| Run task | `:OverseerRun` |
-| Toggle panel | `:OverseerToggle right` |
+| Run task | `<leader>rr` / `:OverseerRun` |
+| Toggle task panel | `<leader>rt` / `:OverseerToggle right` |
 
 Inside the task panel:
 
 | Action | Key |
 |---|---|
-| Close panel | `q` |
+| Close | `q` |
 | Task action | `Enter` |
 | Open output | `o` |
 | Restart | `r` |
 | Stop | `s` |
 | Dispose | `d` |
 
-## Search and replace: Grug-Far
+## HTTP: Kulala
 
 | Action | Keys |
 |---|---|
-| Project search/replace | `<leader>sr` |
-| Search/replace in current file | `<leader>sR` |
+| Run request | `<leader>hr` |
+| Run all requests | `<leader>ha` |
+| Toggle response view | `<leader>ht` |
+| Inspect request | `<leader>hi` |
 
-In visual mode, select text and press `<leader>sr`; Grug-Far uses the selection as the search text.
+## Database
 
-Difference from LSP rename:
-
-| Tool | Use it for |
+| Action | Keys / command |
 |---|---|
-| `<leader>cr` | LSP symbol rename: variables, functions, types, references. |
-| `<leader>sr` | General text replacement: strings, configs, YAML, Markdown, i18n keys, routes. |
+| Toggle DB UI | `<leader>dd` / `:DBUIToggle` |
+| Find DB buffer | `<leader>df` / `:DBUIFindBuffer` |
+| Open DB UI | `:DBUI` |
+| Add connection | `:DBUIAddConnection` |
 
-## Sorting: sort.nvim
+## Markdown
 
 | Action | Keys |
 |---|---|
-| Sort visual selection | `<leader>ls` |
-| Reverse sort visual selection | `<leader>lS` |
-| Sort visual selection and keep unique lines | `<leader>lu` |
+| Toggle render | `<leader>mp` |
+| Preview | `<leader>mP` |
+
+## Sorting
+
+| Action | Keys |
+|---|---|
+| Sort selection | `<leader>ls` |
+| Reverse sort selection | `<leader>lS` |
+| Unique sort selection | `<leader>lu` |
 | Sort operator | `go` |
 | Inner sortable region | `io` |
 | Around sortable region | `ao` |
@@ -481,105 +361,69 @@ Examples:
 
 | Action | Keys |
 |---|---|
-| Select several lines and sort | `Vjj` then `<leader>ls` |
-| Sort current line through operator | `gogo` |
-| Sort inner sortable region | `goio` |
-| Sort around sortable region | `goao` |
+| Sort selected lines | `Vjj` then `<leader>ls` |
+| Reverse sort selected lines | `Vjj` then `<leader>lS` |
+| Sort current sortable object | `goio` |
 
-## Moving lines: mini.move
-
-| Action | Keys |
-|---|---|
-| Move current line up | `<M-Up>` |
-| Move current line down | `<M-Down>` |
-| Move visual selection up | select text, then `<M-Up>` |
-| Move visual selection down | select text, then `<M-Down>` |
-
-If this does not work, your terminal probably does not send Option/Alt as Meta. Configure Option as `Esc+` / Meta.
-
-## Comments: mini.comment
+## Comments
 
 | Action | Keys |
 |---|---|
-| Toggle comment on current line | `gcc` |
-| Toggle comment over motion | `gc{motion}` |
-| Toggle comment on visual selection | select, then `gc` |
+| Toggle current line comment | `gcc` |
+| Toggle by motion | `gc{motion}` |
+| Toggle visual selection | `gc` |
 
 Examples:
 
 | Action | Keys |
 |---|---|
-| Comment paragraph | `gcip` |
+| Comment a word | `gciw` |
+| Comment a paragraph | `gcip` |
 | Comment selected lines | `Vjj` then `gc` |
 
-## Surround: mini.surround
+## Surrounds
+
+`mini.surround` is mapped under `gs*`.
 
 | Action | Keys |
 |---|---|
 | Add surround | `gsa` |
 | Delete surround | `gsd` |
-| Replace surround | `gsr` |
-| Find surround to the right | `gsf` |
-| Find surround to the left | `gsF` |
+| Find right surround | `gsf` |
+| Find left surround | `gsF` |
 | Highlight surround | `gsh` |
-| Update `n_lines` | `gsn` |
+| Replace surround | `gsr` |
+| Update search range | `gsn` |
 
 Examples:
 
 | Action | Keys |
 |---|---|
-| Wrap current word in double quotes | `gsaiw"` |
-| Wrap selection in double quotes | select, then `gsa"` |
-| Delete surrounding double quotes | `gsd"` |
-| Replace double quotes with single quotes | `gsr"'` |
+| Wrap word in `{}` | `gsaiw{` |
+| Wrap word in `()` | `gsaiw(` |
+| Wrap line in `"` | `gsa$"` |
+| Delete surrounding `"` | `gsd"` |
+| Replace `"` with `'` | `gsr"'` |
+| Replace `(` with `{` | `gsr({` |
 
-## Completion: blink.cmp
+## Move lines
 
 | Action | Keys |
 |---|---|
-| Accept selected completion | `Enter` |
-| Close completion menu | usually `<C-e>` |
-| Move in completion menu | plugin default keymap preset `enter` |
+| Move line up | `<M-Up>` |
+| Move line down | `<M-Down>` |
+| Move visual selection up | select + `<M-Up>` |
+| Move visual selection down | select + `<M-Down>` |
 
-## Notifications
+## Snippets
 
-Notifications use `nvim-notify`.
-
-| Action | Command |
+| Action | Keys |
 |---|---|
-| Notification history | `:Notifications` |
-| Clear notifications | `:NotificationsClear` |
+| Expand or jump forward | `<Tab>` |
+| Jump backward | `<S-Tab>` |
 
-## Mason
+## Terminal
 
-| Action | Command |
+| Action | Keys |
 |---|---|
-| Open Mason UI | `:Mason` |
-| Update registry/packages | `:MasonUpdate` |
-| Install packages | `:MasonInstall <name>` |
-| Health check | `:checkhealth mason` |
-
-## Useful Ex commands
-
-| Action | Command |
-|---|---|
-| Write file | `:w` |
-| Quit window | `:q` |
-| Force quit window | `:q!` |
-| Write and quit | `:wq` |
-| Quit all | `:qa` |
-| Force quit all | `:qa!` |
-| Edit file | `:e path/to/file` |
-| Reload current file from disk | `:e!` |
-| Show current file path | `:echo expand('%:p')` |
-| Show current filetype | `:set ft?` |
-| Show current working directory | `:pwd` |
-| Change current working directory | `:cd path` |
-
-## Mental model reminders
-
-- Do not live in insert mode. Move and edit in normal mode, type in insert mode.
-- Prefer `operator + text object`: `ciw`, `ci"`, `dib`, `yip`, `gcip`.
-- Use LSP rename for symbols. Use Grug-Far for plain text across files.
-- Use Diffview to read diffs, Neogit to drive Git, and Gitsigns for small hunk operations in the current file.
-- Use fzf-lua for finding, Neo-tree for browsing, Oil-style workflows only if you add or use an editable filesystem buffer later.
+| Exit terminal mode | `<Esc><Esc>` |

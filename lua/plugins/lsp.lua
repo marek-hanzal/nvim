@@ -20,13 +20,6 @@ return {
 				}),
 
 				callback = function(event)
-					local client = vim.lsp.get_client_by_id(event.data.client_id)
-
-					if client then
-						client.server_capabilities.documentFormattingProvider = false
-						client.server_capabilities.documentRangeFormattingProvider = false
-					end
-
 					local function map(mode, lhs, rhs, desc)
 						vim.keymap.set(mode, lhs, rhs, {
 							buffer = event.buf,
@@ -44,36 +37,6 @@ return {
 
 					map("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
 					map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
-
-					map({ "n", "x" }, "<leader>cf", function()
-						local actions = {
-							"source.removeUnusedImports.ts",
-							"source.organizeImports.ts",
-						}
-
-                        local delay = 50
-
-						for index, action in ipairs(actions) do
-							vim.defer_fn(function()
-								vim.lsp.buf.code_action({
-									apply = true,
-									context = {
-										only = {
-											action,
-										},
-										diagnostics = {},
-									},
-								})
-							end, (index - 1) * delay)
-						end
-
-						vim.defer_fn(function()
-							require("conform").format({
-								async = true,
-								lsp_fallback = true,
-							})
-						end, #actions * delay)
-					end)
 				end,
 			})
 

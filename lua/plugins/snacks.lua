@@ -19,6 +19,11 @@ return {
 			lazygit = {
 				enabled = true,
 				configure = true,
+				config = {
+					gui = {
+						nerdFontsVersion = "3",
+					},
+				},
 			},
 			styles = {
 				lazygit = {
