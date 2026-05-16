@@ -115,7 +115,19 @@ function M.on_lsp_attach(event)
 end
 
 function M.setup()
-	map("n", "<leader>cd", vim.diagnostic.open_float, "Line diagnostic")
+	map("n", "<leader>cd", function()
+		require("fzf-lua").diagnostics_document({
+			sort = true,
+			fzf_opts = {
+				["--no-input"] = true,
+			},
+			winopts = {
+				preview = {
+					hidden = true,
+				},
+			},
+		})
+	end, "Buffer diagnostics")
 	map("n", "<leader>cq", vim.diagnostic.setloclist, "Diagnostics to location list")
 	map({ "n", "x" }, "<leader>bf", format_buffer, "Format buffer")
 	map("n", "<leader>cf", cleanup_buffer, "Clean up buffer")
