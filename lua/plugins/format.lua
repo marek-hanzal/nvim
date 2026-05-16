@@ -1,3 +1,22 @@
+local cleanup_kinds_by_ft = {
+	javascript = {
+		"source.removeUnusedImports.ts",
+		"source.organizeImports.ts",
+	},
+	javascriptreact = {
+		"source.removeUnusedImports.ts",
+		"source.organizeImports.ts",
+	},
+	typescript = {
+		"source.removeUnusedImports.ts",
+		"source.organizeImports.ts",
+	},
+	typescriptreact = {
+		"source.removeUnusedImports.ts",
+		"source.organizeImports.ts",
+	},
+}
+
 local function format_buffer()
 	require("conform").format({
 		async = true,
@@ -5,9 +24,24 @@ local function format_buffer()
 	})
 end
 
+local function get_position_encoding(bufnr)
+	local clients = vim.lsp.get_clients({
+		bufnr = bufnr,
+	})
+
+	for _, client in ipairs(clients) do
+		if client.offset_encoding then
+			return client.offset_encoding
+		end
+	end
+
+	return "utf-16"
+end
+
 local function run_code_action_sync(kind, timeout_ms)
 	local bufnr = vim.api.nvim_get_current_buf()
-	local range_params = vim.lsp.util.make_range_params(0, "utf-16")
+	local position_encoding = get_position_encoding(bufnr)
+	local range_params = vim.lsp.util.make_range_params(0, position_encoding)
 	---@type lsp.CodeActionParams
 	local params = {
 		textDocument = range_params.textDocument,
@@ -29,8 +63,8 @@ local function run_code_action_sync(kind, timeout_ms)
 	for client_id, result in pairs(results) do
 		local client = vim.lsp.get_client_by_id(client_id)
 
-		for _, action in pairs(result.result or {}) do
-			if client then
+		if client then
+			for _, action in pairs(result.result or {}) do
 				if action.edit then
 					vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
 				end
@@ -49,10 +83,7 @@ local function run_code_action_sync(kind, timeout_ms)
 end
 
 local function cleanup_buffer()
-	local kinds = {
-		"source.removeUnusedImports.ts",
-		"source.organizeImports.ts",
-	}
+	local kinds = cleanup_kinds_by_ft[vim.bo.filetype] or {}
 
 	for _, kind in ipairs(kinds) do
 		run_code_action_sync(kind, 1000)

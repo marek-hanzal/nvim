@@ -13,11 +13,11 @@ keymap("i", "<M-b>", "<C-o>b", { desc = "Move word left" })
 keymap("i", "<M-f>", "<C-o>w", { desc = "Move word right" })
 
 keymap("n", "<leader>cd", vim.diagnostic.open_float, {
-  desc = "Line diagnostic",
+	desc = "Line diagnostic",
 })
 
 keymap("n", "<leader>cq", vim.diagnostic.setloclist, {
-  desc = "Diagnostics to location list",
+	desc = "Diagnostics to location list",
 })
 
 keymap("t", "<Esc><Esc>", [[<C-\><C-n>]], {

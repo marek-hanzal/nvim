@@ -179,8 +179,11 @@ These mappings exist only in buffers with an attached LSP client.
 |---|---|
 | Go to definition | `gd` |
 | Go to declaration | `gD` |
+| Go to type definition | `gI` |
 | Go to implementation | `gi` |
 | References | `gr` |
+| Next diagnostic | `]d` |
+| Previous diagnostic | `[d` |
 | Hover | `K` |
 | Signature help | `<leader>cs` |
 | Rename symbol | `<leader>cr` |
