@@ -86,6 +86,14 @@ local function format_buffer()
 	})
 end
 
+local function open_fzf_lsp_picker(picker, opts)
+	---@diagnostic disable-next-line: param-type-mismatch
+	require("fzf-lua")[picker](vim.tbl_deep_extend("force", {
+		jump1 = true,
+		previewer = true,
+	}, opts or {}))
+end
+
 local function cleanup_buffer()
 	local kinds = cleanup_kinds_by_ft[vim.bo.filetype] or {}
 
@@ -101,13 +109,33 @@ function M.on_lsp_attach(event)
 		buffer = event.buf,
 	}
 
-	map("n", "gd", vim.lsp.buf.definition, "Goto definition", opts)
-	map("n", "gD", vim.lsp.buf.declaration, "Goto declaration", opts)
-	map("n", "gI", vim.lsp.buf.type_definition, "Goto type definition", opts)
-	map("n", "gi", vim.lsp.buf.implementation, "Goto implementation", opts)
-	map("n", "gr", vim.lsp.buf.references, "References", opts)
-	map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic", opts)
-	map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic", opts)
+	map("n", "gd", function()
+		open_fzf_lsp_picker("lsp_definitions")
+	end, "Goto definition", opts)
+	map("n", "gD", function()
+		open_fzf_lsp_picker("lsp_declarations")
+	end, "Goto declaration", opts)
+	map("n", "gI", function()
+		open_fzf_lsp_picker("lsp_typedefs")
+	end, "Goto type definition", opts)
+	map("n", "gi", function()
+		open_fzf_lsp_picker("lsp_implementations")
+	end, "Goto implementation", opts)
+	map("n", "gr", function()
+		open_fzf_lsp_picker("lsp_references")
+	end, "References", opts)
+	map("n", "]d", function()
+		vim.diagnostic.jump({
+			count = 1,
+			float = false,
+		})
+	end, "Next diagnostic", opts)
+	map("n", "[d", function()
+		vim.diagnostic.jump({
+			count = -1,
+			float = false,
+		})
+	end, "Previous diagnostic", opts)
 	map("n", "K", vim.lsp.buf.hover, "Hover", opts)
 	map("n", "<leader>cs", vim.lsp.buf.signature_help, "Signature help", opts)
 	map("n", "<leader>cr", vim.lsp.buf.rename, "Rename", opts)
