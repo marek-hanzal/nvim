@@ -13,6 +13,7 @@ return {
 				"javascript",
 				"typescript",
 				"tsx",
+				"php",
 
 				"json",
 

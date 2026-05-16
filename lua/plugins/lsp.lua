@@ -43,6 +43,8 @@ return {
 
 			vim.lsp.config("ts_ls", {})
 
+			vim.lsp.config("intelephense", {})
+
 			vim.lsp.config("jsonls", {
 				init_options = {
 					provideFormatter = false,
@@ -93,6 +95,7 @@ return {
 			vim.lsp.enable({
 				"lua_ls",
 				"ts_ls",
+				"intelephense",
 				"jsonls",
 				"taplo",
 				"tailwindcss",

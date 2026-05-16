@@ -20,6 +20,7 @@ return {
 			ensure_installed = {
 				"lua-language-server",
 				"typescript-language-server",
+				"intelephense",
 				"json-lsp",
 				"taplo",
 				"tailwindcss-language-server",
