@@ -41,6 +41,8 @@ return {
 				},
 			})
 
+			vim.lsp.config("biome", {})
+
 			vim.lsp.config("ts_ls", {})
 
 			vim.lsp.config("intelephense", {})
@@ -93,6 +95,7 @@ return {
 			vim.lsp.config("gh_actions_ls", {})
 
 			vim.lsp.enable({
+				"biome",
 				"lua_ls",
 				"ts_ls",
 				"intelephense",
