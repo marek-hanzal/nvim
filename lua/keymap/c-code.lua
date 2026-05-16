@@ -4,41 +4,116 @@ local M = {}
 
 local cleanup_kinds_by_ft = {
 	javascript = {
-		"source.removeUnusedImports.ts",
-		"source.organizeImports.ts",
+		{
+			kind = "source.removeUnusedImports.ts",
+			client = "ts_ls",
+		},
+		{
+			kind = "source.organizeImports.ts",
+			client = "ts_ls",
+		},
+		{
+			kind = "source.fixAll.biome",
+			client = "biome",
+		},
+		{
+			kind = "source.organizeImports",
+			client = "biome",
+		},
 	},
 	javascriptreact = {
-		"source.removeUnusedImports.ts",
-		"source.organizeImports.ts",
+		{
+			kind = "source.removeUnusedImports.ts",
+			client = "ts_ls",
+		},
+		{
+			kind = "source.organizeImports.ts",
+			client = "ts_ls",
+		},
+		{
+			kind = "source.fixAll.biome",
+			client = "biome",
+		},
+		{
+			kind = "source.organizeImports",
+			client = "biome",
+		},
 	},
 	typescript = {
-		"source.removeUnusedImports.ts",
-		"source.organizeImports.ts",
+		{
+			kind = "source.removeUnusedImports.ts",
+			client = "ts_ls",
+		},
+		{
+			kind = "source.organizeImports.ts",
+			client = "ts_ls",
+		},
+		{
+			kind = "source.fixAll.biome",
+			client = "biome",
+		},
+		{
+			kind = "source.organizeImports",
+			client = "biome",
+		},
 	},
 	typescriptreact = {
-		"source.removeUnusedImports.ts",
-		"source.organizeImports.ts",
+		{
+			kind = "source.removeUnusedImports.ts",
+			client = "ts_ls",
+		},
+		{
+			kind = "source.organizeImports.ts",
+			client = "ts_ls",
+		},
+		{
+			kind = "source.fixAll.biome",
+			client = "biome",
+		},
+		{
+			kind = "source.organizeImports",
+			client = "biome",
+		},
 	},
 }
 
-local function get_position_encoding(bufnr)
-	local clients = vim.lsp.get_clients({
-		bufnr = bufnr,
-	})
-
-	for _, client in ipairs(clients) do
-		if client.offset_encoding then
-			return client.offset_encoding
-		end
+local function resolve_code_action(client, action, timeout_ms)
+	if action.edit or action.command then
+		return action
 	end
 
-	return "utf-16"
+	if not client:supports_method("codeAction/resolve") then
+		return action
+	end
+
+	local response = client:request_sync("codeAction/resolve", action, timeout_ms, 0)
+
+	if response and response.result then
+		return response.result
+	end
+
+	return action
 end
 
-local function run_code_action_sync(kind, timeout_ms)
+local function run_code_action_sync(action_spec, timeout_ms)
 	local bufnr = vim.api.nvim_get_current_buf()
-	local position_encoding = get_position_encoding(bufnr)
-	local range_params = vim.lsp.util.make_range_params(0, position_encoding)
+	local last_line = vim.api.nvim_buf_line_count(bufnr)
+	local last_line_text = vim.api.nvim_buf_get_lines(bufnr, last_line - 1, last_line, false)[1] or ""
+	local kind = action_spec.kind
+	local range_params = {
+		textDocument = vim.lsp.util.make_text_document_params(bufnr),
+		range = {
+			start = {
+				line = 0,
+				character = 0,
+			},
+			["end"] = {
+				line = math.max(last_line - 1, 0),
+				character = vim.str_utfindex(last_line_text),
+			},
+		},
+	}
+
 	---@type lsp.CodeActionParams
 	local params = {
 		textDocument = range_params.textDocument,
@@ -60,16 +135,18 @@ local function run_code_action_sync(kind, timeout_ms)
 	for client_id, result in pairs(results) do
 		local client = vim.lsp.get_client_by_id(client_id)
 
-		if client then
+		if client and (not action_spec.client or client.name == action_spec.client) then
 			for _, action in pairs(result.result or {}) do
-				if action.edit then
-					vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
+				local resolved_action = resolve_code_action(client, action, timeout_ms)
+
+				if resolved_action.edit then
+					vim.lsp.util.apply_workspace_edit(resolved_action.edit, client.offset_encoding)
 				end
 
-				local command = action.command
+				local command = resolved_action.command
 
 				if command then
-					client:exec_cmd(type(command) == "table" and command or action, {
+					client:exec_cmd(type(command) == "table" and command or resolved_action, {
 						bufnr = bufnr,
 						client_id = client_id,
 					})
@@ -95,10 +172,10 @@ local function open_fzf_lsp_picker(picker, opts)
 end
 
 local function cleanup_buffer()
-	local kinds = cleanup_kinds_by_ft[vim.bo.filetype] or {}
+	local action_specs = cleanup_kinds_by_ft[vim.bo.filetype] or {}
 
-	for _, kind in ipairs(kinds) do
-		run_code_action_sync(kind, 1000)
+	for _, action_spec in ipairs(action_specs) do
+		run_code_action_sync(action_spec, 1000)
 	end
 
 	format_buffer()
