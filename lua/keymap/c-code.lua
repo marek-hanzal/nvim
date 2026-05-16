@@ -9,15 +9,7 @@ local cleanup_kinds_by_ft = {
 			client = "ts_ls",
 		},
 		{
-			kind = "source.organizeImports.ts",
-			client = "ts_ls",
-		},
-		{
-			kind = "source.fixAll.biome",
-			client = "biome",
-		},
-		{
-			kind = "source.organizeImports",
+			kind = "source.organizeImports.biome",
 			client = "biome",
 		},
 	},
@@ -27,15 +19,7 @@ local cleanup_kinds_by_ft = {
 			client = "ts_ls",
 		},
 		{
-			kind = "source.organizeImports.ts",
-			client = "ts_ls",
-		},
-		{
-			kind = "source.fixAll.biome",
-			client = "biome",
-		},
-		{
-			kind = "source.organizeImports",
+			kind = "source.organizeImports.biome",
 			client = "biome",
 		},
 	},
@@ -45,15 +29,7 @@ local cleanup_kinds_by_ft = {
 			client = "ts_ls",
 		},
 		{
-			kind = "source.organizeImports.ts",
-			client = "ts_ls",
-		},
-		{
-			kind = "source.fixAll.biome",
-			client = "biome",
-		},
-		{
-			kind = "source.organizeImports",
+			kind = "source.organizeImports.biome",
 			client = "biome",
 		},
 	},
@@ -63,15 +39,7 @@ local cleanup_kinds_by_ft = {
 			client = "ts_ls",
 		},
 		{
-			kind = "source.organizeImports.ts",
-			client = "ts_ls",
-		},
-		{
-			kind = "source.fixAll.biome",
-			client = "biome",
-		},
-		{
-			kind = "source.organizeImports",
+			kind = "source.organizeImports.biome",
 			client = "biome",
 		},
 	},
