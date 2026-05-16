@@ -4,7 +4,7 @@ return {
 		event = "VeryLazy",
 		opts = {
 			stages = "static",
-			timeout = 2500,
+			timeout = 4000,
 			max_width = 140,
 			max_height = 18,
 			background_colour = "#000000",
