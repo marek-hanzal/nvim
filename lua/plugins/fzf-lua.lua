@@ -72,17 +72,8 @@ return {
 						return
 					end
 
-					local tree = state.tree
-					if not tree then
-						return
-					end
-
-					---@diagnostic disable-next-line: undefined-field
-					local node = tree:get_node(node_id)
-					if node and node.type == "directory" and not node:is_expanded() then
-						filesystem.toggle_directory(state, node, node_id, false)
-						renderer.focus_node(state, node_id)
-					end
+					filesystem.toggle_directory(state)
+					renderer.focus_node(state, node_id)
 				end)
 			end
 
