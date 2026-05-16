@@ -33,6 +33,9 @@ return {
 					mappings = {
 						["<Left>"] = "close_node",
 						["<Right>"] = "open",
+						["<Esc>"] = function()
+							vim.cmd("wincmd p")
+						end,
 
 						["x"] = "cut_to_clipboard",
 						["y"] = "copy_to_clipboard",
