@@ -48,23 +48,6 @@ return {
 			local nt_utils = require("neo-tree.utils")
 			local uv = vim.uv or vim.loop
 
-			local function focus_and_expand_directory(state, node_id)
-				local focused = renderer.focus_node(state, node_id)
-
-				if not focused then
-					return false
-				end
-
-				local node = state.tree and state.tree:get_node(node_id)
-
-				if node and node.type == "directory" and not node:is_expanded() then
-					filesystem.toggle_directory(state, node, nil, false)
-					renderer.focus_node(state, node_id)
-				end
-
-				return true
-			end
-
 			local function smart_file_or_dir(selected, picker_opts)
 				if not selected or not selected[1] then
 					return
@@ -92,10 +75,12 @@ return {
 						local root = state.path or manager.get_cwd(state)
 
 						manager.navigate(state, root, node_id, function()
-							if not focus_and_expand_directory(state, node_id) then
-								vim.defer_fn(function()
-									focus_and_expand_directory(state, node_id)
-								end, 25)
+							local focused = renderer.focus_node(state, node_id)
+							local node = focused and state.tree and state.tree:get_node(node_id)
+
+							if node and node.type == "directory" and not node:is_expanded() then
+								filesystem.toggle_directory(state, node, nil, false)
+								renderer.focus_node(state, node_id)
 							end
 						end)
 					end)
