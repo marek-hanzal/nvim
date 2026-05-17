@@ -1,5 +1,4 @@
 local map = require("keymap.util").map
-local diagnostics_ui = require("ui.diagnostics")
 
 local M = {}
 
@@ -199,7 +198,7 @@ end
 
 function M.setup()
 	map("n", "<leader>cd", function()
-		diagnostics_ui.open_document()
+		require("ui.diagnostics").open_document()
 	end, "Buffer diagnostics")
 	map("n", "<leader>cq", vim.diagnostic.setloclist, "Diagnostics to location list")
 	map({ "n", "x" }, "<leader>bf", format_buffer, "Format buffer")
