@@ -8,6 +8,7 @@ local function open_task_output(task)
 		return
 	end
 
+	local overseer = require("overseer")
 	local winid = vim.api.nvim_get_current_win()
 	local prev_bufnr = vim.api.nvim_win_get_buf(winid)
 	local prev_filetype = vim.bo[prev_bufnr].filetype
@@ -18,6 +19,7 @@ local function open_task_output(task)
 			return
 		end
 
+		overseer.close()
 		vim.api.nvim_win_set_buf(winid, bufnr)
 		pcall(function()
 			require("overseer.util").set_term_window_opts(winid)
@@ -41,6 +43,8 @@ local function run_task()
 			dir = vim.fn.getcwd(),
 		},
 	}
+
+	overseer.close()
 
 	local function on_run(task, err)
 		if err then
