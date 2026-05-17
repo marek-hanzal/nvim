@@ -2,6 +2,7 @@ local M = {}
 
 local findings_namespace = vim.api.nvim_create_namespace("diagnostics-findings")
 local preview_namespace = vim.api.nvim_create_namespace("diagnostics-preview")
+local message_scroll_step = 16
 
 local severity_highlights = {
 	[vim.diagnostic.severity.ERROR] = "DiagnosticError",
@@ -453,10 +454,10 @@ local function setup_keymaps(state, bufnrs)
 			move_selection(1)
 		end, opts)
 		vim.keymap.set("n", "<Left>", function()
-			scroll_message(-8)
+			scroll_message(-message_scroll_step)
 		end, opts)
 		vim.keymap.set("n", "<Right>", function()
-			scroll_message(8)
+			scroll_message(message_scroll_step)
 		end, opts)
 		vim.keymap.set("n", "<CR>", open_selected, opts)
 	end
