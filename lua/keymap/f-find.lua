@@ -1,4 +1,5 @@
 local map = require("keymap.util").map
+local diagnostics_ui = require("ui.diagnostics")
 
 local M = {}
 
@@ -6,20 +7,8 @@ function M.setup()
 	map("n", "<leader><leader>", function()
 		require("fzf-lua").files()
 	end, "Find files and directories")
-	map("n", "<leader>fd", function()
-		require("fzf-lua").diagnostics_document({
-			sort = true,
-			previewer = false,
-			fzf_opts = {
-				["--no-input"] = true,
-			},
-		})
-	end, "Find buffer diagnostics")
 	map("n", "<leader>fD", function()
-		require("fzf-lua").diagnostics_workspace({
-			sort = true,
-			previewer = false,
-		})
+		diagnostics_ui.open_workspace()
 	end, "Find workspace diagnostics")
 	map("n", "<leader>fk", "<cmd>FzfLua keymaps<cr>", "Find keymaps")
 	map("n", "<leader>fl", function()

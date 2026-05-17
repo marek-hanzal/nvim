@@ -1,4 +1,5 @@
 local map = require("keymap.util").map
+local diagnostics_ui = require("ui.diagnostics")
 
 local M = {}
 
@@ -198,17 +199,7 @@ end
 
 function M.setup()
 	map("n", "<leader>cd", function()
-		require("fzf-lua").diagnostics_document({
-			sort = true,
-			fzf_opts = {
-				["--no-input"] = true,
-			},
-			winopts = {
-				preview = {
-					hidden = false,
-				},
-			},
-		})
+		diagnostics_ui.open_document()
 	end, "Buffer diagnostics")
 	map("n", "<leader>cq", vim.diagnostic.setloclist, "Diagnostics to location list")
 	map({ "n", "x" }, "<leader>bf", format_buffer, "Format buffer")
