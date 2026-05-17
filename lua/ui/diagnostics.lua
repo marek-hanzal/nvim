@@ -92,6 +92,10 @@ local function normalize_message(message)
 	return (message or ""):gsub("%s+", " "):gsub("^%s+", ""):gsub("%s+$", "")
 end
 
+local function split_lines(text)
+	return vim.split(text or "", "\n", { plain = true })
+end
+
 local function truncate_text(text, max_width)
 	if max_width <= 3 then
 		return text:sub(1, max_width), true
@@ -206,12 +210,14 @@ local function build_entries(diagnostics, width)
 	local entries = {}
 
 	for _, diagnostic in ipairs(diagnostics) do
+		local raw_message = diagnostic.message or ""
 		local source = normalize_message(diagnostic.source)
-		local summary = normalize_message(diagnostic.message)
+		local summary = normalize_message(raw_message)
 		local code = diagnostic.code and string.format(" [%s]", diagnostic.code) or ""
 		local source_label = source ~= "" and source or "diagnostic"
-		local detail = "[" .. source_label .. "]: " .. summary .. code
-		local display = truncate_text("  " .. detail, width)
+		local detail = source_label .. ":\n\n" .. raw_message
+		local list_detail = "[" .. source_label .. "]: " .. summary .. code
+		local display = truncate_text("  " .. list_detail, width)
 
 		entries[#entries + 1] = {
 			diagnostic = diagnostic,
@@ -374,7 +380,7 @@ local function render(state)
 		return
 	end
 
-	set_buffer_lines(state.text_buf, { entry.detail })
+	set_buffer_lines(state.text_buf, split_lines(entry.detail))
 	set_preview_buffer(state, diagnostic.bufnr)
 	highlight_preview_location(state.preview_buf, diagnostic)
 	vim.api.nvim_win_set_cursor(state.preview_win, {
