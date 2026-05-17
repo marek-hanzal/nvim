@@ -14,7 +14,6 @@ return {
 				{ "<leader>f", group = "find/pickers" },
 				{ "<leader>j", group = "jump" },
 				{ "<leader>g", group = "git" },
-				{ "<leader>r", group = "run" },
 				{ "<leader>m", group = "markdown" },
 				{ "<leader>h", group = "http" },
 				{ "<leader>l", group = "line" },

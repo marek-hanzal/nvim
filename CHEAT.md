@@ -18,8 +18,6 @@ Leader is `<Space>`. Local leader is `,`. Alt / Option is written as `<M-...>`.
 | Current line diagnostic | `<leader>cd` |
 | Diagnostics to location list | `<leader>cq` |
 | LazyGit | `<leader>gg` |
-| Run task | `<leader>rr` |
-| Toggle task panel | `<leader>rt` |
 | Toggle database UI | `<leader>dd` |
 
 ## Navigation
@@ -302,24 +300,6 @@ Use `TODO:` and `NOTE:`.
 | Next todo | `<leader>tn` |
 | Previous todo | `<leader>tp` |
 | TODO list picker | `<leader>ft` |
-
-## Tasks: Overseer
-
-| Action | Keys / command |
-|---|---|
-| Run task | `<leader>rr` / `:OverseerRun` |
-| Toggle task panel | `<leader>rt` / `:OverseerToggle right` |
-
-Inside the task panel:
-
-| Action | Key |
-|---|---|
-| Close | `q` |
-| Task action | `Enter` |
-| Open output | `o` |
-| Restart | `r` |
-| Stop | `s` |
-| Dispose | `d` |
 
 ## HTTP: Kulala
 

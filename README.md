@@ -31,7 +31,6 @@ Current grouped modules:
 - `h-http.lua`
 - `l-line.lua`
 - `m-markdown.lua`
-- `r-run.lua`
 - `t-todo.lua`
 
 ## What is allowed outside `lua/keymap/`
