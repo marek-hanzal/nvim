@@ -40,9 +40,6 @@ return {
 						["x"] = "cut_to_clipboard",
 						["y"] = "copy_to_clipboard",
 						["p"] = "paste_from_clipboard",
-
-						["m"] = "move",
-						["c"] = "copy",
 					},
 				},
 			},
