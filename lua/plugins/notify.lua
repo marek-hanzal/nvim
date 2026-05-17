@@ -1,10 +1,11 @@
 return {
 	{
 		"rcarriga/nvim-notify",
-		event = "VeryLazy",
+		lazy = false,
 		opts = {
 			stages = "static",
 			timeout = 4000,
+			merge_duplicates = false,
 			max_width = 140,
 			max_height = 18,
 			background_colour = "#000000",
