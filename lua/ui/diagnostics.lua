@@ -214,19 +214,15 @@ end
 local function build_list_lines(entries)
 	local lines = {}
 
-	for index, entry in ipairs(entries) do
+	for _, entry in ipairs(entries) do
 		lines[#lines + 1] = entry.display
-
-		if index < #entries then
-			lines[#lines + 1] = ""
-		end
 	end
 
 	return lines
 end
 
 local function entry_line(index)
-	return ((index - 1) * 2)
+	return (index - 1)
 end
 
 local function current_entry(state)
@@ -294,7 +290,7 @@ end
 
 local function normalize_cursor(state)
 	local cursor = vim.api.nvim_win_get_cursor(state.list_win)
-	local next_index = math.floor((cursor[1] - 1) / 2) + 1
+	local next_index = cursor[1]
 	local target_index = math.min(math.max(next_index, 1), #state.entries)
 	local target_line = entry_line(target_index) + 1
 	local index_changed = state.current_index ~= target_index
