@@ -45,3 +45,6 @@ opt.wildmode = {
 
 opt.wildmenu = true
 opt.wildignorecase = true
+
+-- Let gf/gF treat path segments like "@migrations" as part of the filename.
+opt.isfname:append("@-@")
