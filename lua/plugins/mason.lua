@@ -28,6 +28,7 @@ return {
 				"gh-actions-language-server",
 				"stylua",
 				"biome",
+				"prettier",
 				"markdownlint-cli2",
 			},
 			run_on_start = true,

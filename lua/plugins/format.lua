@@ -52,6 +52,10 @@ return {
 					"biome",
 				},
 
+				yaml = {
+					"prettier",
+				},
+
 				css = {
 					"biome",
 				},

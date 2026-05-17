@@ -59,6 +59,7 @@ The rule is:
 
 - `conform.nvim` is the primary formatter
 - LSP formatting is used as fallback where no external formatter is configured
+- YAML is formatted via `prettier`
 - cleanup/format workflows should stay deterministic and easy to reason about
 
 ## Maintenance notes

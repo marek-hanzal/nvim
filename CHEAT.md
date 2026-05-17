@@ -199,6 +199,7 @@ These mappings exist only in buffers with an attached LSP client.
 ## Formatting and linting
 
 Conform is the primary formatter. LSP is used as a fallback when no external formatter is configured for the current filetype.
+YAML uses `prettier`.
 
 | Action | Keys / command |
 |---|---|
