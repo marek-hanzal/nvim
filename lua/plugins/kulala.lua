@@ -5,6 +5,10 @@ return {
 			"http",
 			"rest",
 		},
-		opts = {},
+		opts = {
+			ui = {
+				split_direction = "horizontal",
+			},
+		},
 	},
 }
