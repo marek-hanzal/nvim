@@ -41,7 +41,8 @@ local function blend_colors(foreground, background, alpha)
 	end
 
 	local red = blend_channel(bit.rshift(foreground, 16), bit.rshift(background, 16), alpha)
-	local green = blend_channel(bit.band(bit.rshift(foreground, 8), 0xFF), bit.band(bit.rshift(background, 8), 0xFF), alpha)
+	local green =
+		blend_channel(bit.band(bit.rshift(foreground, 8), 0xFF), bit.band(bit.rshift(background, 8), 0xFF), alpha)
 	local blue = blend_channel(bit.band(foreground, 0xFF), bit.band(background, 0xFF), alpha)
 
 	return bit.lshift(red, 16) + bit.lshift(green, 8) + blue
@@ -127,12 +128,20 @@ local function set_window_options(winid, options)
 end
 
 local function open_window(bufnr, enter, config)
-	return vim.api.nvim_open_win(bufnr, enter, vim.tbl_extend("force", {
-		relative = "editor",
-		style = "minimal",
-		zindex = 60,
-		border = "single",
-	}, config))
+	return vim.api.nvim_open_win(
+		bufnr,
+		enter,
+		vim.tbl_extend("force", {
+			relative = "editor",
+			style = "minimal",
+			zindex = 60,
+			border = "single",
+		}, config)
+	)
+end
+
+local function clamp(value, min_value, max_value)
+	return math.min(math.max(value, min_value), max_value)
 end
 
 local function get_text_width(winid)
@@ -179,7 +188,9 @@ local function find_nearest_diagnostic_index(diagnostics, bufnr, cursor_line, cu
 				exact_line_col_delta = col_delta
 			end
 
-			if line_delta < nearest_line_delta or (line_delta == nearest_line_delta and col_delta < nearest_col_delta) then
+			if
+				line_delta < nearest_line_delta or (line_delta == nearest_line_delta and col_delta < nearest_col_delta)
+			then
 				nearest_index = index
 				nearest_line_delta = line_delta
 				nearest_col_delta = col_delta
@@ -272,6 +283,23 @@ local function close_state(state)
 	end
 end
 
+local function set_preview_buffer(state, bufnr)
+	if not (bufnr and vim.api.nvim_buf_is_valid(bufnr)) then
+		return
+	end
+
+	if not vim.api.nvim_buf_is_loaded(bufnr) then
+		vim.fn.bufload(bufnr)
+	end
+
+	if state.preview_buf and state.preview_buf ~= bufnr and vim.api.nvim_buf_is_valid(state.preview_buf) then
+		vim.api.nvim_buf_clear_namespace(state.preview_buf, preview_namespace, 0, -1)
+	end
+
+	state.preview_buf = bufnr
+	vim.api.nvim_win_set_buf(state.preview_win, bufnr)
+end
+
 local function apply_list_highlights(state)
 	vim.api.nvim_buf_clear_namespace(state.list_buf, findings_namespace, 0, -1)
 
@@ -346,19 +374,10 @@ local function render(state)
 	end
 
 	set_buffer_lines(state.text_buf, { entry.detail })
-
-	local preview_buf = vim.fn.bufadd(vim.api.nvim_buf_get_name(diagnostic.bufnr))
-	vim.fn.bufload(preview_buf)
-
-	if state.preview_buf and state.preview_buf ~= preview_buf and vim.api.nvim_buf_is_valid(state.preview_buf) then
-		vim.api.nvim_buf_clear_namespace(state.preview_buf, preview_namespace, 0, -1)
-	end
-
-	state.preview_buf = preview_buf
-	vim.api.nvim_win_set_buf(state.preview_win, preview_buf)
-	highlight_preview_location(preview_buf, diagnostic)
+	set_preview_buffer(state, diagnostic.bufnr)
+	highlight_preview_location(state.preview_buf, diagnostic)
 	vim.api.nvim_win_set_cursor(state.preview_win, {
-		math.min(diagnostic.lnum + 1, vim.api.nvim_buf_line_count(preview_buf)),
+		math.min(diagnostic.lnum + 1, vim.api.nvim_buf_line_count(state.preview_buf)),
 		diagnostic.col or 0,
 	})
 
@@ -458,12 +477,19 @@ local function open_picker(diagnostics, opts)
 	define_severity_highlights()
 
 	local ui = vim.api.nvim_list_uis()[1]
-	local width = math.max(ui.width, 80)
-	local total_height = math.max(ui.height - vim.o.cmdheight, 24)
-	local inner_height = math.max(total_height - 6, 18)
-	local findings_height = math.max(math.floor(inner_height * 0.25), 6)
-	local message_height = math.max(math.floor(inner_height * 0.50), 8)
-	local preview_height = math.max(inner_height - findings_height - message_height, 6)
+	local return_win = vim.api.nvim_get_current_win()
+	local width = math.max(ui.width - 2, 1)
+	local total_height = math.max(ui.height - vim.o.cmdheight, 1)
+
+	if width < 20 or total_height < 9 then
+		vim.notify("Diagnostics UI needs a larger editor area", vim.log.levels.WARN)
+		return
+	end
+
+	local inner_height = math.max(total_height - 6, 1)
+	local findings_height = clamp(math.floor(inner_height * 0.25), 3, inner_height)
+	local message_height = clamp(math.floor(inner_height * 0.50), 3, inner_height - findings_height)
+	local preview_height = math.max(inner_height - findings_height - message_height, 1)
 
 	local list_buf = make_scratch_buffer()
 	local text_buf = make_scratch_buffer()
@@ -506,7 +532,7 @@ local function open_picker(diagnostics, opts)
 		normalizing = false,
 		preview_buf = preview_buf,
 		preview_win = preview_win,
-		return_win = vim.api.nvim_get_current_win(),
+		return_win = return_win,
 		text_buf = text_buf,
 		text_win = text_win,
 	}
@@ -546,7 +572,7 @@ local function open_picker(diagnostics, opts)
 		signcolumn = "yes",
 	})
 
-	setup_keymaps(state, { list_buf, text_buf })
+	setup_keymaps(state, { list_buf, text_buf, preview_buf })
 
 	state.augroup = vim.api.nvim_create_augroup("custom-diagnostics-" .. list_buf, { clear = true })
 
