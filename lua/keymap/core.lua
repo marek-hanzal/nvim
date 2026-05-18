@@ -80,6 +80,10 @@ function M.setup()
 			silent = true,
 		}
 	)
+
+	map("n", "<PageDown>", "<C-d>zz", "Half page down and center")
+
+	map("n", "<PageUp>", "<C-u>zz", "Half page up and center")
 end
 
 return M
