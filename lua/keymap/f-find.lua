@@ -9,6 +9,7 @@ function M.setup()
 	map("n", "<leader>fD", function()
 		require("ui.diagnostics").open_workspace()
 	end, "Find workspace diagnostics")
+	map("n", "<leader>fb", "<cmd>FzfLua buffers<cr>", "Find buffers")
 	map("n", "<leader>fk", "<cmd>FzfLua keymaps<cr>", "Find keymaps")
 	map("n", "<leader>fl", function()
 		require("fzf-lua").loclist({
