@@ -10,6 +10,7 @@ opt.relativenumber = false
 opt.cursorline = true
 
 opt.cmdheight = 0
+opt.showmode = false
 
 opt.tabstop = 4
 opt.shiftwidth = 4
@@ -21,6 +22,8 @@ opt.wrap = false
 
 opt.ignorecase = true
 opt.smartcase = true
+opt.iskeyword:append("-")
+opt.selection = "inclusive"
 
 opt.termguicolors = true
 opt.signcolumn = "yes"
@@ -30,7 +33,14 @@ opt.clipboard = "unnamedplus"
 opt.splitright = true
 opt.splitbelow = true
 
+opt.autowrite = false
+
+opt.backspace = "indent,eol,start"
+opt.errorbells = false
+opt.autochdir = false
+
 opt.undofile = true
+opt.encoding = "UTF-8"
 
 opt.scrolloff = 8
 opt.sidescrolloff = 8

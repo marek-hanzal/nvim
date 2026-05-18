@@ -41,33 +41,45 @@ function M.setup()
 		require("mini.move").move_selection("down")
 	end, "Move selection down")
 
-	map({ "i", "s" }, "<Tab>", function()
-		local luasnip = require("luasnip")
+	map(
+		{ "i", "s" },
+		"<Tab>",
+		function()
+			local luasnip = require("luasnip")
 
-		if luasnip.expand_or_locally_jumpable() then
-			luasnip.expand_or_jump()
-			return ""
-		end
+			if luasnip.expand_or_locally_jumpable() then
+				luasnip.expand_or_jump()
+				return ""
+			end
 
-		return "<Tab>"
-	end, "Expand or jump snippet", {
-		expr = true,
-		silent = true,
-	})
+			return "<Tab>"
+		end,
+		"Expand or jump snippet",
+		{
+			expr = true,
+			silent = true,
+		}
+	)
 
-	map({ "i", "s" }, "<S-Tab>", function()
-		local luasnip = require("luasnip")
+	map(
+		{ "i", "s" },
+		"<S-Tab>",
+		function()
+			local luasnip = require("luasnip")
 
-		if luasnip.locally_jumpable(-1) then
-			luasnip.jump(-1)
-			return ""
-		end
+			if luasnip.locally_jumpable(-1) then
+				luasnip.jump(-1)
+				return ""
+			end
 
-		return "<S-Tab>"
-	end, "Jump snippet back", {
-		expr = true,
-		silent = true,
-	})
+			return "<S-Tab>"
+		end,
+		"Jump snippet back",
+		{
+			expr = true,
+			silent = true,
+		}
+	)
 end
 
 return M

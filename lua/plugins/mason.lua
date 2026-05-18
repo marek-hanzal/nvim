@@ -28,6 +28,7 @@ return {
 				"gh-actions-language-server",
 				"stylua",
 				"biome",
+				"bash-language-server",
 				"prettier",
 				"markdownlint-cli2",
 			},
