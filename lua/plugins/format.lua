@@ -56,6 +56,10 @@ return {
 					"prettier",
 				},
 
+				sql = {
+					"sql_formatter",
+				},
+
 				css = {
 					"biome",
 				},

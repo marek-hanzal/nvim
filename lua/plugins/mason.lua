@@ -30,6 +30,7 @@ return {
 				"biome",
 				"bash-language-server",
 				"prettier",
+				"sql-formatter",
 				"markdownlint-cli2",
 			},
 			run_on_start = true,

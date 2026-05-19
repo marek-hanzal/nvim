@@ -198,6 +198,7 @@ These mappings exist only in buffers with an attached LSP client.
 
 Conform is the primary formatter. LSP is used as a fallback when no external formatter is configured for the current filetype.
 YAML uses `prettier`.
+SQL uses `sql-formatter`.
 
 | Action | Keys / command |
 |---|---|
@@ -213,6 +214,7 @@ YAML uses `prettier`.
 | Lua | `stylua` |
 | JavaScript / TypeScript / JSX / TSX | `biome` |
 | JSON / JSONC | `biome` |
+| SQL | `sql-formatter` |
 | CSS | `biome` |
 | Other filetypes with LSP formatting support | LSP fallback |
 
