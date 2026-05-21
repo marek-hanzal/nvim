@@ -57,16 +57,16 @@ autocmd("TextYankPost", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("VimEnter", {
-	callback = function()
-		if vim.fn.argc() > 0 then
-			return
-		end
-
-		vim.cmd("Neotree toggle filesystem reveal left")
-		vim.cmd("wincmd p")
-	end,
-})
+-- vim.api.nvim_create_autocmd("VimEnter", {
+-- 	callback = function()
+-- 		if vim.fn.argc() > 0 then
+-- 			return
+-- 		end
+--
+-- 		vim.cmd("Neotree toggle filesystem reveal left")
+-- 		vim.cmd("wincmd p")
+-- 	end,
+-- })
 
 autocmd("TermOpen", {
 	group = augroup("terminal_file_nav", { clear = true }),
