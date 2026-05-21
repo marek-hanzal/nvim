@@ -7,6 +7,20 @@ return {
 			input = {
 				enabled = true,
 			},
+			indent = {
+				enabled = true,
+				indent = {
+					char = "│",
+				},
+				scope = {
+					enabled = true,
+					underline = false,
+				},
+				animate = {
+					enabled = true,
+					style = "out",
+				},
+			},
 			bigfile = {
 				enabled = true,
 				notify = true,
