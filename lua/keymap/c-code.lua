@@ -2,6 +2,42 @@ local map = require("keymap.util").map
 
 local M = {}
 
+local function setup_document_highlight(event)
+	local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+	if not client or not client:supports_method("textDocument/documentHighlight") then
+		return
+	end
+
+	local group = vim.api.nvim_create_augroup("lsp_document_highlight_" .. event.buf, {
+		clear = true,
+	})
+
+	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+		group = group,
+		buffer = event.buf,
+		callback = vim.lsp.buf.document_highlight,
+	})
+
+	vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "InsertEnter" }, {
+		group = group,
+		buffer = event.buf,
+		callback = vim.lsp.buf.clear_references,
+	})
+
+	vim.api.nvim_create_autocmd("LspDetach", {
+		group = group,
+		buffer = event.buf,
+		callback = function(detach_event)
+			vim.lsp.buf.clear_references()
+			vim.api.nvim_clear_autocmds({
+				group = group,
+				buffer = detach_event.buf,
+			})
+		end,
+	})
+end
+
 local cleanup_kinds_by_ft = {
 	javascript = {
 		{
@@ -153,6 +189,8 @@ function M.on_lsp_attach(event)
 	local opts = {
 		buffer = event.buf,
 	}
+
+	setup_document_highlight(event)
 
 	map("n", "gd", function()
 		open_fzf_lsp_picker("lsp_definitions")
