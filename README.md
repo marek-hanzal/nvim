@@ -69,3 +69,13 @@ The rule is:
 - When adding a new leader domain, add both:
   - a new `lua/keymap/<char>-<group>.lua`
   - a matching group entry in `lua/plugins/which-key.lua`
+
+## Buffer pruning
+
+Hidden regular file buffers are pruned automatically in least-recently-used order once their count exceeds `12`.
+
+- Visible buffers are kept
+- Modified buffers are kept
+- Special buffers such as terminals, prompts, and plugin panels are ignored
+- Override the limit with `vim.g.buffer_prune = { max_listed_buffers = 20 }`
+- Run `:BufferPrune` to trigger the cleanup manually

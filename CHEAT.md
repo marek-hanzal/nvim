@@ -173,6 +173,9 @@ Works in normal, visual, operator-pending, and insert mode.
 | Delete buffer | `<leader>bd` |
 | Force delete buffer | `<leader>bD` |
 | Delete other buffers | `<leader>bo` |
+| Prune old hidden buffers | `:BufferPrune` |
+
+Hidden regular file buffers are pruned automatically in least-recently-used order once their count exceeds `12`. Tune that with `vim.g.buffer_prune = { max_listed_buffers = ... }`.
 
 ## LSP and diagnostics
 

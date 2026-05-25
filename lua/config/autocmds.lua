@@ -2,6 +2,7 @@
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
+require("util.buffer_prune").setup()
 
 local function terminal_cfile()
 	local token = vim.fn.expand("<cWORD>")
