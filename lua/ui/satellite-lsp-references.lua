@@ -39,6 +39,10 @@ local function supported_client_exists(bufnr)
 	return false
 end
 
+local function get_client_position_encoding(client)
+	return client.position_encoding or client.offset_encoding or "utf-16"
+end
+
 function M.clear(bufnr)
 	cache[bufnr] = nil
 	refresh_satellite()
@@ -50,20 +54,19 @@ function M.capture(bufnr)
 		return
 	end
 
-	local responses = vim.lsp.buf_request_sync(
-		bufnr,
-		"textDocument/documentHighlight",
-		vim.lsp.util.make_position_params(),
-		200
-	)
 	local lines = {}
 
-	for _, response in pairs(responses or {}) do
-		for _, highlight in ipairs(response.result or {}) do
-			local lnum = highlight.range.start.line
-			local kind = highlight.kind or 1
+	for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+		if client:supports_method("textDocument/documentHighlight") then
+			local params = vim.lsp.util.make_position_params(0, get_client_position_encoding(client))
+			local response = client:request_sync("textDocument/documentHighlight", params, 200, bufnr)
 
-			lines[lnum] = math.max(lines[lnum] or 0, kind)
+			for _, highlight in ipairs((response and response.result) or {}) do
+				local lnum = highlight.range.start.line
+				local kind = highlight.kind or 1
+
+				lines[lnum] = math.max(lines[lnum] or 0, kind)
+			end
 		end
 	end
 
