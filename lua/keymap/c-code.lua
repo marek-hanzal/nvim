@@ -16,13 +16,19 @@ local function setup_document_highlight(event)
 	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 		group = group,
 		buffer = event.buf,
-		callback = vim.lsp.buf.document_highlight,
+		callback = function()
+			vim.lsp.buf.document_highlight()
+			require("ui.satellite-lsp-references").capture(event.buf)
+		end,
 	})
 
 	vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "InsertEnter" }, {
 		group = group,
 		buffer = event.buf,
-		callback = vim.lsp.buf.clear_references,
+		callback = function()
+			vim.lsp.buf.clear_references()
+			require("ui.satellite-lsp-references").clear(event.buf)
+		end,
 	})
 
 	vim.api.nvim_create_autocmd("LspDetach", {
@@ -30,6 +36,7 @@ local function setup_document_highlight(event)
 		buffer = event.buf,
 		callback = function(detach_event)
 			vim.lsp.buf.clear_references()
+			require("ui.satellite-lsp-references").clear(detach_event.buf)
 			vim.api.nvim_clear_autocmds({
 				group = group,
 				buffer = detach_event.buf,

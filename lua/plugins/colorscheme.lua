@@ -19,6 +19,15 @@ return {
 					fg = colors.black,
 					bold = true,
 				}
+				highlights.SatelliteLspReferenceText = {
+					fg = colors.blue1,
+				}
+				highlights.SatelliteLspReferenceRead = {
+					fg = colors.teal,
+				}
+				highlights.SatelliteLspReferenceWrite = {
+					fg = colors.orange,
+				}
 			end,
 		},
 		config = function(_, opts)
