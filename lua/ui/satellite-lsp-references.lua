@@ -21,6 +21,10 @@ local highlights = {
 
 local cache = {}
 
+local function is_valid_mark_pos(pos)
+	return type(pos) == "number" and pos == pos and pos ~= math.huge and pos ~= -math.huge and pos >= 0 and pos % 1 == 0
+end
+
 local function refresh_satellite()
 	local ok, view = pcall(require, "satellite.view")
 
@@ -95,7 +99,7 @@ function M.register()
 		local marks_by_pos = {}
 		local lines = cache[bufnr]
 
-		if not lines then
+		if not lines or not api.nvim_win_is_valid(winid) or util.get_winheight(winid) <= 1 then
 			return {}
 		end
 
@@ -103,7 +107,7 @@ function M.register()
 			local pos = util.row_to_barpos(winid, lnum)
 			local existing = marks_by_pos[pos]
 
-			if not existing or kind > existing.kind then
+			if is_valid_mark_pos(pos) and (not existing or kind > existing.kind) then
 				marks_by_pos[pos] = {
 					kind = kind,
 				}
