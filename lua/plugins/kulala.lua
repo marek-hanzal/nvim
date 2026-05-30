@@ -6,6 +6,7 @@ return {
 			"rest",
 		},
 		opts = {
+			default_env = "dev",
 			ui = {
 				split_direction = "horizontal",
 			},
