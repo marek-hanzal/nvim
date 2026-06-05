@@ -6,6 +6,28 @@ return {
 		opts = {
 			style = "night",
 			on_highlights = function(highlights, colors)
+				highlights.NormalFloat = {
+					bg = colors.bg_dark,
+					fg = colors.fg,
+				}
+				highlights.FloatBorder = {
+					bg = colors.bg_dark,
+					fg = colors.blue,
+				}
+				highlights.LspFloatNormal = {
+					bg = "#05070d",
+					fg = colors.fg,
+				}
+				highlights.LspFloatBorder = {
+					bg = "#05070d",
+					fg = colors.orange,
+					bold = true,
+				}
+				highlights.LspFloatTitle = {
+					bg = "#05070d",
+					fg = colors.orange,
+					bold = true,
+				}
 				highlights.LspReferenceText = {
 					bg = colors.fg_gutter,
 					fg = colors.fg,
