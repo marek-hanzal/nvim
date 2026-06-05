@@ -58,6 +58,19 @@ autocmd("TextYankPost", {
 	end,
 })
 
+autocmd("TextYankPost", {
+	group = augroup("copy_yank_delete_to_clipboard", { clear = true }),
+	callback = function()
+		local event = vim.v.event
+
+		if (event.operator ~= "y" and event.operator ~= "d") or event.regname ~= "" then
+			return
+		end
+
+		vim.fn.setreg("+", event.regcontents, event.regtype)
+	end,
+})
+
 -- vim.api.nvim_create_autocmd("VimEnter", {
 -- 	callback = function()
 -- 		if vim.fn.argc() > 0 then

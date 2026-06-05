@@ -28,7 +28,9 @@ opt.selection = "inclusive"
 opt.termguicolors = true
 opt.signcolumn = "yes"
 
-opt.clipboard = "unnamedplus"
+-- Keep implicit register writes out of the system clipboard; yanks/deletes are
+-- copied explicitly from TextYankPost in autocmds.lua.
+opt.clipboard = ""
 
 opt.splitright = true
 opt.splitbelow = true
