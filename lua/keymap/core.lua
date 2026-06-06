@@ -12,11 +12,21 @@ local function blackhole_if_unnamed(lhs)
 	end
 end
 
+local function clipboard_paste_if_unnamed(lhs)
+	return function()
+		if vim.v.register == '"' then
+			return '"+' .. lhs
+		end
+
+		return lhs
+	end
+end
+
 local function visual_paste_preserving_register()
 	local register = vim.v.register
 
 	if register == '"' then
-		return '"_dP'
+		register = "+"
 	end
 
 	return '"_d"' .. register .. "P"
@@ -31,7 +41,10 @@ function M.setup()
 	map({ "n", "x" }, "S", blackhole_if_unnamed("S"), "Substitute line without yanking", { expr = true })
 	map({ "n", "x" }, "x", blackhole_if_unnamed("x"), "Delete character without yanking", { expr = true })
 	map({ "n", "x" }, "X", blackhole_if_unnamed("X"), "Delete previous character without yanking", { expr = true })
+	map("n", "p", clipboard_paste_if_unnamed("p"), "Paste from clipboard", { expr = true })
+	map("n", "P", clipboard_paste_if_unnamed("P"), "Paste before from clipboard", { expr = true })
 	map("x", "p", visual_paste_preserving_register, "Paste without yanking replaced text", { expr = true })
+	map("x", "P", visual_paste_preserving_register, "Paste before without yanking replaced text", { expr = true })
 
 	map({ "n", "x", "o" }, "<M-Left>", "b", "Move word left")
 	map({ "n", "x", "o" }, "<M-Right>", "w", "Move word right")
