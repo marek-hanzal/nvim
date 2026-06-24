@@ -153,6 +153,7 @@ Works in normal, visual, operator-pending, and insert mode.
 | Native search | `<leader>/` |
 | Project fuzzy grep | `<leader>fa` |
 | Files | `<leader>ff` |
+| Project tags | `<leader>ft` |
 | Buffer diagnostics | `<leader>fd` |
 | Workspace diagnostics | `<leader>fD` |
 | Recent files | `<leader>fr` |
@@ -162,7 +163,7 @@ Works in normal, visual, operator-pending, and insert mode.
 | Resume picker | `<leader>fR` |
 | Buffer symbols | `<leader>fs` |
 | Workspace symbols | `<leader>fS` |
-| TODO list | `<leader>ft` |
+| TODO list | `<leader>fT` |
 
 ## Buffers
 
@@ -306,7 +307,7 @@ Use `TODO:` and `NOTE:`.
 |---|---|
 | Next todo | `<leader>tn` |
 | Previous todo | `<leader>tp` |
-| TODO list picker | `<leader>ft` |
+| TODO list picker | `<leader>fT` |
 
 ## HTTP: Kulala
 

@@ -2,6 +2,15 @@ local map = require("keymap.util").map
 
 local M = {}
 
+local function open_project_tags()
+	if vim.fn.findfile("tags", ".;") == "" then
+		vim.notify("No tags file found; run :TagsGenerate first", vim.log.levels.WARN)
+		return
+	end
+
+	require("fzf-lua").tags()
+end
+
 function M.setup()
 	map("n", "<leader><leader>", function()
 		require("fzf-lua").lsp_live_workspace_symbols()
@@ -36,7 +45,8 @@ function M.setup()
 			prompt = "Project fuzzy> ",
 		})
 	end, "Fuzzy search project lines")
-	map("n", "<leader>ft", function()
+	map("n", "<leader>ft", open_project_tags, "Find project tags")
+	map("n", "<leader>fT", function()
 		require("todo-comments.fzf").todo({
 			keywords = {
 				"TODO",
