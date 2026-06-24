@@ -9,7 +9,8 @@ Leader is `<Space>`. Local leader is `,`. Alt / Option is written as `<M-...>`.
 | Save file | `:w` |
 | Quit window | `:q` |
 | Clear search highlight | `<Esc>` |
-| Find files | `<leader><leader>` |
+| Find symbols | `<leader><leader>` |
+| Find files | `<leader>ff` |
 | Toggle file explorer | `<leader>e` |
 | Focus file explorer | `<leader>E` |
 | Format buffer | `<leader>bf` |
@@ -151,6 +152,7 @@ Works in normal, visual, operator-pending, and insert mode.
 | Buffer fuzzy lines | `/` in normal mode |
 | Native search | `<leader>/` |
 | Project fuzzy grep | `<leader>fa` |
+| Files | `<leader>ff` |
 | Buffer diagnostics | `<leader>fd` |
 | Workspace diagnostics | `<leader>fD` |
 | Recent files | `<leader>fr` |

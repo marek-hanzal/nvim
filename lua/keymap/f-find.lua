@@ -4,6 +4,9 @@ local M = {}
 
 function M.setup()
 	map("n", "<leader><leader>", function()
+		require("fzf-lua").lsp_live_workspace_symbols()
+	end, "Find workspace symbols")
+	map("n", "<leader>ff", function()
 		require("fzf-lua").files()
 	end, "Find files and directories")
 	map("n", "<leader>fD", function()
