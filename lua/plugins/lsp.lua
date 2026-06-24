@@ -106,6 +106,25 @@ return {
 
 			vim.lsp.config("intelephense", {})
 
+			vim.lsp.config("smarty_ls", {
+				cmd = {
+					require("util.local_tool").bin("smarty-language-server"),
+					"--stdio",
+				},
+				filetypes = {
+					"smarty",
+				},
+				root_markers = {
+					"composer.json",
+					".git",
+				},
+				settings = {
+					smarty = {
+						pluginDirs = {},
+					},
+				},
+			})
+
 			vim.lsp.config("jsonls", {
 				init_options = {
 					provideFormatter = false,
@@ -158,6 +177,7 @@ return {
 				"lua_ls",
 				"ts_ls",
 				"intelephense",
+				"smarty_ls",
 				"jsonls",
 				"taplo",
 				"tailwindcss",

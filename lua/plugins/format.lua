@@ -56,12 +56,30 @@ return {
 					"prettier",
 				},
 
+				smarty = {
+					"smarty_beautify",
+				},
+
 				sql = {
 					"sql_formatter",
 				},
 
 				css = {
 					"biome",
+				},
+			},
+			formatters = {
+				smarty_beautify = {
+					command = require("util.local_tool").bin("js-beautify"),
+					args = {
+						"--type",
+						"html",
+						"--templating",
+						"smarty",
+						"--editorconfig",
+						"--file",
+						"-",
+					},
 				},
 			},
 		},

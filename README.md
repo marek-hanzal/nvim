@@ -60,6 +60,10 @@ The rule is:
 - LSP formatting is used as fallback where no external formatter is configured
 - YAML is formatted via `prettier`
 - SQL is formatted via `sql-formatter`
+- Smarty support uses local npm tools from this config:
+  - `vscode-smarty-langserver-extracted` for LSP
+  - `js-beautify` for formatting with Smarty templating enabled
+- After cloning this config on a new machine, run `npm install` in this directory
 - cleanup/format workflows should stay deterministic and easy to reason about
 
 ## Maintenance notes

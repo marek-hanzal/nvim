@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "devDependencies": {
+    "js-beautify": "1.15.4",
+    "vscode-smarty-langserver-extracted": "0.1.2"
+  }
+}
