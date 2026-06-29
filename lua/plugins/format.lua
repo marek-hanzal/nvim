@@ -1,22 +1,3 @@
-local cleanup_kinds_by_ft = {
-	javascript = {
-		"source.removeUnusedImports.ts",
-		"source.organizeImports.ts",
-	},
-	javascriptreact = {
-		"source.removeUnusedImports.ts",
-		"source.organizeImports.ts",
-	},
-	typescript = {
-		"source.removeUnusedImports.ts",
-		"source.organizeImports.ts",
-	},
-	typescriptreact = {
-		"source.removeUnusedImports.ts",
-		"source.organizeImports.ts",
-	},
-}
-
 return {
 	{
 		"stevearc/conform.nvim",

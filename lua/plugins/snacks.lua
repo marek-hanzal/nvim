@@ -7,6 +7,19 @@ return {
 			input = {
 				enabled = true,
 			},
+			notifier = {
+				enabled = true,
+				timeout = 8000,
+				style = "compact",
+				top_down = false,
+				icons = {
+					error = " ",
+					warn = " ",
+					info = " ",
+					debug = " ",
+					trace = "✎ ",
+				},
+			},
 			indent = {
 				enabled = true,
 				indent = {

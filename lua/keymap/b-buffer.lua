@@ -8,15 +8,15 @@ function M.setup()
 	map("n", "<leader>ba", "<cmd>buffer #<cr>", "Alternate buffer")
 
 	map("n", "<leader>bd", function()
-		Snacks.bufdelete()
+		require("snacks").bufdelete()
 	end, "Delete buffer")
 
 	map("n", "<leader>bD", function()
-		Snacks.bufdelete({ force = true })
+		require("snacks").bufdelete({ force = true })
 	end, "Force delete buffer")
 
 	map("n", "<leader>bo", function()
-		Snacks.bufdelete.other({
+		require("snacks").bufdelete.other({
 			filter = function(buffer)
 				return vim.bo[buffer].buflisted and vim.bo[buffer].buftype == ""
 			end,

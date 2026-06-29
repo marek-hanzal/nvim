@@ -44,7 +44,7 @@ end
 
 function M.setup()
 	map("n", "<leader>gg", function()
-		Snacks.lazygit()
+		require("snacks").lazygit()
 	end, "LazyGit")
 
 	map("n", "<leader>gB", function()
@@ -66,11 +66,11 @@ function M.setup()
 	end, "Git buffer commits")
 
 	map("n", "<leader>gl", function()
-		Snacks.lazygit.log()
+		require("snacks").lazygit.log()
 	end, "Git log")
 
 	map("n", "<leader>gL", function()
-		Snacks.lazygit.log_file()
+		require("snacks").lazygit.log_file()
 	end, "Git file log")
 
 	map("n", "<leader>gz", function()

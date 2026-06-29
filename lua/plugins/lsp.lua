@@ -4,6 +4,8 @@ return {
 		lazy = false,
 		config = function()
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities =
+				vim.tbl_deep_extend("force", capabilities, require("lsp-file-operations").default_capabilities())
 			capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
 			local lsp_float_border = {

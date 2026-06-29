@@ -112,7 +112,7 @@ local function make_scratch_buffer()
 	local bufnr = vim.api.nvim_create_buf(false, true)
 
 	vim.bo[bufnr].buftype = "nofile"
-	vim.bo[bufnr].bufhidden = "hide"
+	vim.bo[bufnr].bufhidden = "wipe"
 	vim.bo[bufnr].swapfile = false
 	vim.bo[bufnr].modifiable = false
 	vim.bo[bufnr].undofile = false
@@ -484,6 +484,12 @@ local function open_picker(diagnostics, opts)
 	define_severity_highlights()
 
 	local ui = vim.api.nvim_list_uis()[1]
+
+	if not ui then
+		vim.notify("Diagnostics UI needs an attached editor UI", vim.log.levels.WARN)
+		return
+	end
+
 	local return_win = vim.api.nvim_get_current_win()
 	local width = math.max(ui.width - 2, 1)
 	local total_height = math.max(ui.height - vim.o.cmdheight, 1)
@@ -594,6 +600,18 @@ local function open_picker(diagnostics, opts)
 			normalize_cursor(state)
 			apply_list_highlights(state)
 			render(state)
+		end,
+	})
+
+	vim.api.nvim_create_autocmd("WinClosed", {
+		pattern = {
+			tostring(list_win),
+			tostring(text_win),
+			tostring(preview_win),
+		},
+		group = state.augroup,
+		callback = function()
+			close_state(state)
 		end,
 	})
 
