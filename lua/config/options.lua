@@ -69,6 +69,17 @@ opt.errorbells = false
 opt.autochdir = false
 
 opt.undofile = true
+opt.shada = "'100,<50,s10,h"
+opt.sessionoptions = {
+	"buffers",
+	"curdir",
+	"tabpages",
+	"winsize",
+	"help",
+	"globals",
+	"skiprtp",
+	"folds",
+}
 opt.encoding = "UTF-8"
 
 opt.scrolloff = 8
