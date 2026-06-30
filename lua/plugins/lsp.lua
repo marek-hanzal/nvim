@@ -174,6 +174,8 @@ return {
 
 			vim.lsp.config("gh_actions_ls", {})
 
+			vim.lsp.config("terraformls", {})
+
 			vim.lsp.enable({
 				"biome",
 				"lua_ls",
@@ -185,6 +187,7 @@ return {
 				"tailwindcss",
 				"yamlls",
 				"gh_actions_ls",
+				"terraformls",
 			})
 		end,
 	},

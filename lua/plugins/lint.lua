@@ -12,6 +12,9 @@ return {
 				markdown = {
 					"markdownlint-cli2",
 				},
+				terraform = {
+					"tflint",
+				},
 			}
 
 			local lint_group = vim.api.nvim_create_augroup("lint", {

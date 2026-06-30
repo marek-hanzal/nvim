@@ -27,6 +27,8 @@ return {
 
 				"gitignore",
 				"dockerfile",
+				"hcl",
+				"terraform",
 				"yaml",
 				"toml",
 			},

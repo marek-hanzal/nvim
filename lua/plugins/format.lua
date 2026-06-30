@@ -37,6 +37,13 @@ return {
 					"prettier",
 				},
 
+				terraform = {
+					"terraform_fmt",
+				},
+				["terraform-vars"] = {
+					"terraform_fmt",
+				},
+
 				smarty = {
 					"smarty_beautify",
 				},
