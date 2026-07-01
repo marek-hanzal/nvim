@@ -3,6 +3,13 @@ vim.g.maplocalleader = ","
 
 vim.g.have_nerd_font = true
 
+vim.filetype.add({
+	extension = {
+		tf = "terraform",
+		tfvars = "terraform-vars",
+	},
+})
+
 local opt = vim.opt
 local uv = vim.uv or vim.loop
 
