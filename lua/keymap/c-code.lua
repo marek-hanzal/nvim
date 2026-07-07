@@ -66,7 +66,6 @@ local function setup_code_lens(event)
 
 	vim.lsp.codelens.enable(true, {
 		bufnr = event.buf,
-		client_id = event.data.client_id,
 	})
 	vim.lsp.codelens.refresh({
 		bufnr = event.buf,
