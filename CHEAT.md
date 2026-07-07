@@ -191,14 +191,18 @@ These mappings exist only in buffers with an attached LSP client.
 | Go to type definition | `gI` |
 | Go to implementation | `gi` |
 | References | `gr` |
+| Document symbols | `<leader>co` |
+| Workspace symbols | `<leader>cw` |
 | Next diagnostic | `]d` |
 | Previous diagnostic | `[d` |
 | Hover | `K` |
 | Signature help | `<leader>cs` |
 | Rename symbol | `<leader>cr` |
-| Code action | `<leader>ca` |
+| Code action | `<leader>ca` or `<M-CR>` |
 | Current line diagnostic | `<leader>cd` |
 | Diagnostics to location list | `<leader>cq` |
+
+Mappings are registered only when the attached LSP client advertises the matching capability. PHP is handled by Phpactor.
 
 ## Formatting and linting
 

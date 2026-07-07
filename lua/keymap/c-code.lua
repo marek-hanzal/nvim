@@ -45,6 +45,59 @@ local function setup_document_highlight(event)
 	})
 end
 
+local function setup_inlay_hints(event)
+	local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+	if not client or not client:supports_method("textDocument/inlayHint") then
+		return
+	end
+
+	vim.lsp.inlay_hint.enable(true, {
+		bufnr = event.buf,
+	})
+end
+
+local function setup_code_lens(event)
+	local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+	if not client or not client:supports_method("textDocument/codeLens") then
+		return
+	end
+
+	vim.lsp.codelens.enable(true, {
+		bufnr = event.buf,
+		client_id = event.data.client_id,
+	})
+	vim.lsp.codelens.refresh({
+		bufnr = event.buf,
+	})
+
+	local group = vim.api.nvim_create_augroup("lsp_code_lens_" .. event.buf, {
+		clear = true,
+	})
+
+	vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+		group = group,
+		buffer = event.buf,
+		callback = function()
+			vim.lsp.codelens.refresh({
+				bufnr = event.buf,
+			})
+		end,
+	})
+
+	vim.api.nvim_create_autocmd("LspDetach", {
+		group = group,
+		buffer = event.buf,
+		callback = function(detach_event)
+			vim.api.nvim_clear_autocmds({
+				group = group,
+				buffer = detach_event.buf,
+			})
+		end,
+	})
+end
+
 local cleanup_kinds_by_ft = {
 	javascript = {
 		{
@@ -193,27 +246,41 @@ local function cleanup_buffer()
 end
 
 function M.on_lsp_attach(event)
+	local client = vim.lsp.get_client_by_id(event.data.client_id)
 	local opts = {
 		buffer = event.buf,
 	}
+	local function map_supported(method, mode, lhs, rhs, desc)
+		if client and client:supports_method(method) then
+			map(mode, lhs, rhs, desc, opts)
+		end
+	end
 
 	setup_document_highlight(event)
+	setup_inlay_hints(event)
+	setup_code_lens(event)
 
-	map("n", "gd", function()
+	map_supported("textDocument/definition", "n", "gd", function()
 		open_fzf_lsp_picker("lsp_definitions")
-	end, "Goto definition", opts)
-	map("n", "gD", function()
+	end, "Goto definition")
+	map_supported("textDocument/declaration", "n", "gD", function()
 		open_fzf_lsp_picker("lsp_declarations")
-	end, "Goto declaration", opts)
-	map("n", "gI", function()
+	end, "Goto declaration")
+	map_supported("textDocument/typeDefinition", "n", "gI", function()
 		open_fzf_lsp_picker("lsp_typedefs")
-	end, "Goto type definition", opts)
-	map("n", "gi", function()
+	end, "Goto type definition")
+	map_supported("textDocument/implementation", "n", "gi", function()
 		open_fzf_lsp_picker("lsp_implementations")
-	end, "Goto implementation", opts)
-	map("n", "gr", function()
+	end, "Goto implementation")
+	map_supported("textDocument/references", "n", "gr", function()
 		open_fzf_lsp_picker("lsp_references")
-	end, "References", opts)
+	end, "References")
+	map_supported("textDocument/documentSymbol", "n", "<leader>co", function()
+		open_fzf_lsp_picker("lsp_document_symbols")
+	end, "Document symbols")
+	map_supported("workspace/symbol", "n", "<leader>cw", function()
+		open_fzf_lsp_picker("lsp_live_workspace_symbols")
+	end, "Workspace symbols")
 	map("n", "]d", function()
 		vim.diagnostic.jump({
 			count = 1,
@@ -226,19 +293,29 @@ function M.on_lsp_attach(event)
 			float = false,
 		})
 	end, "Previous diagnostic", opts)
-	map("n", "K", vim.lsp.buf.hover, "Hover", opts)
-	map("n", "<leader>cs", vim.lsp.buf.signature_help, "Signature help", opts)
-	map("n", "<leader>cr", vim.lsp.buf.rename, "Rename", opts)
-	map("n", "<M-CR>", function()
+	map_supported("textDocument/hover", "n", "K", vim.lsp.buf.hover, "Hover")
+	map_supported("textDocument/signatureHelp", "n", "<leader>cs", vim.lsp.buf.signature_help, "Signature help")
+	map_supported("textDocument/rename", "n", "<leader>cr", vim.lsp.buf.rename, "Rename")
+	map_supported("textDocument/prepareTypeHierarchy", "n", "<leader>cS", function()
+		vim.lsp.buf.typehierarchy("supertypes")
+	end, "Type hierarchy supertypes")
+	map_supported("textDocument/prepareTypeHierarchy", "n", "<leader>cT", function()
+		vim.lsp.buf.typehierarchy("subtypes")
+	end, "Type hierarchy subtypes")
+	map_supported("textDocument/prepareCallHierarchy", "n", "<leader>cI", vim.lsp.buf.incoming_calls, "Incoming calls")
+	map_supported("textDocument/prepareCallHierarchy", "n", "<leader>cO", vim.lsp.buf.outgoing_calls, "Outgoing calls")
+	map_supported("textDocument/codeLens", "n", "<leader>cL", vim.lsp.codelens.run, "Run code lens")
+	map_supported("textDocument/codeLens", "n", "<leader>cR", vim.lsp.codelens.refresh, "Refresh code lens")
+	map_supported("textDocument/codeAction", "n", "<M-CR>", function()
 		require("fzf-lua").lsp_code_actions({
 			previewer = false,
 		})
-	end, "Code action", opts)
-	map({ "n", "x" }, "<leader>ca", function()
+	end, "Code action")
+	map_supported("textDocument/codeAction", { "n", "x" }, "<leader>ca", function()
 		require("fzf-lua").lsp_code_actions({
 			previewer = false,
 		})
-	end, "Code action", opts)
+	end, "Code action")
 end
 
 function M.setup()
