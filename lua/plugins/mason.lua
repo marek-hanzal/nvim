@@ -30,6 +30,7 @@ return {
 				"stylua",
 				"biome",
 				"bash-language-server",
+				"tree-sitter-cli",
 				"prettier",
 				"sql-formatter",
 				"markdownlint-cli2",
