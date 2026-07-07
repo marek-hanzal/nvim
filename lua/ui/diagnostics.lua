@@ -436,7 +436,7 @@ local function setup_keymaps(state, bufnrs)
 
 	for _, bufnr in ipairs(bufnrs) do
 		local opts = {
-			buffer = bufnr,
+			buf = bufnr,
 			nowait = true,
 			silent = true,
 		}
@@ -590,7 +590,7 @@ local function open_picker(diagnostics, opts)
 	state.augroup = vim.api.nvim_create_augroup("custom-diagnostics-" .. list_buf, { clear = true })
 
 	vim.api.nvim_create_autocmd("CursorMoved", {
-		buffer = list_buf,
+		buf = list_buf,
 		group = state.augroup,
 		callback = function()
 			if state.closed or state.normalizing then

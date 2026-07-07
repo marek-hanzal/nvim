@@ -15,9 +15,7 @@ local function config()
 end
 
 local function is_regular_buffer(bufnr)
-	return vim.api.nvim_buf_is_valid(bufnr)
-		and vim.bo[bufnr].buflisted
-		and vim.bo[bufnr].buftype == ""
+	return vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].buflisted and vim.bo[bufnr].buftype == ""
 end
 
 local function is_visible(bufnr)

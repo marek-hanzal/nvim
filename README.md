@@ -28,7 +28,6 @@ Current grouped modules:
 - `d-database.lua`
 - `f-find.lua`
 - `g-git.lua`
-- `h-http.lua`
 - `l-line.lua`
 - `m-markdown.lua`
 - `t-todo.lua`

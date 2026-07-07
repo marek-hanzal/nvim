@@ -5,7 +5,7 @@ local M = {}
 function M.attach(buffer)
 	local gitsigns = require("gitsigns")
 	local opts = {
-		buffer = buffer,
+		buf = buffer,
 	}
 
 	map("n", "<leader>gn", function()

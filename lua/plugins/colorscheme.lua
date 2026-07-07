@@ -14,16 +14,7 @@ return {
 					bg = colors.bg_dark,
 					fg = colors.blue,
 				}
-				highlights.LspFloatNormal = {
-					bg = "#05070d",
-					fg = colors.fg,
-				}
 				highlights.LspFloatBorder = {
-					bg = "#05070d",
-					fg = colors.orange,
-					bold = true,
-				}
-				highlights.LspFloatTitle = {
 					bg = "#05070d",
 					fg = colors.orange,
 					bold = true,

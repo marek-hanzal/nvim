@@ -37,7 +37,7 @@ return {
 			local manager = require("neo-tree.sources.manager")
 			local renderer = require("neo-tree.ui.renderer")
 			local nt_utils = require("neo-tree.utils")
-			local uv = vim.uv or vim.loop
+			local uv = vim.uv
 
 			local function smart_file_or_dir(selected, picker_opts)
 				if not selected or not selected[1] then

@@ -332,15 +332,6 @@ Use `TODO:` and `NOTE:`.
 | Previous todo | `<leader>tp` |
 | TODO list picker | `<leader>fT` |
 
-## HTTP: Kulala
-
-| Action | Keys |
-|---|---|
-| Run request | `<leader>hr` |
-| Run all requests | `<leader>ha` |
-| Toggle response view | `<leader>ht` |
-| Inspect request | `<leader>hi` |
-
 ## Database
 
 | Action | Keys / command |

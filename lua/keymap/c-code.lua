@@ -15,7 +15,7 @@ local function setup_document_highlight(event)
 
 	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 		group = group,
-		buffer = event.buf,
+		buf = event.buf,
 		callback = function()
 			vim.lsp.buf.document_highlight()
 			require("ui.satellite-lsp-references").capture(event.buf)
@@ -24,7 +24,7 @@ local function setup_document_highlight(event)
 
 	vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "InsertEnter" }, {
 		group = group,
-		buffer = event.buf,
+		buf = event.buf,
 		callback = function()
 			vim.lsp.buf.clear_references()
 			require("ui.satellite-lsp-references").clear(event.buf)
@@ -33,13 +33,13 @@ local function setup_document_highlight(event)
 
 	vim.api.nvim_create_autocmd("LspDetach", {
 		group = group,
-		buffer = event.buf,
+		buf = event.buf,
 		callback = function(detach_event)
 			vim.lsp.buf.clear_references()
 			require("ui.satellite-lsp-references").clear(detach_event.buf)
 			vim.api.nvim_clear_autocmds({
 				group = group,
-				buffer = detach_event.buf,
+				buf = detach_event.buf,
 			})
 		end,
 	})
@@ -74,7 +74,7 @@ local function setup_code_lens(event)
 
 	vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
 		group = group,
-		buffer = event.buf,
+		buf = event.buf,
 		callback = function()
 			vim.lsp.codelens.enable(true, {
 				bufnr = event.buf,
@@ -84,11 +84,11 @@ local function setup_code_lens(event)
 
 	vim.api.nvim_create_autocmd("LspDetach", {
 		group = group,
-		buffer = event.buf,
+		buf = event.buf,
 		callback = function(detach_event)
 			vim.api.nvim_clear_autocmds({
 				group = group,
-				buffer = detach_event.buf,
+				buf = detach_event.buf,
 			})
 		end,
 	})
@@ -244,7 +244,7 @@ end
 function M.on_lsp_attach(event)
 	local client = vim.lsp.get_client_by_id(event.data.client_id)
 	local opts = {
-		buffer = event.buf,
+		buf = event.buf,
 	}
 	local function map_supported(method, mode, lhs, rhs, desc)
 		if client and client:supports_method(method) then
@@ -280,17 +280,19 @@ function M.on_lsp_attach(event)
 	map("n", "]d", function()
 		vim.diagnostic.jump({
 			count = 1,
-			float = false,
 		})
 	end, "Next diagnostic", opts)
 	map("n", "[d", function()
 		vim.diagnostic.jump({
 			count = -1,
-			float = false,
 		})
 	end, "Previous diagnostic", opts)
-	map_supported("textDocument/hover", "n", "K", vim.lsp.buf.hover, "Hover")
-	map_supported("textDocument/signatureHelp", "n", "<leader>cs", vim.lsp.buf.signature_help, "Signature help")
+	map_supported("textDocument/hover", "n", "K", function()
+		vim.lsp.buf.hover(require("ui.lsp_float").config())
+	end, "Hover")
+	map_supported("textDocument/signatureHelp", "n", "<leader>cs", function()
+		vim.lsp.buf.signature_help(require("ui.lsp_float").config())
+	end, "Signature help")
 	map_supported("textDocument/rename", "n", "<leader>cr", vim.lsp.buf.rename, "Rename")
 	map_supported("textDocument/prepareTypeHierarchy", "n", "<leader>cS", function()
 		vim.lsp.buf.typehierarchy("supertypes")

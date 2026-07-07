@@ -54,7 +54,7 @@ end
 autocmd("TextYankPost", {
 	group = augroup("highlight_yank", { clear = true }),
 	callback = function()
-		vim.highlight.on_yank()
+		vim.hl.on_yank()
 	end,
 })
 
@@ -86,20 +86,30 @@ autocmd("TermOpen", {
 	group = augroup("terminal_file_nav", { clear = true }),
 	callback = function(args)
 		local map_opts = {
-			buffer = args.buf,
+			buf = args.buf,
 			silent = true,
 		}
 
-		vim.keymap.set({ "n", "t" }, "gf", function()
-			open_terminal_file()
-		end, vim.tbl_extend("force", map_opts, {
-			desc = "Open file under cursor in previous window",
-		}))
+		vim.keymap.set(
+			{ "n", "t" },
+			"gf",
+			function()
+				open_terminal_file()
+			end,
+			vim.tbl_extend("force", map_opts, {
+				desc = "Open file under cursor in previous window",
+			})
+		)
 
-		vim.keymap.set({ "n", "t" }, "gF", function()
-			open_terminal_file({ line = true })
-		end, vim.tbl_extend("force", map_opts, {
-			desc = "Open file under cursor and jump to line in previous window",
-		}))
+		vim.keymap.set(
+			{ "n", "t" },
+			"gF",
+			function()
+				open_terminal_file({ line = true })
+			end,
+			vim.tbl_extend("force", map_opts, {
+				desc = "Open file under cursor and jump to line in previous window",
+			})
+		)
 	end,
 })

@@ -34,7 +34,7 @@ pcall(vim.treesitter.language.register, "terraform", {
 })
 
 local opt = vim.opt
-local uv = vim.uv or vim.loop
+local uv = vim.uv
 
 local function is_wsl()
 	if vim.fn.has("wsl") == 1 then
