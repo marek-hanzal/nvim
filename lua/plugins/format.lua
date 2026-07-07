@@ -51,6 +51,13 @@ return {
 					"smarty_beautify",
 				},
 
+				php = {
+					"pint",
+					"php_cs_fixer",
+					"phpcbf",
+					stop_after_first = true,
+				},
+
 				sql = {
 					"sql_formatter",
 				},

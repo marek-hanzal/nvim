@@ -20,7 +20,7 @@ return {
 			ensure_installed = {
 				"lua-language-server",
 				"typescript-language-server",
-				"phpactor",
+				"intelephense",
 				"json-lsp",
 				"taplo",
 				"tailwindcss-language-server",
@@ -31,6 +31,9 @@ return {
 				"biome",
 				"bash-language-server",
 				"tree-sitter-cli",
+				"pint",
+				"php-cs-fixer",
+				"phpcbf",
 				"prettier",
 				"sql-formatter",
 				"markdownlint-cli2",

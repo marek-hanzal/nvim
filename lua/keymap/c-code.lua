@@ -67,9 +67,6 @@ local function setup_code_lens(event)
 	vim.lsp.codelens.enable(true, {
 		bufnr = event.buf,
 	})
-	vim.lsp.codelens.refresh({
-		bufnr = event.buf,
-	})
 
 	local group = vim.api.nvim_create_augroup("lsp_code_lens_" .. event.buf, {
 		clear = true,
@@ -79,7 +76,7 @@ local function setup_code_lens(event)
 		group = group,
 		buffer = event.buf,
 		callback = function()
-			vim.lsp.codelens.refresh({
+			vim.lsp.codelens.enable(true, {
 				bufnr = event.buf,
 			})
 		end,
@@ -304,7 +301,11 @@ function M.on_lsp_attach(event)
 	map_supported("textDocument/prepareCallHierarchy", "n", "<leader>cI", vim.lsp.buf.incoming_calls, "Incoming calls")
 	map_supported("textDocument/prepareCallHierarchy", "n", "<leader>cO", vim.lsp.buf.outgoing_calls, "Outgoing calls")
 	map_supported("textDocument/codeLens", "n", "<leader>cL", vim.lsp.codelens.run, "Run code lens")
-	map_supported("textDocument/codeLens", "n", "<leader>cR", vim.lsp.codelens.refresh, "Refresh code lens")
+	map_supported("textDocument/codeLens", "n", "<leader>cR", function()
+		vim.lsp.codelens.enable(true, {
+			bufnr = event.buf,
+		})
+	end, "Refresh code lens")
 	map_supported("textDocument/codeAction", "n", "<M-CR>", function()
 		require("fzf-lua").lsp_code_actions({
 			previewer = false,

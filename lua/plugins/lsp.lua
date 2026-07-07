@@ -106,10 +106,13 @@ return {
 
 			vim.lsp.config("ts_ls", {})
 
-			vim.lsp.config("phpactor", {
-				init_options = {
-					["language_server_phpstan.enabled"] = false,
-					["language_server_psalm.enabled"] = false,
+			vim.lsp.config("intelephense", {
+				settings = {
+					intelephense = {
+						telemetry = {
+							enabled = false,
+						},
+					},
 				},
 			})
 
@@ -185,7 +188,7 @@ return {
 				"biome",
 				"lua_ls",
 				"ts_ls",
-				"phpactor",
+				"intelephense",
 				"smarty_ls",
 				"jsonls",
 				"taplo",

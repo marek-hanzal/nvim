@@ -202,7 +202,7 @@ These mappings exist only in buffers with an attached LSP client.
 | Current line diagnostic | `<leader>cd` |
 | Diagnostics to location list | `<leader>cq` |
 
-Mappings are registered only when the attached LSP client advertises the matching capability. PHP is handled by Phpactor.
+Mappings are registered only when the attached LSP client advertises the matching capability. PHP is handled by Intelephense.
 
 ## Formatting and linting
 
@@ -224,6 +224,7 @@ SQL uses `sql-formatter`.
 | Lua | `stylua` |
 | JavaScript / TypeScript / JSX / TSX | `biome` |
 | JSON / JSONC | `biome` |
+| PHP | `pint`, then `php-cs-fixer`, then `phpcbf` |
 | SQL | `sql-formatter` |
 | CSS | `biome` |
 | Other filetypes with LSP formatting support | LSP fallback |
