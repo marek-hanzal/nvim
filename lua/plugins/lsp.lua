@@ -130,29 +130,24 @@ return {
 
 			vim.lsp.config("gh_actions_ls", {})
 
+			local terraformls_init_options = {
+				["terraform.codelens.referenceCount"] = true,
+				["terraform.experimentalFeatures.prefillRequiredFields"] = true,
+				["terraform.experimentalFeatures.validateOnSave"] = true,
+				["terraform.languageServer.ignoreSingleFileWarning"] = true,
+				["terraform.languageServer.indexing.ignoreDirectoryNames"] = {
+					".terragrunt-cache",
+				},
+				["terraform.validation.enableEnhancedValidation"] = true,
+			}
+
+			if vim.env.NVIM_TERRAFORM_BIN then
+				terraformls_init_options["terraform.languageServer.terraform.path"] = vim.env.NVIM_TERRAFORM_BIN
+			end
+
 			vim.lsp.config("terraformls", {
 				root_dir = vim.uv.cwd(),
-				init_options = {
-					ignoreSingleFileWarning = true,
-					indexing = {
-						ignoreDirectoryNames = {
-							".terragrunt-cache",
-						},
-					},
-					terraform = {
-						codelens = {
-							referenceCount = true,
-						},
-						path = vim.env.NVIM_TERRAFORM_BIN,
-					},
-					experimentalFeatures = {
-						prefillRequiredFields = true,
-						validateOnSave = true,
-					},
-					validation = {
-						enableEnhancedValidation = true,
-					},
-				},
+				init_options = terraformls_init_options,
 			})
 
 			vim.lsp.config("tofu_ls", {
