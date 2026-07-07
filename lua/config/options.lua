@@ -7,7 +7,30 @@ vim.filetype.add({
 	extension = {
 		tf = "terraform",
 		tfvars = "terraform-vars",
+		tofu = "opentofu",
+		tofuvars = "opentofu-vars",
 	},
+	filename = {
+		[".terraform.lock.hcl"] = "hcl",
+		[".terraformrc"] = "hcl",
+		["terraform.rc"] = "hcl",
+		[".tofurc"] = "hcl",
+		["tofu.rc"] = "hcl",
+	},
+	pattern = {
+		[".*%.auto%.tfvars"] = "terraform-vars",
+		[".*%.auto%.tfvars%.json"] = "json",
+		[".*%.tfstate"] = "json",
+		[".*%.tfstate%.backup"] = "json",
+		[".*%.tfvars%.json"] = "json",
+		[".*%.auto%.tofuvars"] = "opentofu-vars",
+		[".*%.tofuvars%.json"] = "json",
+	},
+})
+
+pcall(vim.treesitter.language.register, "terraform", {
+	"opentofu",
+	"opentofu-vars",
 })
 
 local opt = vim.opt

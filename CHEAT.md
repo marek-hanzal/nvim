@@ -225,6 +225,8 @@ SQL uses `sql-formatter`.
 | JavaScript / TypeScript / JSX / TSX | `biome` |
 | JSON / JSONC | `biome` |
 | PHP | `pint`, then `php-cs-fixer`, then `phpcbf` |
+| Terraform / tfvars | `terraform fmt` |
+| OpenTofu / tofuvars | `tofu fmt` |
 | SQL | `sql-formatter` |
 | CSS | `biome` |
 | Other filetypes with LSP formatting support | LSP fallback |
@@ -237,6 +239,22 @@ SQL uses `sql-formatter`.
 | JSON / JSONC | `biomejs` |
 | CSS | `biomejs` |
 | Markdown | `markdownlint-cli2` |
+| Terraform | `tflint` LSP diagnostics |
+
+## Terraform and OpenTofu
+
+Terraform gets `terraform-ls`, TFLint LSP diagnostics, Tree-sitter highlighting, `terraform fmt`, and terminal commands that run from the current file's directory. OpenTofu gets `tofu-ls`, Tree-sitter highlighting, and `tofu fmt`.
+
+| Action | Keys / command |
+|---|---|
+| Init | `<leader>ii` / `:TerraformInit` |
+| Validate | `<leader>iv` / `:TerraformValidate` |
+| Plan | `<leader>ip` / `:TerraformPlan` |
+| Recursive fmt | `<leader>if` / `:TerraformFmt` |
+| TFLint recursive | `<leader>il` / `:TerraformTflint` |
+| Trivy config scan | `<leader>it` / `:TerraformTrivy` |
+| List workspaces | `<leader>iw` / `:TerraformWorkspaceList` |
+| Select workspace | `<leader>iW` / `:TerraformWorkspaceSelect [name]` |
 
 ## TypeScript
 

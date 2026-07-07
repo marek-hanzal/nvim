@@ -69,3 +69,58 @@ vim.api.nvim_create_user_command("TagsGenerate", function()
 end, {
 	desc = "Generate Universal Ctags index for the current project",
 })
+
+vim.api.nvim_create_user_command("TerraformInit", function(opts)
+	require("util.terraform").init(opts.args)
+end, {
+	desc = "Run terraform init in the current file directory",
+	nargs = "*",
+})
+
+vim.api.nvim_create_user_command("TerraformValidate", function(opts)
+	require("util.terraform").validate(opts.args)
+end, {
+	desc = "Run terraform validate in the current file directory",
+	nargs = "*",
+})
+
+vim.api.nvim_create_user_command("TerraformPlan", function(opts)
+	require("util.terraform").plan(opts.args)
+end, {
+	desc = "Run terraform plan in the current file directory",
+	nargs = "*",
+})
+
+vim.api.nvim_create_user_command("TerraformFmt", function(opts)
+	require("util.terraform").fmt(opts.args)
+end, {
+	desc = "Run terraform fmt -recursive in the current file directory",
+	nargs = "*",
+})
+
+vim.api.nvim_create_user_command("TerraformTflint", function(opts)
+	require("util.terraform").tflint(opts.args)
+end, {
+	desc = "Run tflint --recursive",
+	nargs = "*",
+})
+
+vim.api.nvim_create_user_command("TerraformTrivy", function(opts)
+	require("util.terraform").trivy(opts.args)
+end, {
+	desc = "Run trivy config for the current file directory",
+	nargs = "*",
+})
+
+vim.api.nvim_create_user_command("TerraformWorkspaceList", function()
+	require("util.terraform").workspace_list()
+end, {
+	desc = "List Terraform workspaces",
+})
+
+vim.api.nvim_create_user_command("TerraformWorkspaceSelect", function(opts)
+	require("util.terraform").workspace_select(opts.args)
+end, {
+	desc = "Select a Terraform workspace",
+	nargs = "?",
+})

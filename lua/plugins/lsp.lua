@@ -182,7 +182,41 @@ return {
 
 			vim.lsp.config("gh_actions_ls", {})
 
-			vim.lsp.config("terraformls", {})
+			vim.lsp.config("terraformls", {
+				root_dir = vim.uv.cwd(),
+				init_options = {
+					ignoreSingleFileWarning = true,
+					indexing = {
+						ignoreDirectoryNames = {
+							".terragrunt-cache",
+						},
+					},
+					terraform = {
+						codelens = {
+							referenceCount = true,
+						},
+						path = vim.env.NVIM_TERRAFORM_BIN,
+					},
+					experimentalFeatures = {
+						prefillRequiredFields = true,
+						validateOnSave = true,
+					},
+					validation = {
+						enableEnhancedValidation = true,
+					},
+				},
+			})
+
+			vim.lsp.config("tofu_ls", {
+				filetypes = {
+					"opentofu",
+					"opentofu-vars",
+				},
+			})
+
+			vim.lsp.config("tflint", {
+				root_dir = vim.uv.cwd(),
+			})
 
 			vim.lsp.enable({
 				"biome",
@@ -196,6 +230,8 @@ return {
 				"yamlls",
 				"gh_actions_ls",
 				"terraformls",
+				"tofu_ls",
+				"tflint",
 			})
 		end,
 	},

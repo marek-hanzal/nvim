@@ -46,6 +46,12 @@ return {
 				["terraform-vars"] = {
 					"terraform_fmt",
 				},
+				opentofu = {
+					"tofu_fmt",
+				},
+				["opentofu-vars"] = {
+					"tofu_fmt",
+				},
 
 				smarty = {
 					"smarty_beautify",
@@ -67,6 +73,15 @@ return {
 				},
 			},
 			formatters = {
+				tofu_fmt = {
+					command = "tofu",
+					args = {
+						"fmt",
+						"-no-color",
+						"-",
+					},
+				},
+
 				smarty_beautify = {
 					command = require("util.local_tool").bin("js-beautify"),
 					args = {
