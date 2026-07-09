@@ -105,6 +105,15 @@ return {
 
 			vim.lsp.config("tailwindcss", {})
 
+			vim.lsp.config("bashls", {
+				settings = {
+					bashIde = {
+						-- Avoid duplicate diagnostics; shellcheck is run via nvim-lint.
+						shellcheckPath = "",
+					},
+				},
+			})
+
 			vim.lsp.config("yamlls", {
 				settings = {
 					redhat = {
@@ -154,6 +163,7 @@ return {
 				"jsonls",
 				"taplo",
 				"tailwindcss",
+				"bashls",
 				"yamlls",
 				"gh_actions_ls",
 				"terraformls",

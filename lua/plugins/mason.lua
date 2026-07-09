@@ -31,6 +31,8 @@ return {
 				"stylua",
 				"biome",
 				"bash-language-server",
+				"shellcheck",
+				"shfmt",
 				"tree-sitter-cli",
 				"pint",
 				"php-cs-fixer",

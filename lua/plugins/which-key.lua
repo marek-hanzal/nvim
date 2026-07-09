@@ -14,7 +14,6 @@ return {
 				{ "<leader>f", group = "find/pickers" },
 				{ "<leader>j", group = "jump" },
 				{ "<leader>g", group = "git" },
-				{ "<leader>i", group = "infra" },
 				{ "<leader>m", group = "markdown" },
 				{ "<leader>l", group = "line" },
 				{ "<leader>q", group = "session" },

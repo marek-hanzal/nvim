@@ -209,6 +209,7 @@ Mappings are registered only when the attached LSP client advertises the matchin
 Conform is the primary formatter. LSP is used as a fallback when no external formatter is configured for the current filetype.
 YAML uses `prettier`.
 SQL uses `sql-formatter`.
+Shell scripts use `shfmt` for formatting and `shellcheck` for linting, while `bashls` provides LSP features such as hover, definitions, and completion.
 
 | Action | Keys / command |
 |---|---|
@@ -225,6 +226,7 @@ SQL uses `sql-formatter`.
 | JavaScript / TypeScript / JSX / TSX | `biome` |
 | JSON / JSONC | `biome` |
 | PHP | `pint`, then `php-cs-fixer`, then `phpcbf` |
+| Bash / sh | `shfmt` |
 | Terraform / tfvars | `terraform fmt` |
 | OpenTofu / tofuvars | `tofu fmt` |
 | SQL | `sql-formatter` |
@@ -238,23 +240,14 @@ SQL uses `sql-formatter`.
 | JavaScript / TypeScript / JSX / TSX | `biomejs` |
 | JSON / JSONC | `biomejs` |
 | CSS | `biomejs` |
+| Bash / sh | `shellcheck` |
 | Markdown | `markdownlint-cli2` |
 | Terraform | `tflint` LSP diagnostics |
 
 ## Terraform and OpenTofu
 
-Terraform gets `terraform-ls`, TFLint LSP diagnostics, Tree-sitter highlighting, `terraform fmt`, and terminal commands that run from the current file's directory. OpenTofu gets `tofu-ls`, Tree-sitter highlighting, and `tofu fmt`.
-
-| Action | Keys / command |
-|---|---|
-| Init | `<leader>ii` / `:TerraformInit` |
-| Validate | `<leader>iv` / `:TerraformValidate` |
-| Plan | `<leader>ip` / `:TerraformPlan` |
-| Recursive fmt | `<leader>if` / `:TerraformFmt` |
-| TFLint recursive | `<leader>il` / `:TerraformTflint` |
-| Trivy config scan | `<leader>it` / `:TerraformTrivy` |
-| List workspaces | `<leader>iw` / `:TerraformWorkspaceList` |
-| Select workspace | `<leader>iW` / `:TerraformWorkspaceSelect [name]` |
+Terraform gets `terraform-ls`, TFLint LSP diagnostics, Tree-sitter highlighting, and `terraform fmt`.
+OpenTofu gets `tofu-ls`, Tree-sitter highlighting, and `tofu fmt`.
 
 ## TypeScript
 

@@ -24,6 +24,7 @@ return {
 				"markdown_inline",
 
 				"sql",
+				"bash",
 
 				"gitignore",
 				"dockerfile",

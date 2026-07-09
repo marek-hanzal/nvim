@@ -71,6 +71,12 @@ return {
 				css = {
 					"biome",
 				},
+				bash = {
+					"shfmt",
+				},
+				sh = {
+					"shfmt",
+				},
 			},
 			formatters = {
 				tofu_fmt = {
