@@ -54,6 +54,18 @@ return {
 
 			vim.lsp.config("ts_ls", {})
 
+			vim.lsp.config("pyright", {
+				settings = {
+					python = {
+						analysis = {
+							autoSearchPaths = true,
+							diagnosticMode = "openFilesOnly",
+							useLibraryCodeForTypes = true,
+						},
+					},
+				},
+			})
+
 			vim.lsp.config("intelephense", {
 				settings = {
 					intelephense = {
@@ -158,6 +170,7 @@ return {
 				"biome",
 				"lua_ls",
 				"ts_ls",
+				"pyright",
 				"intelephense",
 				"smarty_ls",
 				"jsonls",
