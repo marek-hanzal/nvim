@@ -30,7 +30,8 @@ Current grouped modules:
 - `g-git.lua`
 - `l-line.lua`
 - `m-markdown.lua`
-- `t-todo.lua`
+- `q-session.lua`
+- `t-tools.lua`
 
 ## What is allowed outside `lua/keymap/`
 
@@ -69,6 +70,7 @@ The rule is:
 
 - Update `CHEAT.md` when user-facing behavior changes
 - Keep `which-key` group labels aligned with `lua/keymap/`
+- Treat the Mason tool list as portable configuration; do not remove language support based only on one machine's installed or active tools
 - When adding a new leader domain, add both:
   - a new `lua/keymap/<char>-<group>.lua`
   - a matching group entry in `lua/plugins/which-key.lua`

@@ -233,16 +233,18 @@ Shell scripts use `shfmt` for formatting and `shellcheck` for linting, while `ba
 | CSS | `biome` |
 | Other filetypes with LSP formatting support | LSP fallback |
 
-### Linters
+### Diagnostics
 
-| Filetype | Linter |
+Biome and TFLint diagnostics come from their LSP servers. The manual `<leader>cl` action and automatic lint-on-save use `nvim-lint` only for ShellCheck and markdownlint.
+
+| Filetype | Source |
 |---|---|
-| JavaScript / TypeScript / JSX / TSX | `biomejs` |
-| JSON / JSONC | `biomejs` |
-| CSS | `biomejs` |
-| Bash / sh | `shellcheck` |
-| Markdown | `markdownlint-cli2` |
-| Terraform | `tflint` LSP diagnostics |
+| JavaScript / TypeScript / JSX / TSX | Biome LSP |
+| JSON / JSONC | Biome LSP |
+| CSS | Biome LSP |
+| Bash / sh | `shellcheck` via `nvim-lint` |
+| Markdown | `markdownlint-cli2` via `nvim-lint` |
+| Terraform | TFLint LSP |
 
 ## Terraform and OpenTofu
 
@@ -324,6 +326,16 @@ Use `TODO:` and `NOTE:`.
 | Next todo | `<leader>tn` |
 | Previous todo | `<leader>tp` |
 | TODO list picker | `<leader>fT` |
+
+## Sessions
+
+Sessions are restored automatically when Neovim starts without file arguments.
+
+| Action | Keys |
+|---|---|
+| Restore current-directory session | `<leader>qs` |
+| Restore last session | `<leader>ql` |
+| Disable saving the current session | `<leader>qd` |
 
 ## Database
 
@@ -423,4 +435,5 @@ Examples:
 
 | Action | Keys |
 |---|---|
+| Open terminal in a bottom split | `<leader>tt` |
 | Exit terminal mode | `<Esc><Esc>` |

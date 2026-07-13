@@ -17,8 +17,7 @@ local function setup_document_highlight(event)
 		group = group,
 		buf = event.buf,
 		callback = function()
-			vim.lsp.buf.document_highlight()
-			require("ui.satellite-lsp-references").capture(event.buf)
+			require("ui.satellite-lsp-references").highlight(event.buf)
 		end,
 	})
 
@@ -26,21 +25,7 @@ local function setup_document_highlight(event)
 		group = group,
 		buf = event.buf,
 		callback = function()
-			vim.lsp.buf.clear_references()
 			require("ui.satellite-lsp-references").clear(event.buf)
-		end,
-	})
-
-	vim.api.nvim_create_autocmd("LspDetach", {
-		group = group,
-		buf = event.buf,
-		callback = function(detach_event)
-			vim.lsp.buf.clear_references()
-			require("ui.satellite-lsp-references").clear(detach_event.buf)
-			vim.api.nvim_clear_autocmds({
-				group = group,
-				buf = detach_event.buf,
-			})
 		end,
 	})
 end
@@ -66,31 +51,6 @@ local function setup_code_lens(event)
 
 	vim.lsp.codelens.enable(true, {
 		bufnr = event.buf,
-	})
-
-	local group = vim.api.nvim_create_augroup("lsp_code_lens_" .. event.buf, {
-		clear = true,
-	})
-
-	vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-		group = group,
-		buf = event.buf,
-		callback = function()
-			vim.lsp.codelens.enable(true, {
-				bufnr = event.buf,
-			})
-		end,
-	})
-
-	vim.api.nvim_create_autocmd("LspDetach", {
-		group = group,
-		buf = event.buf,
-		callback = function(detach_event)
-			vim.api.nvim_clear_autocmds({
-				group = group,
-				buf = detach_event.buf,
-			})
-		end,
 	})
 end
 
@@ -137,7 +97,7 @@ local cleanup_kinds_by_ft = {
 	},
 }
 
-local function resolve_code_action(client, action, timeout_ms)
+local function resolve_code_action(client, bufnr, action, timeout_ms)
 	if action.edit or action.command then
 		return action
 	end
@@ -146,7 +106,7 @@ local function resolve_code_action(client, action, timeout_ms)
 		return action
 	end
 
-	local response = client:request_sync("codeAction/resolve", action, timeout_ms, 0)
+	local response = client:request_sync("codeAction/resolve", action, timeout_ms, bufnr)
 
 	if response and response.result then
 		return response.result
@@ -159,45 +119,36 @@ local function run_code_action_sync(action_spec, timeout_ms)
 	local bufnr = vim.api.nvim_get_current_buf()
 	local last_line = vim.api.nvim_buf_line_count(bufnr)
 	local last_line_text = vim.api.nvim_buf_get_lines(bufnr, last_line - 1, last_line, false)[1] or ""
-	local kind = action_spec.kind
-	local range_params = {
-		textDocument = vim.lsp.util.make_text_document_params(bufnr),
-		range = {
-			start = {
-				line = 0,
-				character = 0,
-			},
-			["end"] = {
-				line = math.max(last_line - 1, 0),
-				character = vim.str_utfindex(last_line_text),
-			},
-		},
-	}
 
-	---@type lsp.CodeActionParams
-	local params = {
-		textDocument = range_params.textDocument,
-		range = range_params.range,
-		context = {
-			only = {
-				kind,
-			},
-			diagnostics = {},
-		},
-	}
+	for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+		if
+			client:supports_method("textDocument/codeAction", bufnr)
+			and (not action_spec.client or client.name == action_spec.client)
+		then
+			---@type lsp.CodeActionParams
+			local params = {
+				textDocument = vim.lsp.util.make_text_document_params(bufnr),
+				range = {
+					start = {
+						line = 0,
+						character = 0,
+					},
+					["end"] = {
+						line = math.max(last_line - 1, 0),
+						character = vim.str_utfindex(last_line_text, client.offset_encoding),
+					},
+				},
+				context = {
+					only = {
+						action_spec.kind,
+					},
+					diagnostics = {},
+				},
+			}
+			local response = client:request_sync("textDocument/codeAction", params, timeout_ms, bufnr)
 
-	local results = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params, timeout_ms)
-
-	if not results then
-		return
-	end
-
-	for client_id, result in pairs(results) do
-		local client = vim.lsp.get_client_by_id(client_id)
-
-		if client and (not action_spec.client or client.name == action_spec.client) then
-			for _, action in pairs(result.result or {}) do
-				local resolved_action = resolve_code_action(client, action, timeout_ms)
+			for _, action in pairs((response and response.result) or {}) do
+				local resolved_action = resolve_code_action(client, bufnr, action, timeout_ms)
 
 				if resolved_action.edit then
 					vim.lsp.util.apply_workspace_edit(resolved_action.edit, client.offset_encoding)
@@ -208,7 +159,7 @@ local function run_code_action_sync(action_spec, timeout_ms)
 				if command then
 					client:exec_cmd(type(command) == "table" and command or resolved_action, {
 						bufnr = bufnr,
-						client_id = client_id,
+						client_id = client.id,
 					})
 				end
 			end
@@ -303,11 +254,6 @@ function M.on_lsp_attach(event)
 	map_supported("textDocument/prepareCallHierarchy", "n", "<leader>cI", vim.lsp.buf.incoming_calls, "Incoming calls")
 	map_supported("textDocument/prepareCallHierarchy", "n", "<leader>cO", vim.lsp.buf.outgoing_calls, "Outgoing calls")
 	map_supported("textDocument/codeLens", "n", "<leader>cL", vim.lsp.codelens.run, "Run code lens")
-	map_supported("textDocument/codeLens", "n", "<leader>cR", function()
-		vim.lsp.codelens.enable(true, {
-			bufnr = event.buf,
-		})
-	end, "Refresh code lens")
 	map_supported("textDocument/codeAction", "n", "<M-CR>", function()
 		require("fzf-lua").lsp_code_actions({
 			previewer = false,

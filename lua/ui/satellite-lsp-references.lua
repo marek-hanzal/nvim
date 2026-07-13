@@ -2,6 +2,7 @@ local api = vim.api
 
 local M = {}
 
+local method = "textDocument/documentHighlight"
 local defaults = {
 	enable = true,
 	overlap = true,
@@ -20,6 +21,8 @@ local highlights = {
 }
 
 local cache = {}
+local generations = {}
+local pending = {}
 
 local function is_valid_mark_pos(pos)
 	return type(pos) == "number" and pos == pos and pos ~= math.huge and pos ~= -math.huge and pos >= 0 and pos % 1 == 0
@@ -33,49 +36,78 @@ local function refresh_satellite()
 	end
 end
 
-local function supported_client_exists(bufnr)
-	for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-		if client:supports_method("textDocument/documentHighlight") then
-			return true
-		end
+local function cancel_pending(bufnr)
+	if pending[bufnr] then
+		pending[bufnr]()
+		pending[bufnr] = nil
 	end
-
-	return false
-end
-
-local function get_client_position_encoding(client)
-	return client.position_encoding or client.offset_encoding or "utf-16"
 end
 
 function M.clear(bufnr)
+	generations[bufnr] = (generations[bufnr] or 0) + 1
+	cancel_pending(bufnr)
 	cache[bufnr] = nil
+	vim.lsp.util.buf_clear_references(bufnr)
 	refresh_satellite()
 end
 
-function M.capture(bufnr)
-	if not api.nvim_buf_is_valid(bufnr) or not supported_client_exists(bufnr) then
+function M.highlight(bufnr)
+	if not api.nvim_buf_is_valid(bufnr) or #vim.lsp.get_clients({ bufnr = bufnr, method = method }) == 0 then
 		M.clear(bufnr)
 		return
 	end
 
-	local lines = {}
+	local winid = vim.fn.bufwinid(bufnr)
+	local generation = (generations[bufnr] or 0) + 1
 
-	for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-		if client:supports_method("textDocument/documentHighlight") then
-			local params = vim.lsp.util.make_position_params(0, get_client_position_encoding(client))
-			local response = client:request_sync("textDocument/documentHighlight", params, 200, bufnr)
+	generations[bufnr] = generation
+	cancel_pending(bufnr)
 
-			for _, highlight in ipairs((response and response.result) or {}) do
-				local lnum = highlight.range.start.line
-				local kind = highlight.kind or 1
-
-				lines[lnum] = math.max(lines[lnum] or 0, kind)
-			end
-		end
+	if winid == -1 then
+		return
 	end
 
-	cache[bufnr] = next(lines) and lines or nil
-	refresh_satellite()
+	local cursor = api.nvim_win_get_cursor(winid)
+	local changedtick = vim.b[bufnr].changedtick
+
+	pending[bufnr] = vim.lsp.buf_request_all(bufnr, method, function(client)
+		return vim.lsp.util.make_position_params(winid, client.offset_encoding)
+	end, function(results)
+		pending[bufnr] = nil
+
+		if
+			generations[bufnr] ~= generation
+			or not api.nvim_buf_is_valid(bufnr)
+			or not api.nvim_win_is_valid(winid)
+			or api.nvim_win_get_buf(winid) ~= bufnr
+			or vim.b[bufnr].changedtick ~= changedtick
+			or not vim.deep_equal(api.nvim_win_get_cursor(winid), cursor)
+		then
+			return
+		end
+
+		local lines = {}
+
+		vim.lsp.util.buf_clear_references(bufnr)
+
+		for client_id, response in pairs(results) do
+			local client = vim.lsp.get_client_by_id(client_id)
+
+			if client and not response.error and response.result then
+				vim.lsp.util.buf_highlight_references(bufnr, response.result, client.offset_encoding)
+
+				for _, reference in ipairs(response.result) do
+					local line = reference.range.start.line
+					local kind = reference.kind or 1
+
+					lines[line] = math.max(lines[line] or 0, kind)
+				end
+			end
+		end
+
+		cache[bufnr] = next(lines) and lines or nil
+		refresh_satellite()
+	end)
 end
 
 function M.register()
@@ -103,8 +135,8 @@ function M.register()
 			return {}
 		end
 
-		for lnum, kind in pairs(lines) do
-			local pos = util.row_to_barpos(winid, lnum)
+		for line, kind in pairs(lines) do
+			local pos = util.row_to_barpos(winid, line)
 			local existing = marks_by_pos[pos]
 
 			if is_valid_mark_pos(pos) and (not existing or kind > existing.kind) then

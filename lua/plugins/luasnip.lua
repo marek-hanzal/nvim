@@ -25,7 +25,10 @@ return {
 
 		config = function()
 			require("luasnip").config.setup({
-				history = true,
+				keep_roots = true,
+				link_roots = true,
+				link_children = true,
+				exit_roots = false,
 				delete_check_events = "TextChanged",
 				region_check_events = "CursorMoved,CursorMovedI",
 			})

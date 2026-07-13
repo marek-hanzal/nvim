@@ -28,7 +28,7 @@ vim.filetype.add({
 	},
 })
 
-pcall(vim.treesitter.language.register, "terraform", {
+vim.treesitter.language.register("terraform", {
 	"opentofu",
 	"opentofu-vars",
 })
@@ -62,7 +62,6 @@ opt.wrap = false
 opt.ignorecase = true
 opt.smartcase = true
 opt.iskeyword:append("-")
-opt.selection = "inclusive"
 
 opt.termguicolors = true
 opt.signcolumn = "yes"
@@ -92,12 +91,6 @@ end
 opt.splitright = true
 opt.splitbelow = true
 
-opt.autowrite = false
-
-opt.backspace = "indent,eol,start"
-opt.errorbells = false
-opt.autochdir = false
-
 opt.undofile = true
 opt.shada = "'100,<50,s10,h"
 opt.sessionoptions = {
@@ -110,7 +103,6 @@ opt.sessionoptions = {
 	"skiprtp",
 	"folds",
 }
-opt.encoding = "UTF-8"
 
 opt.scrolloff = 8
 opt.sidescrolloff = 8
@@ -123,7 +115,6 @@ opt.wildmode = {
 	"full",
 }
 
-opt.wildmenu = true
 opt.wildignorecase = true
 
 -- Let gf/gF treat path segments like "@migrations" as part of the filename.

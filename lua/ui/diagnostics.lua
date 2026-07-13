@@ -98,14 +98,14 @@ end
 
 local function truncate_text(text, max_width)
 	if max_width <= 3 then
-		return text:sub(1, max_width), true
+		return text:sub(1, max_width)
 	end
 
 	if vim.fn.strdisplaywidth(text) <= max_width then
-		return text, false
+		return text
 	end
 
-	return vim.fn.strcharpart(text, 0, max_width - 3) .. "...", true
+	return vim.fn.strcharpart(text, 0, max_width - 3) .. "..."
 end
 
 local function make_scratch_buffer()
@@ -623,11 +623,6 @@ end
 function M.open_document()
 	local bufnr = vim.api.nvim_get_current_buf()
 	local diagnostics = vim.diagnostic.get(bufnr)
-
-	if vim.tbl_isempty(diagnostics) then
-		open_picker(diagnostics)
-		return
-	end
 
 	sort_diagnostics(diagnostics)
 
