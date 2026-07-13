@@ -43,6 +43,10 @@ function M.setup()
 		require("fzf-lua").grep({
 			search = "",
 			prompt = "Project fuzzy> ",
+			fzf_opts = {
+				["--delimiter"] = ":",
+				["--nth"] = "4..",
+			},
 		})
 	end, "Fuzzy search project lines")
 	map("n", "<leader>ft", open_project_tags, "Find project tags")
