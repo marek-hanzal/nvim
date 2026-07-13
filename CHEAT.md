@@ -178,7 +178,7 @@ Works in normal, visual, operator-pending, and insert mode.
 | Delete other buffers | `<leader>bo` |
 | Prune old hidden buffers | `:BufferPrune` |
 
-Hidden regular file buffers are pruned automatically in least-recently-used order once their count exceeds `12`. Tune that with `vim.g.buffer_prune = { max_listed_buffers = ... }`.
+Named file buffers are pruned automatically in least-recently-used order once their count exceeds `12`. Visible and modified files are protected; unnamed and special buffers do not count. Tune the limit with `vim.g.buffer_prune = { max_file_buffers = ... }`.
 
 ## LSP and diagnostics
 
@@ -330,6 +330,7 @@ Use `TODO:` and `NOTE:`.
 ## Sessions
 
 Sessions are restored automatically when Neovim starts without file arguments.
+The last visited file is focused even when Neovim was closed from a terminal, file explorer, or unnamed buffer. Headless runs never load or save sessions.
 
 | Action | Keys |
 |---|---|

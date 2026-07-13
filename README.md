@@ -75,12 +75,15 @@ The rule is:
   - a new `lua/keymap/<char>-<group>.lua`
   - a matching group entry in `lua/plugins/which-key.lua`
 
-## Buffer pruning
+## Sessions and buffer pruning
 
-Hidden regular file buffers are pruned automatically in least-recently-used order once their count exceeds `12`.
+The current-directory session is restored automatically when Neovim starts without file arguments. The most recently visited file remains the focused buffer even when Neovim was closed from a terminal, file explorer, or unnamed buffer. Headless runs never load or save sessions.
+
+Named, listed file buffers are pruned automatically in deterministic least-recently-used order once their count exceeds `12`.
 
 - Visible buffers are kept
 - Modified buffers are kept
-- Special buffers such as terminals, prompts, and plugin panels are ignored
-- Override the limit with `vim.g.buffer_prune = { max_listed_buffers = 20 }`
+- Unnamed and special buffers such as terminals, prompts, and plugin panels do not count toward the limit
+- The limit may be exceeded temporarily when every cleanup candidate is visible or modified
+- Override the limit with `vim.g.buffer_prune = { max_file_buffers = 20 }`
 - Run `:BufferPrune` to trigger the cleanup manually

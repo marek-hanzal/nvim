@@ -2,6 +2,9 @@ return {
 	{
 		"folke/persistence.nvim",
 		lazy = false,
+		cond = function()
+			return not vim.list_contains(vim.v.argv, "--headless")
+		end,
 		opts = {
 			options = vim.opt.sessionoptions:get(),
 		},
@@ -9,15 +12,7 @@ return {
 			local persistence = require("persistence")
 
 			persistence.setup(opts)
-
-			vim.api.nvim_create_autocmd("VimEnter", {
-				nested = true,
-				callback = function()
-					if vim.fn.argc() == 0 then
-						persistence.load()
-					end
-				end,
-			})
+			require("util.session").setup(persistence)
 		end,
 	},
 }
