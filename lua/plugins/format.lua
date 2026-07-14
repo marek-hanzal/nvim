@@ -133,6 +133,18 @@ return {
 					end,
 				},
 
+				sql_formatter = {
+					append_args = function(_, ctx)
+						return {
+							"--config",
+							vim.json.encode({
+								tabWidth = ctx.shiftwidth,
+								useTabs = not vim.bo[ctx.buf].expandtab,
+							}),
+						}
+					end,
+				},
+
 				tofu_fmt = {
 					command = "tofu",
 					args = {
