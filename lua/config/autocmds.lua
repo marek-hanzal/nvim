@@ -21,3 +21,17 @@ autocmd("TextYankPost", {
 		vim.fn.setreg("+", event.regcontents, event.regtype)
 	end,
 })
+
+autocmd("FileType", {
+	group = augroup("prose_layout", { clear = true }),
+	pattern = {
+		"gitcommit",
+		"markdown",
+		"text",
+	},
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.opt_local.linebreak = true
+		vim.opt_local.breakindent = true
+	end,
+})

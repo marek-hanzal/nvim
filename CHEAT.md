@@ -321,7 +321,7 @@ These mappings exist only in buffers with an attached LSP client.
 | Go to declaration | `gD` |
 | Go to type definition | `gI` |
 | Go to implementation | `gi` |
-| References | `gr` |
+| References | `grr` |
 | Document symbols | `<leader>co` |
 | Workspace symbols | `<leader>cw` |
 | Next diagnostic | `]d` |
@@ -371,6 +371,7 @@ Shell scripts use `shfmt` for formatting and `shellcheck` for linting, while `ba
 ### Diagnostics
 
 Biome and TFLint diagnostics come from their LSP servers. The manual `<leader>cl` action and automatic lint-on-save use `nvim-lint` only for ShellCheck and markdownlint.
+The Markdown rules live in `.markdownlint.jsonc` inside this Neovim configuration. `nvim-lint` resolves that file through `stdpath("config")`, so the same rules apply in every project and travel with the configuration across machines.
 
 | Filetype | Source |
 |---|---|
@@ -378,7 +379,7 @@ Biome and TFLint diagnostics come from their LSP servers. The manual `<leader>cl
 | JSON / JSONC | Biome LSP |
 | CSS | Biome LSP |
 | Bash / sh | `shellcheck` via `nvim-lint` |
-| Markdown | `markdownlint-cli2` via `nvim-lint` |
+| Markdown | `markdownlint-cli2` via `nvim-lint`; shared config ignores line length and table column style |
 | Terraform | TFLint LSP |
 
 ## Terraform and OpenTofu
@@ -418,6 +419,8 @@ For PHP, Rust, JavaScript, TypeScript, and TSX, line comments (`//`), block comm
 | Toggle explorer | `<leader>e` |
 | Focus / reveal explorer | `<leader>E` |
 | Help inside Neo-tree | `?` |
+
+The filesystem view watches for external changes and refreshes automatically.
 
 ### Neo-tree basics
 
@@ -479,6 +482,16 @@ Use `TODO:` and `NOTE:`.
 | Previous todo | `<leader>tp` |
 | TODO list picker | `<leader>fT` |
 
+## Tools
+
+| Action | Keys |
+|---|---|
+| Show notification history | `<leader>th` |
+| Generate project tags | `<leader>tg` |
+| Show or hide whitespace characters | `<leader>tw` |
+
+Whitespace characters are hidden by default. The toggle reveals tabs as `»`, trailing spaces as `·`, non-breaking spaces as `␣`, and off-screen continuation markers as `‹` / `›`.
+
 ## Sessions
 
 Sessions are restored automatically when Neovim starts without file arguments.
@@ -491,6 +504,8 @@ The last visited file is focused even when Neovim was closed from a terminal, fi
 | Disable saving the current session | `<leader>qd` |
 
 ## Markdown
+
+Markdown, Git commit messages, and plain text wrap visually at the window edge without inserting line breaks into the file. Wrapped lines preserve indentation and prefer breaking between words.
 
 | Action | Keys |
 |---|---|
@@ -574,10 +589,3 @@ Examples:
 |---|---|
 | Expand or jump forward | `<Tab>` |
 | Jump backward | `<S-Tab>` |
-
-## Terminal
-
-| Action | Keys |
-|---|---|
-| Open terminal in a bottom split | `<leader>tt` |
-| Exit terminal mode | `<Esc><Esc>` |

@@ -19,7 +19,7 @@ return {
 					enabled = false,
 					leave_dirs_open = false,
 				},
-				use_libuv_file_watcher = false,
+				use_libuv_file_watcher = true,
 				filtered_items = {
 					visible = true,
 					hide_dotfiles = false,

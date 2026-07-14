@@ -7,6 +7,13 @@ return {
 		},
 		config = function()
 			local lint = require("lint")
+			local markdownlint = lint.linters["markdownlint-cli2"]
+
+			markdownlint.args = {
+				"--config",
+				vim.fn.stdpath("config") .. "/.markdownlint.jsonc",
+				"-",
+			}
 
 			lint.linters_by_ft = {
 				bash = {

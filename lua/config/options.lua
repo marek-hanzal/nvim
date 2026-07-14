@@ -58,6 +58,13 @@ opt.expandtab = true
 
 opt.smartindent = true
 opt.wrap = false
+opt.listchars = {
+	tab = "» ",
+	trail = "·",
+	nbsp = "␣",
+	extends = "›",
+	precedes = "‹",
+}
 
 opt.ignorecase = true
 opt.smartcase = true

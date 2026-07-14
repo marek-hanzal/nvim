@@ -58,7 +58,6 @@ function M.setup()
 	map("i", "<M-b>", "<C-o>b", "Move word left")
 	map("i", "<M-f>", "<C-o>w", "Move word right")
 
-	map("t", "<Esc><Esc>", [[<C-\><C-n>]], "Exit terminal mode")
 	map("n", "<leader>e", "<cmd>Neotree toggle filesystem reveal left<cr>", "Toggle file explorer")
 	map("n", "<leader>E", "<cmd>Neotree focus filesystem reveal left<cr>", "Focus file explorer")
 	map("n", "<leader>eb", "<cmd>Neotree buffers left<cr>", "Buffer tree")
