@@ -86,7 +86,7 @@ Vim editing is usually `operator + motion` or `operator + text object`.
 | Yank paragraph | `yip` |
 | Delete paragraph | `dip` |
 | Reindent selection | select, then `=` |
-| Indent selection repeatedly | select, then `<` / `>` |
+| Indent / unindent selection repeatedly | select, then `<Tab>` / `<S-Tab>` |
 | Comment paragraph | `gcip` |
 | Wrap word in braces | `gsaiw{` |
 
