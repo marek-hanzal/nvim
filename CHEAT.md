@@ -217,7 +217,7 @@ Shell scripts use `shfmt` for formatting and `shellcheck` for linting, while `ba
 | Action | Keys / command |
 |---|---|
 | Format current buffer | `<leader>bf` in normal mode |
-| Format selected lines | `<leader>bf` in visual mode |
+| Choose formatter for selection | `<leader>bf` in characterwise or linewise visual mode |
 | Clean up current buffer | `<leader>cf` |
 | Lint current buffer | `<leader>cl` |
 | Conform info | `:ConformInfo` |

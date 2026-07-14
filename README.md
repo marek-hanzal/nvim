@@ -62,6 +62,7 @@ The rule is:
 - HTML, including embedded `<style>` and `<script>` blocks, is formatted via an HTML-only `prettier` profile
 - Biome and the HTML-only Prettier profile share buffer-driven indentation, line width, and line endings
 - SQL is formatted via `sql-formatter`
+- Visual `<leader>bf` formats only the selected snippet with an explicitly chosen available formatter
 - Smarty support uses local npm tools from this config:
   - `vscode-smarty-langserver-extracted` for LSP
   - `js-beautify` for formatting with Smarty templating enabled

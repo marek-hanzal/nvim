@@ -1,4 +1,5 @@
 local map = require("keymap.util").map
+local format = require("util.format")
 
 local M = {}
 
@@ -167,58 +168,6 @@ local function run_code_action_sync(action_spec, timeout_ms)
 	end
 end
 
-local function format_buffer()
-	require("conform").format({
-		async = true,
-		lsp_format = "fallback",
-	})
-end
-
-local function visual_range(bufnr)
-	local mode = vim.fn.mode()
-	local anchor = vim.fn.getpos("v")
-	local cursor = vim.fn.getpos(".")
-	local start_line = anchor[2]
-	local start_column = anchor[3]
-	local end_line = cursor[2]
-	local end_column = cursor[3]
-
-	if start_line == end_line and end_column < start_column then
-		start_column, end_column = end_column, start_column
-	elseif end_line < start_line then
-		start_line, end_line = end_line, start_line
-		start_column, end_column = end_column, start_column
-	end
-
-	if mode == "V" then
-		start_column = 1
-		local end_line_text = vim.api.nvim_buf_get_lines(bufnr, end_line - 1, end_line, true)[1] or ""
-		end_column = #end_line_text + 1
-	end
-
-	return {
-		start = {
-			start_line,
-			start_column - 1,
-		},
-		["end"] = {
-			end_line,
-			end_column - 1,
-		},
-	}
-end
-
-local function format_visual_selection()
-	local bufnr = vim.api.nvim_get_current_buf()
-
-	require("conform").format({
-		async = true,
-		bufnr = bufnr,
-		lsp_format = "fallback",
-		range = visual_range(bufnr),
-	})
-end
-
 local function open_fzf_lsp_picker(picker, opts)
 	---@diagnostic disable-next-line: param-type-mismatch
 	require("fzf-lua")[picker](vim.tbl_deep_extend("force", {
@@ -234,7 +183,7 @@ local function cleanup_buffer()
 		run_code_action_sync(action_spec, 1000)
 	end
 
-	format_buffer()
+	format.buffer()
 end
 
 function M.on_lsp_attach(event)
@@ -316,8 +265,8 @@ function M.setup()
 		require("ui.diagnostics").open_document()
 	end, "Buffer diagnostics")
 	map("n", "<leader>cq", vim.diagnostic.setloclist, "Diagnostics to location list")
-	map("n", "<leader>bf", format_buffer, "Format buffer")
-	map("x", "<leader>bf", format_visual_selection, "Format selected lines")
+	map("n", "<leader>bf", format.buffer, "Format buffer")
+	map("x", "<leader>bf", format.selection, "Format selection with formatter")
 	map("n", "<leader>cf", cleanup_buffer, "Clean up buffer")
 
 	map("n", "<leader>cl", function()
