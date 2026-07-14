@@ -209,13 +209,15 @@ Mappings are registered only when the attached LSP client advertises the matchin
 
 Conform is the primary formatter. LSP is used as a fallback when no external formatter is configured for the current filetype.
 YAML uses `prettier`.
+HTML uses an HTML-only Prettier profile, including embedded `<style>` and `<script>` blocks.
+Biome and the HTML-only Prettier profile use the same buffer-driven indentation, line width, and line endings.
 SQL uses `sql-formatter`.
 Shell scripts use `shfmt` for formatting and `shellcheck` for linting, while `bashls` provides LSP features such as hover, definitions, and completion.
 
 | Action | Keys / command |
 |---|---|
 | Format current buffer | `<leader>bf` in normal mode |
-| Pick formatter for selected lines | `<leader>bf` in visual mode |
+| Format selected lines | `<leader>bf` in visual mode |
 | Clean up current buffer | `<leader>cf` |
 | Lint current buffer | `<leader>cl` |
 | Conform info | `:ConformInfo` |
@@ -227,6 +229,7 @@ Shell scripts use `shfmt` for formatting and `shellcheck` for linting, while `ba
 | Lua | `stylua` |
 | JavaScript / TypeScript / JSX / TSX | `biome` |
 | JSON / JSONC | `biome` |
+| HTML | `prettier_html` |
 | PHP | `pint`, then `php-cs-fixer`, then `phpcbf` |
 | Bash / sh | `shfmt` |
 | Terraform / tfvars | `terraform fmt` |

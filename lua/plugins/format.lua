@@ -1,3 +1,17 @@
+local function line_width(bufnr)
+	local textwidth = vim.bo[bufnr].textwidth
+
+	return textwidth > 0 and textwidth or 80
+end
+
+local function line_ending(bufnr)
+	return ({
+		dos = "crlf",
+		mac = "cr",
+		unix = "lf",
+	})[vim.bo[bufnr].fileformat]
+end
+
 return {
 	{
 		"stevearc/conform.nvim",
@@ -35,6 +49,9 @@ return {
 
 				yaml = {
 					"prettier",
+				},
+				html = {
+					"prettier_html",
 				},
 
 				terraform = {
@@ -79,6 +96,43 @@ return {
 				},
 			},
 			formatters = {
+				biome = {
+					args = function(_, ctx)
+						return {
+							"format",
+							"--stdin-file-path",
+							"$FILENAME",
+							"--indent-style",
+							vim.bo[ctx.buf].expandtab and "space" or "tab",
+							"--indent-width",
+							tostring(ctx.shiftwidth),
+							"--line-width",
+							tostring(line_width(ctx.buf)),
+							"--line-ending",
+							line_ending(ctx.buf),
+						}
+					end,
+				},
+
+				prettier_html = {
+					inherit = "prettier",
+					append_args = function(_, ctx)
+						return {
+							"--tab-width",
+							tostring(ctx.shiftwidth),
+							"--use-tabs=" .. tostring(not vim.bo[ctx.buf].expandtab),
+							"--print-width",
+							tostring(line_width(ctx.buf)),
+							"--end-of-line",
+							line_ending(ctx.buf),
+							"--embedded-language-formatting",
+							"auto",
+							"--html-whitespace-sensitivity",
+							"css",
+						}
+					end,
+				},
+
 				tofu_fmt = {
 					command = "tofu",
 					args = {

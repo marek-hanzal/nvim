@@ -59,6 +59,8 @@ The rule is:
 - `conform.nvim` is the primary formatter
 - LSP formatting is used as fallback where no external formatter is configured
 - YAML is formatted via `prettier`
+- HTML, including embedded `<style>` and `<script>` blocks, is formatted via an HTML-only `prettier` profile
+- Biome and the HTML-only Prettier profile share buffer-driven indentation, line width, and line endings
 - SQL is formatted via `sql-formatter`
 - Smarty support uses local npm tools from this config:
   - `vscode-smarty-langserver-extracted` for LSP

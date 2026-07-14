@@ -209,65 +209,14 @@ local function visual_range(bufnr)
 end
 
 local function format_visual_selection()
-	local conform = require("conform")
 	local bufnr = vim.api.nvim_get_current_buf()
-	local range = visual_range(bufnr)
-	local choices = {}
 
-	for _, formatter in ipairs(conform.list_formatters(bufnr)) do
-		table.insert(choices, {
-			kind = "conform",
-			label = formatter.name,
-			name = formatter.name,
-		})
-	end
-
-	for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-		if client:supports_method("textDocument/rangeFormatting", bufnr) then
-			table.insert(choices, {
-				kind = "lsp",
-				label = client.name .. " (LSP)",
-				name = client.name,
-			})
-		end
-	end
-
-	if #choices == 0 then
-		vim.notify("No formatter available for " .. vim.bo[bufnr].filetype, vim.log.levels.WARN)
-		return
-	end
-
-	vim.ui.select(choices, {
-		prompt = "Formatter> ",
-		format_item = function(choice)
-			return choice.label
-		end,
-	}, function(choice)
-		if not choice then
-			return
-		end
-
-		if choice.kind == "lsp" then
-			conform.format({
-				async = true,
-				bufnr = bufnr,
-				lsp_format = "prefer",
-				name = choice.name,
-				range = range,
-			})
-			return
-		end
-
-		conform.format({
-			async = true,
-			bufnr = bufnr,
-			formatters = {
-				choice.name,
-			},
-			lsp_format = "never",
-			range = range,
-		})
-	end)
+	require("conform").format({
+		async = true,
+		bufnr = bufnr,
+		lsp_format = "fallback",
+		range = visual_range(bufnr),
+	})
 end
 
 local function open_fzf_lsp_picker(picker, opts)
