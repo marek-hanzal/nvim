@@ -86,6 +86,7 @@ Vim editing is usually `operator + motion` or `operator + text object`.
 | Yank paragraph | `yip` |
 | Delete paragraph | `dip` |
 | Reindent selection | select, then `=` |
+| Indent selection repeatedly | select, then `<` / `>` |
 | Comment paragraph | `gcip` |
 | Wrap word in braces | `gsaiw{` |
 
@@ -213,7 +214,8 @@ Shell scripts use `shfmt` for formatting and `shellcheck` for linting, while `ba
 
 | Action | Keys / command |
 |---|---|
-| Format current buffer / selection | `<leader>bf` |
+| Format current buffer | `<leader>bf` in normal mode |
+| Pick formatter for selected lines | `<leader>bf` in visual mode |
 | Clean up current buffer | `<leader>cf` |
 | Lint current buffer | `<leader>cl` |
 | Conform info | `:ConformInfo` |

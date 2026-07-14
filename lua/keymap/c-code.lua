@@ -174,6 +174,102 @@ local function format_buffer()
 	})
 end
 
+local function visual_range(bufnr)
+	local mode = vim.fn.mode()
+	local anchor = vim.fn.getpos("v")
+	local cursor = vim.fn.getpos(".")
+	local start_line = anchor[2]
+	local start_column = anchor[3]
+	local end_line = cursor[2]
+	local end_column = cursor[3]
+
+	if start_line == end_line and end_column < start_column then
+		start_column, end_column = end_column, start_column
+	elseif end_line < start_line then
+		start_line, end_line = end_line, start_line
+		start_column, end_column = end_column, start_column
+	end
+
+	if mode == "V" then
+		start_column = 1
+		local end_line_text = vim.api.nvim_buf_get_lines(bufnr, end_line - 1, end_line, true)[1] or ""
+		end_column = #end_line_text + 1
+	end
+
+	return {
+		start = {
+			start_line,
+			start_column - 1,
+		},
+		["end"] = {
+			end_line,
+			end_column - 1,
+		},
+	}
+end
+
+local function format_visual_selection()
+	local conform = require("conform")
+	local bufnr = vim.api.nvim_get_current_buf()
+	local range = visual_range(bufnr)
+	local choices = {}
+
+	for _, formatter in ipairs(conform.list_formatters(bufnr)) do
+		table.insert(choices, {
+			kind = "conform",
+			label = formatter.name,
+			name = formatter.name,
+		})
+	end
+
+	for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+		if client:supports_method("textDocument/rangeFormatting", bufnr) then
+			table.insert(choices, {
+				kind = "lsp",
+				label = client.name .. " (LSP)",
+				name = client.name,
+			})
+		end
+	end
+
+	if #choices == 0 then
+		vim.notify("No formatter available for " .. vim.bo[bufnr].filetype, vim.log.levels.WARN)
+		return
+	end
+
+	vim.ui.select(choices, {
+		prompt = "Formatter> ",
+		format_item = function(choice)
+			return choice.label
+		end,
+	}, function(choice)
+		if not choice then
+			return
+		end
+
+		if choice.kind == "lsp" then
+			conform.format({
+				async = true,
+				bufnr = bufnr,
+				lsp_format = "prefer",
+				name = choice.name,
+				range = range,
+			})
+			return
+		end
+
+		conform.format({
+			async = true,
+			bufnr = bufnr,
+			formatters = {
+				choice.name,
+			},
+			lsp_format = "never",
+			range = range,
+		})
+	end)
+end
+
 local function open_fzf_lsp_picker(picker, opts)
 	---@diagnostic disable-next-line: param-type-mismatch
 	require("fzf-lua")[picker](vim.tbl_deep_extend("force", {
@@ -271,7 +367,8 @@ function M.setup()
 		require("ui.diagnostics").open_document()
 	end, "Buffer diagnostics")
 	map("n", "<leader>cq", vim.diagnostic.setloclist, "Diagnostics to location list")
-	map({ "n", "x" }, "<leader>bf", format_buffer, "Format buffer")
+	map("n", "<leader>bf", format_buffer, "Format buffer")
+	map("x", "<leader>bf", format_visual_selection, "Format selected lines")
 	map("n", "<leader>cf", cleanup_buffer, "Clean up buffer")
 
 	map("n", "<leader>cl", function()

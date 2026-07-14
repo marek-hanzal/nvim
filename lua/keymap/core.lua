@@ -45,6 +45,8 @@ function M.setup()
 	map("n", "P", clipboard_paste_if_unnamed("P"), "Paste before from clipboard", { expr = true })
 	map("x", "p", visual_paste_preserving_register, "Paste without yanking replaced text", { expr = true })
 	map("x", "P", visual_paste_preserving_register, "Paste before without yanking replaced text", { expr = true })
+	map("x", "<", "<gv", "Indent selection left")
+	map("x", ">", ">gv", "Indent selection right")
 
 	map({ "n", "x", "o" }, "<M-Left>", "b", "Move word left")
 	map({ "n", "x", "o" }, "<M-Right>", "w", "Move word right")
