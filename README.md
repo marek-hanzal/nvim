@@ -90,3 +90,5 @@ Named, listed file buffers are pruned automatically in deterministic least-recen
 - The limit may be exceeded temporarily when every cleanup candidate is visible or modified
 - Override the limit with `vim.g.buffer_prune = { max_file_buffers = 20 }`
 - Run `:BufferPrune` to trigger the cleanup manually
+
+Normal-mode `,` and `.` are convenient aliases for the native jump-list navigation on `<C-o>` and `<C-i>`. The original keys remain available.

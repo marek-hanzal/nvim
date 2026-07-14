@@ -96,7 +96,6 @@ Vim editing is usually `operator + motion` or `operator + text object`.
 |---|---|
 | Undo | `u` |
 | Redo | `<C-r>` |
-| Repeat last change | `.` |
 | Paste after cursor | `p` |
 | Paste before cursor | `P` |
 | Join lines | `J` |
@@ -108,7 +107,7 @@ Vim editing is usually `operator + motion` or `operator + text object`.
 
 | Action | Keys |
 |---|---|
-| Jump back / forward in jump list | `<C-o>` / `<C-i>` |
+| Jump back / forward in jump list | `<C-o>` / `<C-i>` or `,` / `.` |
 | Go to last edit location | `` `. `` |
 | Go to exact last insert exit position | `` `^ `` |
 | Go to last change start | `` `[ `` |
