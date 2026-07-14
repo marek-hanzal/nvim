@@ -251,6 +251,23 @@ Biome and TFLint diagnostics come from their LSP servers. The manual `<leader>cl
 Terraform gets `terraform-ls`, TFLint LSP diagnostics, Tree-sitter highlighting, and `terraform fmt`.
 OpenTofu gets `tofu-ls`, Tree-sitter highlighting, and `tofu fmt`.
 
+## Embedded SQL highlighting
+
+Tree-sitter highlights SQL assigned to a variable when the immediately preceding comment declares `language=SQL`.
+This works in PHP, Python, Rust, JavaScript, TypeScript, and TSX.
+
+```php
+// language=SQL
+$query = "SELECT * FROM users WHERE active = 1";
+```
+
+```python
+# language=SQL
+query = """SELECT * FROM users WHERE active = 1"""
+```
+
+For PHP, Rust, JavaScript, TypeScript, and TSX, line comments (`//`), block comments (`/* */`), and documentation block comments (`/** */`) are supported. PHP heredocs such as `<<<SQL` continue to work without an annotation comment.
+
 ## TypeScript
 
 | Action | Keys |

@@ -8,6 +8,8 @@ local parsers = {
 	"typescript",
 	"tsx",
 	"php",
+	"python",
+	"rust",
 
 	"json",
 
@@ -39,6 +41,8 @@ local filetypes = {
 	"typescript",
 	"typescriptreact",
 	"php",
+	"python",
+	"rust",
 
 	"json",
 	"jsonc",
