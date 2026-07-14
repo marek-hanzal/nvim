@@ -1,7 +1,6 @@
 require("keymap.core").setup()
 require("keymap.b-buffer").setup()
 require("keymap.c-code").setup()
-require("keymap.d-database").setup()
 require("keymap.f-find").setup()
 require("keymap.g-git").setup()
 require("keymap.l-line").setup()

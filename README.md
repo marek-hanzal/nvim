@@ -25,7 +25,6 @@ Current grouped modules:
 
 - `b-buffer.lua`
 - `c-code.lua`
-- `d-database.lua`
 - `f-find.lua`
 - `g-git.lua`
 - `l-line.lua`
@@ -91,4 +90,4 @@ Named, listed file buffers are pruned automatically in deterministic least-recen
 - Override the limit with `vim.g.buffer_prune = { max_file_buffers = 20 }`
 - Run `:BufferPrune` to trigger the cleanup manually
 
-Normal-mode `,` and `.` are convenient aliases for the native jump-list navigation on `<C-o>` and `<C-i>`. The original keys remain available.
+Jump-list navigation uses the native `<C-o>` and `<C-i>` mappings and restores the saved window view where possible.

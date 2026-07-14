@@ -84,7 +84,6 @@ return {
 					"--type d",
 					"--type l",
 					"--hidden",
-					"--no-ignore-vcs",
 				}, " "),
 				actions = {
 					["enter"] = smart_file_or_dir,

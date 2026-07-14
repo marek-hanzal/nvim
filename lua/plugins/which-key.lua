@@ -16,7 +16,6 @@ return {
 				{ "<leader>", group = "leader", mode = { "n", "x" } },
 				{ "<leader>b", group = "buffers", mode = { "n", "x" } },
 				{ "<leader>c", group = "code", mode = { "n", "x" } },
-				{ "<leader>d", group = "database", mode = { "n", "x" } },
 				{ "<leader>f", group = "find/pickers", mode = { "n", "x" } },
 				{ "<leader>g", group = "git", mode = { "n", "x" } },
 				{ "<leader>l", group = "lines", mode = { "n", "x" } },

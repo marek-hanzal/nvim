@@ -92,6 +92,10 @@ opt.splitright = true
 opt.splitbelow = true
 
 opt.undofile = true
+opt.confirm = true
+opt.inccommand = "split"
+opt.jumpoptions:append("view")
+opt.virtualedit = "block"
 opt.shada = "'100,<50,s10,h"
 opt.sessionoptions = {
 	"buffers",

@@ -34,8 +34,6 @@ end
 
 function M.setup()
 	map("n", "<esc>", "<cmd>nohlsearch<cr>", "Clear search highlight")
-	map("n", ",", "<C-o>", "Jump back")
-	map("n", ".", "<C-i>", "Jump forward")
 
 	map({ "n", "x" }, "c", blackhole_if_unnamed("c"), "Change without yanking", { expr = true })
 	map({ "n", "x" }, "C", blackhole_if_unnamed("C"), "Change line without yanking", { expr = true })

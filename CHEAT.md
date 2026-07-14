@@ -7,7 +7,8 @@ Leader is `<Space>`. Local leader is `,`. Alt / Option is written as `<M-...>`.
 | Action | Keys |
 |---|---|
 | Save file | `:w` |
-| Quit window | `:q` |
+| Quit window | `:q` (offers to save modified files) |
+| Quit all windows | `:qa` |
 | Clear search highlight | `<Esc>` |
 | Find symbols | `<leader><leader>` |
 | Find files | `<leader>ff` |
@@ -19,7 +20,6 @@ Leader is `<Space>`. Local leader is `,`. Alt / Option is written as `<M-...>`.
 | Current line diagnostic | `<leader>cd` |
 | Diagnostics to location list | `<leader>cq` |
 | LazyGit | `<leader>gg` |
-| Toggle database UI | `<leader>dd` |
 
 ## Navigation
 
@@ -29,6 +29,9 @@ Leader is `<Space>`. Local leader is `,`. Alt / Option is written as `<M-...>`.
 | Next word | `w` |
 | Previous word | `b` |
 | End of word | `e` |
+| Find character forward / backward on line | `f<char>` / `F<char>` |
+| Move before character forward / backward | `t<char>` / `T<char>` |
+| Repeat last character search same / opposite direction | `;` / `,` |
 | Start / end of line | `0` / `$` |
 | Start / end of file | `gg` / `G` |
 | Half page down / up | `<C-d>` / `<C-u>` |
@@ -71,6 +74,50 @@ Vim editing is usually `operator + motion` or `operator + text object`.
 | `ip` / `ap` | Inside / around paragraph |
 | `it` / `at` | Inside / around tag |
 
+### Enhanced text objects: mini.ai
+
+These work after an operator in operator-pending mode (`d`, `c`, `y`, `>`, ...) and after `v` in Visual mode. Mini.ai searches around the cursor, so the cursor does not need to be exactly inside the object.
+
+| Text object | Meaning |
+|---|---|
+| `ia` / `aa` | Inside / around an argument |
+| `if` / `af` | Inside arguments / around a function call |
+| `iq` / `aq` | Inside / around the nearest quote pair of any kind |
+| `ib` / `ab` | Inside / around the nearest bracket pair of any kind |
+| `it` / `at` | Inside / around an HTML-style tag |
+| `iN<object>` / `aN<object>` | Next matching text object |
+| `iL<object>` / `aL<object>` | Previous matching text object |
+
+Examples:
+
+| Mode | Goal | Keys | Example result |
+|---|---|---|---|
+| Normal → operator-pending | Change current argument | `cia` | `call(one, two)` → change `one` |
+| Normal → operator-pending | Delete current argument including separator | `daa` | `call(one, two)` → `call(two)` |
+| Normal → operator-pending | Change inside nearest quotes | `ciq` | Works with `'`, `"`, or backticks |
+| Normal → operator-pending | Delete whole function call | `daf` | `wrap(value)` is deleted as one object |
+| Normal → operator-pending | Delete inside any nearest brackets | `dib` | Works for `()`, `[]`, or `{}` |
+| Normal → operator-pending | Delete the next argument | `daNa` | Targets the next argument after the cursor |
+| Visual | Select current argument | `via` | Selects only the argument contents |
+
+### Tree-sitter incremental selection
+
+Neovim can grow and shrink a Visual selection according to the syntax tree. This is useful when a text object is too broad or the code is deeply nested.
+
+| Mode | Action | Keys |
+|---|---|---|
+| Visual | Select parent syntax node | `an` |
+| Visual | Select previous or first child node | `in` |
+| Visual | Select next / previous syntax node | `]n` / `[n` |
+| Visual | Expand through next / previous node | `]N` / `[N` |
+
+Example workflow:
+
+1. Put the cursor inside an expression.
+2. Press `v` to start Visual mode.
+3. Press `an` repeatedly until the desired syntax block is selected.
+4. Finish with an operator such as `y`, `d`, `c`, `>`, or `<`.
+
 ### Common examples
 
 | Action | Keys |
@@ -85,6 +132,7 @@ Vim editing is usually `operator + motion` or `operator + text object`.
 | Delete inside braces | `di{` or `diB` |
 | Yank paragraph | `yip` |
 | Delete paragraph | `dip` |
+| Repeat the last edit elsewhere | move to the next target, then `.` |
 | Reindent selection | select, then `=` |
 | Indent / unindent selection repeatedly | select, then `<Tab>` / `<S-Tab>` |
 | Comment paragraph | `gcip` |
@@ -96,23 +144,42 @@ Vim editing is usually `operator + motion` or `operator + text object`.
 |---|---|
 | Undo | `u` |
 | Redo | `<C-r>` |
+| Repeat last edit | `.` |
 | Paste after cursor | `p` |
 | Paste before cursor | `P` |
 | Join lines | `J` |
 | Search next / previous | `n` / `N` |
+| Search word under cursor forward / backward | `*` / `#` |
+| Reselect last Visual selection | `gv` |
 | Go to line | `42G` or `:42` |
 | Clear current command-line or rename prompt input | `<C-u>` |
+
+### Dot repeat
+
+`.` repeats the last edit, not merely the last movement. Build one complete change, leave Insert mode, move to the next target, and press `.`.
+
+| Mode | Goal | First edit | Repeat |
+|---|---|---|---|
+| Normal | Rename several unrelated words to the same value | `ciwnew_name<Esc>` | Move to another word, then `.` |
+| Normal | Append `;` to several lines | `A;<Esc>` | Move with `j`, then `.` |
+| Normal | Delete the next three words one by one | `dw` | Press `.` twice |
+| Normal | Replace selected search matches | `<leader>/old<CR>cgnnew<Esc>` | Press `.` for each next match |
+
+`cgn` changes the next match of the last native search. After the first replacement, dot-repeat both finds the next match and applies the same change.
 
 ### Jump and return tricks
 
 | Action | Keys |
 |---|---|
-| Jump back / forward in jump list | `<C-o>` / `<C-i>` or `,` / `.` |
+| Jump back / forward in jump list | `<C-o>` / `<C-i>` |
+| Jump to older / newer change position | `g;` / `g,` |
 | Go to last edit location | `` `. `` |
 | Go to exact last insert exit position | `` `^ `` |
 | Go to last change start | `` `[ `` |
 | Go to last change end | `` `] `` |
 | Go back to previous buffer | `<leader>ba` |
+
+Jump-list navigation restores the saved window view where possible, including the previous scroll position. The change list is different: it follows places where text was edited, even after those edits were undone.
 
 Examples:
 
@@ -120,6 +187,8 @@ Examples:
 |---|---|
 | Jump to definition, then return | `gd` then `<C-o>` |
 | Jump through several files, then move forward again | `<C-o>` / `<C-i>` |
+| Visit the last few edited locations | press `g;` repeatedly |
+| Return toward newer edited locations | press `g,` repeatedly |
 | Return to where the last edit happened | `` `. `` |
 | Reopen alternate buffer | `<leader>ba` |
 | Toggle between two buffers | `<leader>ba` repeatedly |
@@ -135,6 +204,66 @@ Examples:
 | Replace all in current file | `:%s/old/new/g` |
 | Replace with confirmation | `:%s/old/new/gc` |
 | Replace in visual selection only | select lines, then `:s/old/new/g` |
+| Replace selected occurrences one by one | `<leader>/old<CR>cgnnew<Esc>`, then `.` |
+
+Substitute commands show a live preview while being typed. `:%s/old/new/g` also opens a preview split for matches outside the visible part of the buffer.
+
+### Undo history and time travel
+
+Persistent undo is enabled, so undo history survives saving and reopening a file.
+
+| Mode | Action | Keys / command |
+|---|---|---|
+| Normal | Undo / redo along the current branch | `u` / `<C-r>` |
+| Normal | Go to older / newer text state chronologically | `g-` / `g+` |
+| Command-line | Go to state about five minutes ago | `:earlier 5m` |
+| Command-line | Go five minutes toward the newest state | `:later 5m` |
+| Command-line | Return to the previous file-write state | `:earlier 1f` |
+| Command-line | Show undo-tree leaves | `:undolist` |
+
+Use `u` and `<C-r>` for ordinary mistakes. Use `g-`, `g+`, `:earlier`, and `:later` when edits happened on different undo branches or when you only remember approximately when the good state existed.
+
+### Command-line and search history
+
+The command-line window turns previous commands or searches into a normal editable buffer.
+
+| Starting mode | Action | Keys |
+|---|---|---|
+| Normal | Open `:` command history | `q:` |
+| Normal | Open `/` search history | `q/` |
+| Command-line | Move the current command into the command-line window | `<C-f>` |
+| Command-line window | Edit with normal Vim motions | `i`, `ciw`, `dd`, `p`, ... |
+| Command-line window | Execute selected command / search | `<CR>` |
+| Command-line window | Close without executing | `<C-c>` |
+
+This is useful for fixing a long substitute command, reusing an older command, or searching through command history with normal Vim editing instead of arrow keys.
+
+### Macros
+
+Macros record normal editing commands into a register. Prefer a repeatable edit with `.` first; use a macro when the operation contains several movements or edits.
+
+| Mode | Action | Keys |
+|---|---|---|
+| Normal | Start recording into register `a` | `qa` |
+| Normal | Stop recording | `q` |
+| Normal | Replay register `a` | `@a` |
+| Normal | Replay the last executed register | `@@` |
+| Normal | Replay register `a` ten times | `10@a` |
+
+Example: `qaA;<Esc>jq` records “append a semicolon and move down” into register `a`; `10@a` applies it to the next ten lines.
+
+### Visual Block mode
+
+Visual Block works with rectangular selections. Virtual editing is enabled for this mode, so the block can extend beyond the end of short lines.
+
+| Mode | Goal | Keys |
+|---|---|---|
+| Normal → Visual Block | Start rectangular selection | `<C-v>` |
+| Visual Block | Insert at the start of every selected row | select rows, `I`, type text, `<Esc>` |
+| Visual Block | Append after every selected row | select rows, `A`, type text, `<Esc>` |
+| Visual Block | Replace a rectangle | select block, `c`, type text, `<Esc>` |
+| Visual Block | Indent / unindent repeatedly | `<Tab>` / `<S-Tab>` |
+| Visual | Swap the active end of selection | `o` |
 
 ## Alt word movement
 
@@ -151,8 +280,8 @@ Works in normal, visual, operator-pending, and insert mode.
 |---|---|
 | Buffer fuzzy lines | `/` in normal mode |
 | Native search | `<leader>/` |
-| Project fuzzy grep | `<leader>fa` |
-| Files | `<leader>ff` |
+| Project fuzzy grep, including hidden and VCS-ignored files | `<leader>fa` |
+| Files and directories, hidden but respecting VCS ignore rules | `<leader>ff` |
 | Project tags | `<leader>ft` |
 | Buffer diagnostics | `<leader>fd` |
 | Workspace diagnostics | `<leader>fD` |
@@ -164,6 +293,8 @@ Works in normal, visual, operator-pending, and insert mode.
 | Buffer symbols | `<leader>fs` |
 | Workspace symbols | `<leader>fS` |
 | TODO list | `<leader>fT` |
+
+`<leader>fa` fuzzy-matches only against line content, so path and filename do not distort ranking. Use it when text may also live in generated or ignored files. `<leader>ff` is the cleaner everyday file picker and does not descend into paths ignored by Git.
 
 ## Buffers
 
@@ -358,15 +489,6 @@ The last visited file is focused even when Neovim was closed from a terminal, fi
 | Restore current-directory session | `<leader>qs` |
 | Restore last session | `<leader>ql` |
 | Disable saving the current session | `<leader>qd` |
-
-## Database
-
-| Action | Keys / command |
-|---|---|
-| Toggle DB UI | `<leader>dd` / `:DBUIToggle` |
-| Find DB buffer | `<leader>df` / `:DBUIFindBuffer` |
-| Open DB UI | `:DBUI` |
-| Add connection | `:DBUIAddConnection` |
 
 ## Markdown
 
