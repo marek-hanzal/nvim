@@ -1,3 +1,7 @@
+local function show_completion()
+	require("blink.cmp").show()
+end
+
 return {
 	{
 		"saghen/blink.cmp",
@@ -6,15 +10,17 @@ return {
 			"InsertEnter",
 			"CmdlineEnter",
 		},
+		init = function()
+			for _, key in ipairs({ "<M-Space>", "<Char-160>" }) do
+				vim.keymap.set("i", key, show_completion, {
+					desc = "Show completion",
+					silent = true,
+				})
+			end
+		end,
 		opts = {
 			keymap = {
 				preset = "enter",
-
-				["<M-Space>"] = {
-					"show",
-					"show_documentation",
-					"hide_documentation",
-				},
 			},
 
 			appearance = {

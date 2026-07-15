@@ -119,8 +119,10 @@ function M.setup()
 	)
 
 	map("n", "<PageDown>", "<C-d>zz", "Half page down and center")
+	map("i", "<PageDown>", "<C-o><C-d><C-o>zz", "Half page down and center")
 
 	map("n", "<PageUp>", "<C-u>zz", "Half page up and center")
+	map("i", "<PageUp>", "<C-o><C-u><C-o>zz", "Half page up and center")
 end
 
 return M

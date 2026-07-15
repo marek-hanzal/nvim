@@ -35,6 +35,7 @@ Leader is `<Space>`. Local leader is `,`. Alt / Option is written as `<M-...>`.
 | Start / end of line | `0` / `$` |
 | Start / end of file | `gg` / `G` |
 | Half page down / up | `<C-d>` / `<C-u>` |
+| Half page down / up and center in normal or insert mode | `PageDown` / `PageUp` |
 | Jump back / forward | `<C-o>` / `<C-i>` |
 | Match bracket | `%` |
 | Center line | `zz` |
@@ -334,6 +335,14 @@ These mappings exist only in buffers with an attached LSP client.
 | Diagnostics to location list | `<leader>cq` |
 
 Mappings are registered only when the attached LSP client advertises the matching capability. PHP is handled by Intelephense.
+
+## Completion
+
+| Action | Keys |
+|---|---|
+| Show suggestions or documentation | `<M-Space>` / `Option+Space` |
+
+The mapping handles both Meta-Space and the non-breaking space emitted by some macOS keyboard layouts. It always consumes the key, so an empty completion result never inserts a space into the buffer.
 
 ## Formatting and linting
 
