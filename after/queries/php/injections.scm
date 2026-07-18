@@ -1,9 +1,9 @@
 ;; extends
 
-; // language=SQL
+; // language=html
 ; /* language=SQL */
-; /** language=SQL */
-((comment) @_injection_comment
+; /** language=json */
+((comment) @injection.language
   .
   (expression_statement
     (assignment_expression
@@ -12,6 +12,11 @@
           (string_content) @injection.content)
         (encapsed_string
           (string_content) @injection.content)
+        (heredoc
+          (heredoc_body) @injection.content)
+        (nowdoc
+          (nowdoc_body) @injection.content)
       ]))
-  (#lua-match? @_injection_comment "^[/#%*%s]*[Ll][Aa][Nn][Gg][Uu][Aa][Gg][Ee]%s*=%s*[Ss][Qq][Ll]%s*[%*/%s]*$")
-  (#set! injection.language "sql"))
+  (#lua-match? @injection.language "^[/#%*%s]*[Ll][Aa][Nn][Gg][Uu][Aa][Gg][Ee]%s*=%s*[%w_%-]+%s*[%*/%s]*$")
+  (#gsub! @injection.language "^[/#%*%s]*[Ll][Aa][Nn][Gg][Uu][Aa][Gg][Ee]%s*=%s*([%w_%-]+)%s*[%*/%s]*$" "%1")
+  (#set! injection.include-children))

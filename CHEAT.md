@@ -411,22 +411,32 @@ The Markdown rules live in `.markdownlint.jsonc` inside this Neovim configuratio
 Terraform gets `terraform-ls`, TFLint LSP diagnostics, Tree-sitter highlighting, and `terraform fmt`.
 OpenTofu gets `tofu-ls`, Tree-sitter highlighting, and `tofu fmt`.
 
-## Embedded SQL highlighting
+## Embedded language highlighting
 
-Tree-sitter highlights SQL assigned to a variable when the immediately preceding comment declares `language=SQL`.
-This works in PHP, Python, Rust, JavaScript, TypeScript, and TSX.
+In PHP, Tree-sitter highlights a string using any installed parser when the immediately preceding comment declares `language=<parser>`. Quoted strings, interpolated strings, heredocs, and nowdocs are supported. Language names are case-insensitive.
 
 ```php
 // language=SQL
 $query = "SELECT * FROM users WHERE active = 1";
 ```
 
+```php
+// language=HTML
+$template = <<<'TEMPLATE'
+<section class="component">Hello</section>
+TEMPLATE;
+```
+
+PHP heredocs and nowdocs whose closing label is already a parser name, such as `<<<SQL`, continue to work without an annotation comment.
+
+Python, Rust, JavaScript, TypeScript, and TSX currently support the same annotation specifically for SQL.
+
 ```python
 # language=SQL
 query = """SELECT * FROM users WHERE active = 1"""
 ```
 
-For PHP, Rust, JavaScript, TypeScript, and TSX, line comments (`//`), block comments (`/* */`), and documentation block comments (`/** */`) are supported. PHP heredocs such as `<<<SQL` continue to work without an annotation comment.
+For PHP, Rust, JavaScript, TypeScript, and TSX, line comments (`//`), block comments (`/* */`), and documentation block comments (`/** */`) are supported.
 
 ## TypeScript
 
