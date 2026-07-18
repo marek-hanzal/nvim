@@ -295,7 +295,22 @@ Works in normal, visual, operator-pending, and insert mode.
 | Workspace symbols | `<leader>fS` |
 | TODO list | `<leader>fT` |
 
-`<leader>fa` fuzzy-matches only against line content, so path and filename do not distort ranking. Use it when text may also live in generated or ignored files. `<leader>ff` is the cleaner everyday file picker and does not descend into paths ignored by Git.
+### Project fuzzy grep
+
+`<leader>fa` waits on an empty prompt, loads project lines after the first input, and fuzzy-matches only against line content. It includes hidden and VCS-ignored files. `<leader>ff` is the cleaner everyday file picker and does not descend into paths ignored by Git.
+
+| Query | Meaning |
+|---|---|
+| `component` | Fuzzy-match one term |
+| `tablecomlis` | Match ordered characters as one term and prefer compact matches such as `table class="component list"` |
+| `table com lis` | Require all three fuzzy terms anywhere on the same line, without a distance limit |
+| `'component` | Match the exact substring `component` |
+| `^table` | Match lines whose content starts with `table` |
+| `list$` | Match lines whose content ends with `list` |
+| `!test` | Exclude lines containing `test` |
+| `TODO | FIXME` | Match either alternative |
+
+Spaces split the query into independent terms. Remove them when the order and compactness of the whole match matter, as in `tablecomlis`.
 
 ## Buffers
 

@@ -2,6 +2,26 @@ local map = require("keymap.util").map
 
 local M = {}
 
+local project_lines_command = table.concat({
+	"rg",
+	"--column",
+	"--line-number",
+	"--no-heading",
+	"--color=always",
+	"--smart-case",
+	"--hidden",
+	"--no-ignore-vcs",
+	"-e ^",
+}, " ")
+
+local project_fuzzy_change = table.concat({
+	[[transform:if [ -z "$FZF_QUERY" ]; then]],
+	[[printf 'reload-sync(true)\n';]],
+	[[elif [ "${FZF_TOTAL_COUNT:-0}" -eq 0 ]; then]],
+	string.format([[printf 'reload(%s)\n';]], project_lines_command),
+	"fi",
+}, " ")
+
 local function open_project_tags()
 	if vim.fn.findfile("tags", ".;") == "" then
 		vim.notify("No tags file found; run :TagsGenerate first", vim.log.levels.WARN)
@@ -41,8 +61,15 @@ function M.setup()
 	map("n", "<leader>/", "/", "Native search")
 	map("n", "<leader>fa", function()
 		require("fzf-lua").grep({
+			cmd = "true",
 			search = "",
 			prompt = "Project fuzzy> ",
+			no_column_hide = true,
+			keymap = {
+				fzf = {
+					change = project_fuzzy_change,
+				},
+			},
 			fzf_opts = {
 				["--delimiter"] = ":",
 				["--nth"] = "4..",
