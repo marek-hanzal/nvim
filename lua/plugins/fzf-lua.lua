@@ -1,3 +1,9 @@
+local function picker(title)
+	return {
+		winopts = { title = " " .. title .. " " },
+	}
+end
+
 return {
 	{
 		"ibhagwan/fzf-lua",
@@ -6,9 +12,13 @@ return {
 			"nvim-tree/nvim-web-devicons",
 		},
 		opts = {
+			defaults = {
+				prompt = "Search> ",
+			},
 			winopts = {
 				height = 0.85,
 				width = 0.85,
+				title_flags = false,
 
 				preview = {
 					layout = "flex",
@@ -16,7 +26,24 @@ return {
 				},
 			},
 
+			buffers = picker("Buffers"),
+			files = picker("Files & directories"),
+			blines = picker("Buffer search"),
+			keymaps = picker("Keymaps"),
+			oldfiles = picker("Recent files"),
+			quickfix = picker("Quickfix"),
+			loclist = picker("Locations"),
+			tags = picker("Project tags"),
+
+			git = {
+				branches = picker("Git branches"),
+				commits = picker("Git commits"),
+				bcommits = picker("File commits"),
+				stash = picker("Git stash"),
+			},
+
 			grep = {
+				winopts = { title = " Project search " },
 				rg_opts = table.concat({
 					"--column",
 					"--line-number",

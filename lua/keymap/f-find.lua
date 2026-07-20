@@ -63,7 +63,6 @@ function M.setup()
 		require("fzf-lua").grep({
 			cmd = "true",
 			search = "",
-			prompt = "Project fuzzy> ",
 			no_column_hide = true,
 			keymap = {
 				fzf = {
@@ -85,7 +84,7 @@ function M.setup()
 			},
 			hidden = false,
 			follow = false,
-			prompt = "Todo> ",
+			prompt = "Search> ",
 			previewer = true,
 			rg_opts = table.concat({
 				"--column",
@@ -97,7 +96,7 @@ function M.setup()
 				"-e",
 			}, " "),
 			winopts = {
-				title = " TODO List ",
+				title = " TODOs ",
 				title_flags = false,
 			},
 		})

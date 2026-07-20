@@ -316,7 +316,11 @@ local function open_formatter_picker(selection)
 			["--with-nth"] = "2..",
 		},
 		previewer = false,
-		prompt = "Format selection with> ",
+		prompt = "Search> ",
+		winopts = {
+			title = " Format selection ",
+			title_flags = false,
+		},
 	})
 end
 
