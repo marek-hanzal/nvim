@@ -19,7 +19,10 @@ return {
 		opts = {
 			ensure_installed = {
 				"lua-language-server",
-				"typescript-language-server",
+				{
+					"typescript-language-server",
+					version = "6.0.0",
+				},
 				"pyright",
 				"intelephense",
 				"json-lsp",

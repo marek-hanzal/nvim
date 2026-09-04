@@ -10,6 +10,7 @@ local parsers = {
 	"php",
 	"python",
 	"rust",
+	"diff",
 
 	"json",
 
@@ -43,6 +44,7 @@ local filetypes = {
 	"php",
 	"python",
 	"rust",
+	"diff",
 
 	"json",
 	"jsonc",
