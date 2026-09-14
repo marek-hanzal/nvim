@@ -261,6 +261,22 @@ function M.on_lsp_attach(event)
 end
 
 function M.setup()
+	map("n", "<leader>cn", function()
+		vim.ui.select(vim.fn.getcompletion("", "filetype"), {
+			prompt = "Scratch filetype",
+		}, function(filetype)
+			if not filetype then
+				return
+			end
+
+			vim.cmd("new")
+			vim.bo.buftype = "nofile"
+			vim.bo.bufhidden = "wipe"
+			vim.bo.swapfile = false
+			vim.bo.filetype = filetype
+		end)
+	end, "New scratch buffer")
+
 	map("n", "<leader>cd", function()
 		require("ui.diagnostics").open_document()
 	end, "Buffer diagnostics")

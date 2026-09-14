@@ -329,7 +329,7 @@ Named file buffers are pruned automatically in least-recently-used order once th
 
 ## LSP and diagnostics
 
-These mappings exist only in buffers with an attached LSP client.
+LSP-specific mappings exist only in buffers with an attached LSP client.
 
 | Action | Keys |
 |---|---|
@@ -344,12 +344,15 @@ These mappings exist only in buffers with an attached LSP client.
 | Previous diagnostic | `[d` |
 | Hover | `K` |
 | Signature help | `<leader>cs` |
+| New temporary scratch (choose filetype) | `<leader>cn` |
 | Rename symbol | `<leader>cr` |
 | Code action | `<leader>ca` or `<M-CR>` |
 | Current line diagnostic | `<leader>cd` |
 | Diagnostics to location list | `<leader>cq` |
 
-Mappings are registered only when the attached LSP client advertises the matching capability. PHP is handled by Intelephense.
+LSP mappings are registered only when the attached client advertises the matching capability. PHP is handled by Intelephense.
+
+`<leader>cn` is always available. Choose a filetype in the searchable picker to open a temporary scratch in a horizontal split. It is never saved automatically; hiding or closing it discards its contents. Canceling the picker creates no buffer.
 
 ## Completion
 
