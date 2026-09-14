@@ -269,9 +269,9 @@ function M.setup()
 				return
 			end
 
-			vim.cmd("new")
+			vim.cmd("enew")
 			vim.bo.buftype = "nofile"
-			vim.bo.bufhidden = "wipe"
+			vim.bo.bufhidden = "hide"
 			vim.bo.swapfile = false
 			vim.bo.filetype = filetype
 		end)

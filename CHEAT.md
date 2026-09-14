@@ -352,7 +352,7 @@ LSP-specific mappings exist only in buffers with an attached LSP client.
 
 LSP mappings are registered only when the attached client advertises the matching capability. PHP is handled by Intelephense.
 
-`<leader>cn` is always available. Choose a filetype in the searchable picker to open a temporary scratch in a horizontal split. It is never saved automatically; hiding or closing it discards its contents. Canceling the picker creates no buffer.
+`<leader>cn` is always available. Choose a filetype in the searchable picker to open a temporary scratch in the current window, like a normal file buffer. It stays available when switching buffers and is never saved automatically. Delete it with `<leader>bd` to discard it; it does not survive exiting Neovim. Canceling the picker creates no buffer.
 
 ## Completion
 
