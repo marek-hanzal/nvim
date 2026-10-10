@@ -48,6 +48,12 @@ function M.setup()
 	map("x", "<Tab>", ">gv", "Indent selection")
 	map("x", "<S-Tab>", "<gv", "Unindent selection")
 
+	for _, key in ipairs({ "<M-Space>", "<Char-160>" }) do
+		map("i", key, function()
+			require("blink.cmp").show()
+		end, "Show completion", { silent = true })
+	end
+
 	map({ "n", "x", "o" }, "<M-Left>", "b", "Move word left")
 	map({ "n", "x", "o" }, "<M-Right>", "w", "Move word right")
 	map({ "n", "x", "o" }, "<M-b>", "b", "Move word left")
@@ -85,8 +91,8 @@ function M.setup()
 			local luasnip = require("luasnip")
 
 			if luasnip.expand_or_locally_jumpable() then
-				luasnip.expand_or_jump()
-				return ""
+				-- Expand outside the expression mapping's textlock.
+				return '<Cmd>lua require("luasnip").expand_or_jump()<CR>'
 			end
 
 			return "<Tab>"
@@ -105,11 +111,11 @@ function M.setup()
 			local luasnip = require("luasnip")
 
 			if luasnip.locally_jumpable(-1) then
-				luasnip.jump(-1)
-				return ""
+				return '<Cmd>lua require("luasnip").jump(-1)<CR>'
 			end
 
-			return "<S-Tab>"
+			-- Native Insert-mode Shift+Tab inserts a tab instead of moving back.
+			return ""
 		end,
 		"Jump snippet back",
 		{

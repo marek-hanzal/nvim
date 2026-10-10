@@ -2,11 +2,16 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		lazy = false,
+		dependencies = {
+			"mason-org/mason.nvim",
+			"saghen/blink.cmp",
+			"antosha417/nvim-lsp-file-operations",
+			"b0o/schemastore.nvim",
+		},
 		config = function()
 			local lsp_float = require("ui.lsp_float")
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities =
-				vim.tbl_deep_extend("force", capabilities, require("lsp-file-operations").default_capabilities())
+			local capabilities =
+				require("blink.cmp").get_lsp_capabilities(require("lsp-file-operations").default_capabilities(), true)
 
 			vim.diagnostic.config({
 				virtual_text = false,
@@ -150,9 +155,7 @@ return {
 
 			vim.lsp.config("gh_actions_ls", {})
 
-			vim.lsp.config("terraformls", {
-				root_dir = vim.uv.cwd(),
-			})
+			vim.lsp.config("terraformls", {})
 
 			vim.lsp.config("tofu_ls", {
 				filetypes = {
@@ -161,9 +164,7 @@ return {
 				},
 			})
 
-			vim.lsp.config("tflint", {
-				root_dir = vim.uv.cwd(),
-			})
+			vim.lsp.config("tflint", {})
 
 			vim.lsp.enable({
 				"biome",

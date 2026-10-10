@@ -1,26 +1,20 @@
-local function show_completion()
-	require("blink.cmp").show()
-end
-
 return {
 	{
 		"saghen/blink.cmp",
 		version = "1.*",
+		dependencies = {
+			"L3MON4D3/LuaSnip",
+		},
 		event = {
 			"InsertEnter",
 			"CmdlineEnter",
 		},
-		init = function()
-			for _, key in ipairs({ "<M-Space>", "<Char-160>" }) do
-				vim.keymap.set("i", key, show_completion, {
-					desc = "Show completion",
-					silent = true,
-				})
-			end
-		end,
 		opts = {
 			keymap = {
 				preset = "enter",
+				-- Snippet navigation belongs to keymap/core.lua, including Select mode.
+				["<Tab>"] = false,
+				["<S-Tab>"] = false,
 			},
 
 			appearance = {
@@ -46,7 +40,6 @@ return {
 				default = {
 					"lsp",
 					"path",
-					"snippets",
 					"buffer",
 				},
 			},

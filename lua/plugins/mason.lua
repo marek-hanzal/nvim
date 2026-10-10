@@ -2,9 +2,6 @@ return {
 	{
 		"mason-org/mason.nvim",
 		lazy = false,
-		dependencies = {
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
-		},
 		opts = {
 			PATH = "prepend",
 
@@ -16,12 +13,15 @@ return {
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		lazy = false,
+		dependencies = {
+			"mason-org/mason.nvim",
+		},
 		opts = {
 			ensure_installed = {
 				"lua-language-server",
 				{
 					"typescript-language-server",
-					version = "6.0.0",
+					version = "6.0.2",
 				},
 				"pyright",
 				"intelephense",

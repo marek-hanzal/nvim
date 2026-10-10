@@ -93,7 +93,7 @@ function M.highlight(bufnr)
 		for client_id, response in pairs(results) do
 			local client = vim.lsp.get_client_by_id(client_id)
 
-			if client and not response.error and response.result then
+			if client and not response.err and type(response.result) == "table" then
 				vim.lsp.util.buf_highlight_references(bufnr, response.result, client.offset_encoding)
 
 				for _, reference in ipairs(response.result) do

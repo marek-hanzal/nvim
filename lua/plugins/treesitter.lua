@@ -92,7 +92,11 @@ end
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
 		lazy = false,
+		dependencies = {
+			"mason-org/mason.nvim",
+		},
 		build = ":TSUpdate",
 		config = function()
 			vim.api.nvim_create_autocmd("FileType", {

@@ -626,3 +626,18 @@ Examples:
 |---|---|
 | Expand or jump forward | `<Tab>` |
 | Jump backward | `<S-Tab>` |
+
+Snippet navigation works in Insert and Select mode. Without an expandable
+trigger or an active snippet, `<Tab>` inserts indentation. `<S-Tab>` only jumps
+backward in an active snippet; otherwise it does nothing. It never expands a
+snippet or inserts a tab. Visual-mode `<S-Tab>` still unindents the selection.
+Blink's completion menu does not offer the LuaSnip snippet source; expand your
+own snippet triggers directly with `<Tab>`.
+
+To check what a terminal sends (including Windows Terminal with WSL), run
+`:lua print(vim.fn.keytrans(vim.fn.getcharstr()))` and then press the key.
+Expect `<Tab>` for Tab and `<S-Tab>` for Shift+Tab. If both report `<Tab>`, the
+terminal is losing Shift before Neovim receives the key. Check Windows Terminal's
+key bindings in that case. To inspect Neovim's effective mapping, use
+`:verbose imap <S-Tab>` and `:verbose smap <S-Tab>`; both should point to
+`lua/keymap/core.lua`.

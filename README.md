@@ -70,6 +70,10 @@ The rule is:
 
 ## Maintenance notes
 
+- Requires Neovim 0.12 or newer; LSP configuration uses `vim.lsp.config()` and `vim.lsp.enable()`
+- Treesitter follows the rewritten `main` branch and uses native `vim.treesitter.start()` highlighting
+- Update plugins with `:Lazy update`, tools with `:MasonToolsUpdate`, and parsers with `:TSUpdate`
+- TypeScript language server is pinned to the verified `6.0.2` release; check completion before changing this pin
 - Update `CHEAT.md` when user-facing behavior changes
 - Keep `which-key` group labels aligned with `lua/keymap/`
 - Treat the Mason tool list as portable configuration; do not remove language support based only on one machine's installed or active tools

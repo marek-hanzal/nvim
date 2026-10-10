@@ -99,7 +99,7 @@ local cleanup_kinds_by_ft = {
 }
 
 local function resolve_code_action(client, bufnr, action, timeout_ms)
-	if action.edit or action.command then
+	if type(action.edit) == "table" or type(action.command) == "table" or type(action.command) == "string" then
 		return action
 	end
 
@@ -109,7 +109,7 @@ local function resolve_code_action(client, bufnr, action, timeout_ms)
 
 	local response = client:request_sync("codeAction/resolve", action, timeout_ms, bufnr)
 
-	if response and response.result then
+	if response and not response.err and type(response.result) == "table" then
 		return response.result
 	end
 
@@ -148,16 +148,18 @@ local function run_code_action_sync(action_spec, timeout_ms)
 			}
 			local response = client:request_sync("textDocument/codeAction", params, timeout_ms, bufnr)
 
-			for _, action in pairs((response and response.result) or {}) do
+			local actions = response and not response.err and type(response.result) == "table" and response.result or {}
+
+			for _, action in ipairs(actions) do
 				local resolved_action = resolve_code_action(client, bufnr, action, timeout_ms)
 
-				if resolved_action.edit then
+				if type(resolved_action.edit) == "table" then
 					vim.lsp.util.apply_workspace_edit(resolved_action.edit, client.offset_encoding)
 				end
 
 				local command = resolved_action.command
 
-				if command then
+				if type(command) == "table" or type(command) == "string" then
 					client:exec_cmd(type(command) == "table" and command or resolved_action, {
 						bufnr = bufnr,
 						client_id = client.id,
